@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "remove_qi.py", line 15, in <module>
+    print(tar_nc[tar_var][:].shape)
+  File "netCDF4/_netCDF4.pyx", line 2377, in netCDF4._netCDF4.Dataset.__getitem__
+IndexError: QI not found in /
+srun: error: nid02433: task 0: Exited with exit code 1
+srun: Terminating job step 25122984.0

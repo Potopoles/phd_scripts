@@ -1,0 +1,19 @@
+copy_scratch_project.sh: Zeile 9: SAM: Kommando nicht gefunden.
+copy_scratch_project.sh: Zeile 10: ICON: Kommando nicht gefunden.
+copy_scratch_project.sh: Zeile 11: {res:2.5,: Kommando nicht gefunden.
+copy_scratch_project.sh: Zeile 12: UM: Kommando nicht gefunden.
+copy_scratch_project.sh: Zeile 13: MPAS: Kommando nicht gefunden.
+copy_scratch_project.sh: Zeile 14: {res:3.75,: Kommando nicht gefunden.
+copy_scratch_project.sh: Zeile 15: IFS: Kommando nicht gefunden.
+copy_scratch_project.sh: Zeile 16: {res:4,: Kommando nicht gefunden.
+copy_scratch_project.sh: Zeile 17: GEOS: Kommando nicht gefunden.
+copy_scratch_project.sh: Zeile 18: ARPEGE-NH: Kommando nicht gefunden.
+copy_scratch_project.sh: Zeile 19: FV3: Kommando nicht gefunden.
+slurmstepd: error: *** STEP 17073113.0 ON nordend03 CANCELLED AT 2019-09-25T00:14:57 DUE TO TIME LIMIT ***
+slurmstepd: error: *** JOB 17073113 ON nordend03 CANCELLED AT 2019-09-25T00:14:58 DUE TO TIME LIMIT ***
+srun: got SIGCONT
+srun: forcing job termination
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+srun: error: nordend03: task 0: Terminated
+srun: Terminating job step 17073113.0
+srun: Force Terminated job step 17073113.0

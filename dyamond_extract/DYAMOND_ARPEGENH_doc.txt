@@ -1,0 +1,145 @@
+ARPEGE-NH for DYAMOND USE
+
+
+This short documentation describe how to use and convert grib2 ARPEGE-NH file that were produced 
+by the dyamond project.
+For more information or question please contact ludovic.auger@meteo.fr
+
+1) description
+
+ARPEGE-NH files at 2.5km are grib2 gridpoint files on a gaussian reduced A-grid on the sphere.
+Hybrid pressure vertical coordinate eta is used.
+eta is defined by the relationship P_hydro(eta)=A(eta)+B(eta)*P_s
+To get the pressure on a given eta vertical level, you need to retrieve
+the surface pressure field (available in the 2D fields ) and use the following routine :
+lev2pressure.py
+
+The data is encoded using grib2 format with specificities of the ARPEGE geometry.
+
+2D files are located here :
+../2016MMDD/ARPNH2D20160807HHMM
+2D files are located here :
+../2016MMDD/ARPNH3D20160807HHMM
+where MMDD is the month and day and HHMM are hours and minute 
+
+2) directly using grib2 files :
+
+You might directly read grib2 data, but if you have difficulties with the ARPEGE
+geometry it could help to transform the file to a grib2 ecmwf compatible file
+using this binary :
+./gribmf2ecmwf
+
+\> gribmf2ecmwf <infile> <outfile>
+
+The data is then shifted eastward by 2.57831° you have to take that into account to process the data.
+Surface specific humidity and surface relative humidity are wrongly coded with parameters 255.255.255
+if you want to read them, you better first use the gribsplit command then get the right file name (see
+the next chapter to now how to process)
+
+
+
+3) Conversion to netcdf format
+
+You can convert the file into a netcdf files
+by using the cdo tool. 
+cdo version 1.9.6 has been used.
+
+
+The following steps are necessary :
+
+./gribsplit
+
+\> gribsplit <infile> <outfileprefix>
+
+That command will produce a new grib2 file for each grib2 field of <infile>
+the name of each file will be :
+ <outfileprefix>t<typeOfSurface>.l<level>.grb.<discipline>.<parameterCategory>.<parameterNumber>.<typeOfField>
+where :
+* <typeOfSurface> is the typeOfFirstFixedSurface parameter of the grib2 standard that allows to differentiate between surface or top of the atmosphere for some fields.
+* <discipline>.<parameterCategory>.<parameterNumber> are the three numbers that identify with grib2 format the type of variable.
+* <level> is the level, relevant for some parameters only, it is only the height in hPa for some 2D fields, or the level number (x100) for the 3D fields.
+* <typeOfField> is gp for gridpoint fields, it is spectral only for the pressure field of the 3D fields, that field cannot be transformed in a netcdf file.
+
+Then you have to perform those operations only once for a given output grid, suppose we want to output the field on a regular lat lon grid at 0.02 degrees:
+
+\> cdo --cellsearchmethod spherepart genycon,global_0.02 -setgrid,griddes.arpege1 -setgridtype,regular ARP3D.t119.l4300.grb.0.0.0.gp ARPEGE-NH_0.10wghts.nc
+
+with griddes.arpege1=./griddes.arpege1
+
+\> cdo -O -f nc -topo,global_0.02 0.02_grid.nc
+
+-then for each output file <tmpfile> of the gribsplit command, use 
+
+\> cdo -f nc4 remap,0.02_grid.nc,ARPEGE-NH_0.02wghts.nc -setgrid,griddes.arpege1 -setgridtype,regular <tmpfile> <outfile.nc>
+
+You can choose a coarser output grid changing 0.02 by another latitude/longitude step.
+
+4) Fields available
+ 
+The 2D and 3D fields available are listed below.
+For each field you have :
+- the name of the variable 
+- the grib2 type of surface (see grib2 parameter typeOfFirstFixedSurface) 
+- the level number
+- the nc variable
+- the standard name
+- the short name.
+
+The nc names might be misleading for some parameters, the name of the variable gives the right definition, the grib2 parameter numbers are also correct except for 255 numbers.
+
+An asterisk * after the name means that the field (usually a flux) is integrated since the beginning of the day otherwise the field is instantaneous.
+
+List of fields :
+
+variable (*=integrated since beginning of the day),                            "grib2 type of surface", "level number", "discipline.parameterCategory.parameterNumber",   "nc variable",                        "nc  standard_name",                      "nc  long_name",
+specific humidity   (at xxx hPa),      t100,  lxxx,  0.1.0,  q,     "specific_humidity" ,                  "Specific humidity"
+relative humidity   (at xxx hPa),      t100,  lxxx,  0.1.1,  r,     "relative_humidity" ,                  "Relative humidity"
+pressure velocity   (at xxx hPa),      t100,  lxxx,  0.2.8,  w,     "lagrangian_tendency_of_air_pressure", "Vertical velocity"
+geometric velocity  (at xxx hPa),      t100,  lxxx,  0.2.9,  wz,                         ,                 "Geometric vertical velocity"
+2m temperature,                        t103,  l002,  0.0.0,  \2t,   "air_temperature"   ,                  "2 metre temperature"
+2m specific humidity,                  t103,  l002,  0.1.0,  q,     "specific_humidity",                   "Specific humidity"
+u wind at 10m,                         t103,  l010,  0.2.2,  \10u,  "eastward_wind"   ,                    "10 metre U wind component"
+v wind at 10m,                         t103,  l010,  0.2.3,  \10v,  "northward_wind" ,                     "10 metre V wind component"
+surface specific humidity,             t103,  l000,  0.1.0,  var255,var255, 
+surface relative humidity,             t103,  l000,  0.1.1,  var255,var255,
+ground temperature,                    t1,    l000,  0.0.0, t,      "air_temperature",                     "Temperature"
+Surface latent heat flux ,             t1,    l000,  0.0.10, lhtfl,           ,                            "Latent heat net flux"
+Surface sensible heat flux ,           t1,    l000,  0.0.11, shtfl,          ,                             "Sensible heat net flux"
+Vertically integrated rain water,      t1,    l000,  0.1.45, tcolr,         ,                              "Total column integrated rain"
+Vertically integrated snow,            t1,    l000,  0.1.46, tcols,        ,                               "Total column integrated snow"
+Snowfall flux (at surface) *,          t1,    l000,  0.1.56, lssrwe,      ,                                "Large scale snowfall rate water equivalent"
+vert int specific humidity,            t1,    l000,  0.1.64, tciwv,      ,                                 "Total column integrated water vapour"
+Evaporation flux at surface *,         t1,    l000,  0.1.6,  param6.1.0,,
+vert int graupel,                      t1,    l000,  0.1.74, param74.1.0,,
+surface rain flux *,                   t1,    l000,  0.1.8,  param8.1.0,,
+Surface zonal momentum flux,           t1,    l000,  0.2.17, uflx,                                  ,      "Momentum flux, u component"
+Surface meridional momentum flux,      t1,    l000,  0.2.18, vflx,                                  ,      "Momentum flux, v component"
+surface pressure,                      t1,    l000,  0.3.0,  sp,    "surface_air_pressure"          ,      "Surface pressure"
+MSL pressure,                          t1,    l000,  0.3.1,  prmsl,                                 ,      "Pressure reduced to MSL"
+surface net shortwave *,               t1,    l000,  0.4.11, nswrfcs,                               ,      "Net short-wave radiation flux, clear sky"
+surface downward shortwave *,          t1,    l000,  0.4.7,  ssrd,  "surface_downwelling_shortwave_flux_in_air", "Surface solar radiation downwards"
+surface net downward shortwave *,      t1,    l000,  0.4.9,  ssr,   "surface_net_downward_shortwave_flux", "Surface net solar radiation"
+surface downward longwave *,           t1,    l000,  0.5.3,  strd,                                     ,   "Surface thermal radiation downwards"
+surface net upward longwave *,         t1,    l000,  0.5.5,  str,   "surface_net_upward_longwave_flux",    "Surface net thermal radiation"
+surface net longwave *,                t1,    l000,  0.5.6,  nlwrcs,                            ,          "Net long-wave radiation flux, clear sky"
+vertically projected cloud cover,      t1,    l000,  0.6.1,  tcc,                               ,          "Total Cloud Cover"
+low cloud cover,                       t1,    l000,  0.6.3,  lcc,                               ,          "Low cloud cover"
+medium cloud cover,                    t1,    l000,  0.6.4,  mcc,                               ,          "Medium cloud cover"
+hich could cover,                      t1,    l000,  0.6.5,  hcc,                               ,          "High cloud cover"
+cape,                                  t1,    l000,  0.7.6,  CAPE_INS,                          ,          "Convective Available Potential Energy instantaneous"
+cin,                                   t1,    l000,  0.7.7,  cin,                               ,          "Convective inhibition"
+vert int cloud water,                  t1,    l000,  192.128.78, tclw,                          ,          "Total column cloud liquid water"
+vert int cloud ice,                    t1,    l000,  192.128.79, tciw,                           ,         "Total column cloud ice water"
+surface water content,                 t1,    l000,  2.3.193, param193.3.2,                     ,
+TOA net shortwave *,                   t8,    l000,  0.4.9,  nswrf,                           ,            "Net short wave radiation flux"
+TOA net longwave *,                    t8,    l000,  0.5.5,  ttr,   "toa_outgoing_longwave_flux",          "Top net thermal radiation"
+3D fields,,,,,,
+temperature on hyb level xx,          t119,  lxx00, 0.0.0,  t,     "air_temperature"  ,                   "Temperature"
+specific humidity on hyb.level xx,    t119,  lxx00, 0.1.0,  q,     "specific_humidity",                   "Specific humidity"
+specific cloud water q hyb level xx,  t119,  lxx00, 0.1.83, clwc,                 ,                       "Specific cloud liquid water content"
+specific cloud ice qi hyb level xx,   t119,  lxx00, 0.1.84, ciwc,                 ,                       "Specific cloud ice water content"
+zonal wind on hyb level xx,           t119,  lxx00, 0.2.2,  u,    "eastward_wind" ,                       "U component of wind"
+merdidional wind on hyb level xx,     t119,  lxx00, 0.2.3,  v,    "northward_wind",                       "V component of wind"
+vertical wind on hyb level xx,        t119,  lxx00, 0.2.9,  wz,                  ,                        "Geometric vertical velocity"
+geopotential on hyb level,            t119,  lxx00, 0.3.4,  z,    "geopotential" ,                        "Geopotential"
+~                                                                                                                            

@@ -1,0 +1,17 @@
+#
+# gridID 1
+#
+gridtype  = projection
+xsize     = 1375
+ysize     = 1032
+xunits    = "degrees"
+yunits    = "degrees"
+xname     = "rlon"
+yname     = "rlat"
+xfirst    = -54.525
+xinc      = 0.06
+yfirst    = -37.435
+yinc      = 0.06
+grid_mapping_name = rotated_latitude_longitude
+grid_north_pole_longitude = -180.0
+grid_north_pole_latitude = 90.0

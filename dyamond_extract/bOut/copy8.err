@@ -1,0 +1,10 @@
+cp: cannot stat '/project/pr04/heimc/data/simulations/NICAM_3.5/DYAMOND_2/native/H/H_*.nc': No such file or directory
+cp: cannot stat '/project/pr04/heimc/data/simulations/NICAM_3.5/DYAMOND_2/native/SWNDTOA/SWNDTOA_*.nc': No such file or directory
+cp: cannot stat '/project/pr04/heimc/data/simulations/NICAM_3.5/DYAMOND_2/native/SWDTOA/SWDTOA_*.nc': No such file or directory
+cp: cannot stat '/project/pr04/heimc/data/simulations/NICAM_3.5/DYAMOND_2/native/PPCONV/PPCONV_*.nc': No such file or directory
+cp: cannot stat '/project/pr04/heimc/data/simulations/NICAM_3.5/DYAMOND_2/native/PPGRID/PPGRID_*.nc': No such file or directory
+cp: cannot stat '/project/pr04/heimc/data/simulations/NICAM_3.5/DYAMOND_2/native/SWNDSFC/SWNDSFC_*.nc': No such file or directory
+cp: cannot stat '/project/pr04/heimc/data/simulations/NICAM_3.5/DYAMOND_2/native/SWDIFFUSFC/SWDIFFUSFC_*.nc': No such file or directory
+cp: cannot stat '/project/pr04/heimc/data/simulations/NICAM_3.5/DYAMOND_2/native/PPANVI/PPANVI_*.nc': No such file or directory
+srun: error: nordend04: task 0: Exited with exit code 1
+srun: Terminating job step 18434308.0

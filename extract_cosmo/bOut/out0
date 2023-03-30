@@ -1,0 +1,317 @@
+ext 45697732 started on Wed Mar 29 17:20:46 CEST 2023:
+   
+
+1
+2007-01-01 00:00:00
+2007-01-31 00:00:00
+Read user input:
+Using 12 task(s).
+Running case SA_3_ctrl_4dxL: simulation COSMO 3.3 sim name SA_3_ctrl_4dxL
+Variables: ['LWUTOA', 'CLWUTOA', 'SWNDTOA', 'SWDTOA', 'CSWNDTOA']
+#############################################
+#####################################################
+copy variables
+	 ############## var LWUTOA ##################
+compute native
+compute daily
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-33061.000000  maxval=32339.000000
+
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-30525.000000  maxval=33625.000000
+
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-32776.000000  maxval=30920.000000
+
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-33195.000000  maxval=32861.000000
+
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-33091.000000  maxval=33021.000000
+
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-32876.000000  maxval=32604.000000
+
+			WARN: merge: no sub-daily files for date 20070110.
+			WARN: merge: no sub-daily files for date 20070111.
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-33786.000000  maxval=31902.000000
+
+			WARN: merge: no sub-daily files for date 20070104.
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-33486.000000  maxval=32768.000000
+
+			WARN: merge: no sub-daily files for date 20070103.
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-28357.000000  maxval=32842.000000
+
+			WARN: merge: no sub-daily files for date 20070108.
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-30525.000000  maxval=33625.000000
+
+			WARN: merge: no sub-daily files for date 20070112.
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-32833.000000  maxval=32143.000000
+
+			WARN: merge: no sub-daily files for date 20070106.
+			WARN: merge: no sub-daily files for date 20070105.
+			WARN: merge: no sub-daily files for date 20070102.
+			WARN: merge: no sub-daily files for date 20070107.
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-30982.000000  maxval=35622.000000
+
+			WARN: merge: no sub-daily files for date 20070109.
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-31445.000000  maxval=32772.000000
+
+			WARN: merge: no sub-daily files for date 20070113.
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-30899.000000  maxval=35542.000000
+
+			WARN: merge: no sub-daily files for date 20070114.
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-32245.000000  maxval=32791.000000
+
+			WARN: merge: no sub-daily files for date 20070119.
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-32826.000000  maxval=32103.000000
+
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-32537.000000  maxval=32817.000000
+
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-34004.000000  maxval=32313.000000
+
+			WARN: merge: no sub-daily files for date 20070117.
+			WARN: merge: no sub-daily files for date 20070120.
+			WARN: merge: no sub-daily files for date 20070115.
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-32864.000000  maxval=32758.000000
+
+			WARN: merge: no sub-daily files for date 20070118.
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-32734.000000  maxval=33272.000000
+
+			WARN: merge: no sub-daily files for date 20070116.
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-32338.000000  maxval=33015.000000
+
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-32917.000000  maxval=32816.000000
+
+			WARN: merge: no sub-daily files for date 20070122.
+			WARN: merge: no sub-daily files for date 20070124.
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-32926.000000  maxval=30220.000000
+
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-32771.000000  maxval=32896.000000
+
+			WARN: merge: no sub-daily files for date 20070121.
+			WARN: merge: no sub-daily files for date 20070123.
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-35028.000000  maxval=32670.000000
+
+			WARN: merge: no sub-daily files for date 20070125.
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-32356.000000  maxval=32827.000000
+
+			WARN: merge: no sub-daily files for date 20070126.
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-31449.000000  maxval=32804.000000
+
+			WARN: merge: no sub-daily files for date 20070130.
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-33575.000000  maxval=32863.000000
+
+			WARN: merge: no sub-daily files for date 20070127.
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-34662.000000  maxval=32840.000000
+
+			WARN: merge: no sub-daily files for date 20070129.
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-30311.000000  maxval=35472.000000
+
+			WARN: merge: no sub-daily files for date 20070128.
+cdf_put_vara_double: name=ATHB_T  type=NC_SHORT  minval=-33013.000000  maxval=33085.000000
+
+			WARN: merge: no sub-daily files for date 20070131.
+Apply LOSSY compression.
+			max -77.67788248443604
+			min -307.29401705932617
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/LWUTOA/LWUTOA_20070102.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/LWUTOA/LWUTOA_20070103.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/LWUTOA/LWUTOA_20070104.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/LWUTOA/LWUTOA_20070105.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/LWUTOA/LWUTOA_20070106.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/LWUTOA/LWUTOA_20070111.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/LWUTOA/LWUTOA_20070108.nc does not exist.lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/LWUTOA/LWUTOA_20070107.nc does not exist.
+
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/LWUTOA/LWUTOA_20070113.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/LWUTOA/LWUTOA_20070114.nc does not exist.lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/LWUTOA/LWUTOA_20070109.nc does not exist.
+
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/LWUTOA/LWUTOA_20070116.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/LWUTOA/LWUTOA_20070110.nc does not exist.lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/LWUTOA/LWUTOA_20070117.nc does not exist.
+
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/LWUTOA/LWUTOA_20070119.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/LWUTOA/LWUTOA_20070118.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/LWUTOA/LWUTOA_20070121.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/LWUTOA/LWUTOA_20070120.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/LWUTOA/LWUTOA_20070115.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/LWUTOA/LWUTOA_20070122.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/LWUTOA/LWUTOA_20070112.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/LWUTOA/LWUTOA_20070123.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/LWUTOA/LWUTOA_20070125.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/LWUTOA/LWUTOA_20070126.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/LWUTOA/LWUTOA_20070124.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/LWUTOA/LWUTOA_20070127.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/LWUTOA/LWUTOA_20070128.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/LWUTOA/LWUTOA_20070129.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/LWUTOA/LWUTOA_20070130.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/LWUTOA/LWUTOA_20070131.nc does not exist.
+	 ############## var CLWUTOA ##################
+compute native
+compute daily
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=-33896.000000  maxval=32515.000000
+
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=-33668.000000  maxval=29876.000000
+
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=30404068.000000  maxval=39596474.000000
+
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=-34752.000000  maxval=33541.000000
+
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=-34678.000000  maxval=29159.000000
+
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=-34377.000000  maxval=32015.000000
+
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=-34300.000000  maxval=33061.000000
+
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=-34069.000000  maxval=32035.000000
+
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=-33670.000000  maxval=29690.000000
+
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=30404068.000000  maxval=39596474.000000
+
+			WARN: merge: no sub-daily files for date 20070108.
+			WARN: merge: no sub-daily files for date 20070111.
+			WARN: merge: no sub-daily files for date 20070103.
+			WARN: merge: no sub-daily files for date 20070109.
+			WARN: merge: no sub-daily files for date 20070106.
+			WARN: merge: no sub-daily files for date 20070105.
+			WARN: merge: no sub-daily files for date 20070104.
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=-33335.000000  maxval=29788.000000
+
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=-33273.000000  maxval=27029.000000
+
+			WARN: merge: no sub-daily files for date 20070107.
+			WARN: merge: no sub-daily files for date 20070102.
+			WARN: merge: no sub-daily files for date 20070112.
+			WARN: merge: no sub-daily files for date 20070110.
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=-33685.000000  maxval=30466.000000
+
+			WARN: merge: no sub-daily files for date 20070113.
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=-33908.000000  maxval=32065.000000
+
+			WARN: merge: no sub-daily files for date 20070114.
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=-33924.000000  maxval=32056.000000
+
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=-33841.000000  maxval=32971.000000
+
+			WARN: merge: no sub-daily files for date 20070115.
+			WARN: merge: no sub-daily files for date 20070116.
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=-34444.000000  maxval=32625.000000
+
+			WARN: merge: no sub-daily files for date 20070117.
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=-32873.000000  maxval=32554.000000
+
+			WARN: merge: no sub-daily files for date 20070118.
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=-35551.000000  maxval=32286.000000
+
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=-34163.000000  maxval=30542.000000
+
+			WARN: merge: no sub-daily files for date 20070123.
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=-35983.000000  maxval=31133.000000
+
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=-33759.000000  maxval=31767.000000
+
+			WARN: merge: no sub-daily files for date 20070121.
+			WARN: merge: no sub-daily files for date 20070120.
+			WARN: merge: no sub-daily files for date 20070119.
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=-33760.000000  maxval=32697.000000
+
+			WARN: merge: no sub-daily files for date 20070122.
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=-33824.000000  maxval=31896.000000
+
+			WARN: merge: no sub-daily files for date 20070124.
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=-33496.000000  maxval=32463.000000
+
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=-34108.000000  maxval=33008.000000
+
+			WARN: merge: no sub-daily files for date 20070125.
+			WARN: merge: no sub-daily files for date 20070127.
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=-35768.000000  maxval=32976.000000
+
+			WARN: merge: no sub-daily files for date 20070126.
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=-33704.000000  maxval=31990.000000
+
+			WARN: merge: no sub-daily files for date 20070128.
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=-34024.000000  maxval=33011.000000
+
+			WARN: merge: no sub-daily files for date 20070129.
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=-34556.000000  maxval=31660.000000
+
+cdf_put_vara_double: name=ATHBC_T  type=NC_SHORT  minval=-33598.000000  maxval=32190.000000
+
+			WARN: merge: no sub-daily files for date 20070131.
+			WARN: merge: no sub-daily files for date 20070130.
+Apply LOSSY compression.
+			max -1.634524451494217
+			min -2.142059200286865
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/CLWUTOA/CLWUTOA_20070102.nc does not exist.lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/CLWUTOA/CLWUTOA_20070103.nc does not exist.
+
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/CLWUTOA/CLWUTOA_20070104.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/CLWUTOA/CLWUTOA_20070106.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/CLWUTOA/CLWUTOA_20070105.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/CLWUTOA/CLWUTOA_20070107.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/CLWUTOA/CLWUTOA_20070108.nc does not exist.lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/CLWUTOA/CLWUTOA_20070113.nc does not exist.
+
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/CLWUTOA/CLWUTOA_20070114.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/CLWUTOA/CLWUTOA_20070109.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/CLWUTOA/CLWUTOA_20070115.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/CLWUTOA/CLWUTOA_20070110.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/CLWUTOA/CLWUTOA_20070117.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/CLWUTOA/CLWUTOA_20070111.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/CLWUTOA/CLWUTOA_20070116.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/CLWUTOA/CLWUTOA_20070121.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/CLWUTOA/CLWUTOA_20070120.nc does not exist.lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/CLWUTOA/CLWUTOA_20070119.nc does not exist.lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/CLWUTOA/CLWUTOA_20070118.nc does not exist.
+
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/CLWUTOA/CLWUTOA_20070122.nc does not exist.
+
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/CLWUTOA/CLWUTOA_20070124.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/CLWUTOA/CLWUTOA_20070123.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/CLWUTOA/CLWUTOA_20070125.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/CLWUTOA/CLWUTOA_20070112.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/CLWUTOA/CLWUTOA_20070126.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/CLWUTOA/CLWUTOA_20070129.nc does not exist.lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/CLWUTOA/CLWUTOA_20070128.nc does not exist.
+
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/CLWUTOA/CLWUTOA_20070127.nc does not exist.
+lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/CLWUTOA/CLWUTOA_20070130.nc does not exist.lossy. compression: file /scratch/snx3000/heimc/data/simulations/COSMO_3.3/SA_3_ctrl_4dxL/daily/CLWUTOA/CLWUTOA_20070131.nc does not exist.
+
+	 ############## var SWNDTOA ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 1314.3129999999999
+			min 0.0
+	 ############## var SWDTOA ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 1414.4129999999998
+			min 0.0
+	 ############## var CSWNDTOA ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 1314.3129999999999
+			min 0.0
+##########################################################
+Took 5.51 min.
+Detailed process times (cpu time, not real time):
+tot_cpu	100.0	%	5.51 	min
+ncrcat	75.0	%	4.15 	min
+merge	13.0	%	0.74 	min
+minmax	1.0	%	0.08 	min
+compress	10.0	%	0.55 	min
+######################################
+Sucessfully finished case SA_3_ctrl_4dxL: simulation COSMO 3.3 sim name SA_3_ctrl_4dxL
+######################################
+ext 45697732 finished on Wed Mar 29 17:26:36 CEST 2023
+
+
+
+Batch Job Summary Report (version 21.01.1) for Job "ext" (45697732) on daint
+
+Job information (1/2)
+-----------------------------------------------------------------------------------------------------
+             Submit            Eligible               Start                 End    Elapsed Time limit
+------------------- ------------------- ------------------- ------------------- ---------- ----------
+2023-03-29T17:20:12 2023-03-29T17:20:12 2023-03-29T17:20:37 2023-03-29T17:26:41   00:06:04   00:30:00
+-----------------------------------------------------------------------------------------------------
+
+Job information (2/2)
+-------------------------------------------------------------
+    Username      Account    Partition   NNodes        Energy
+------------ ------------ ------------ -------- -------------
+       heimc        pr133        debug        1     44.905 kJ
+

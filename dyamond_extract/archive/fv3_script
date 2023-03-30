@@ -1,0 +1,12 @@
+#!/bin/bash
+export GRIB_DEFINITION_PATH=/mnt/lustre01/sw/rhel6-x64/eccodes/definitions
+dirin=/work/ka1081/DYAMOND/FV3-3.25km/2016081100/
+
+#for d in 11; do
+ echo $d
+ #cdo -P 8 -f nc -O -fldmean -sellonlatbox,-50,-30,0,20 -seltimestep,1/8 ${dirin}ql_plev_C3072_360x180.fre.nc FV3_qc_dc_mean_201608${d}.nc
+ #cdo -P 8 -f nc -O -fldmean -sellonlatbox,-50,-30,0,20 -seltimestep,1/8 ${dirin}h_plev_C3072_360x180.fre.nc FV3_h_dc_mean_201608${d}.nc
+ #cdo timavg FV3_h_dc_mean_20160811.nc FV3_h_dc_mean_201608${d}_mean.nc
+ #cdo timavg FV3_qc_dc_mean_20160811.nc FV3_qc_dc_mean_201608${d}_mean.nc
+#done
+

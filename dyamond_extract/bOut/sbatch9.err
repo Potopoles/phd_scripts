@@ -1,0 +1,50 @@
+/project/pr04/heimc/miniconda3/lib/python3.7/site-packages/dask/config.py:168: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+  data = yaml.load(f.read()) or {}
+/project/pr04/heimc/miniconda3/lib/python3.7/site-packages/distributed/config.py:20: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+  defaults = yaml.load(f)
+Traceback (most recent call last):
+  File "pp02.5_test_files.py", line 50, in <module>
+    with xr.open_dataset(file_path) as ds:
+  File "/project/pr04/heimc/miniconda3/lib/python3.7/site-packages/xarray/backends/api.py", line 394, in open_dataset
+    ds = maybe_decode_store(store)
+  File "/project/pr04/heimc/miniconda3/lib/python3.7/site-packages/xarray/backends/api.py", line 324, in maybe_decode_store
+    drop_variables=drop_variables, use_cftime=use_cftime)
+  File "/project/pr04/heimc/miniconda3/lib/python3.7/site-packages/xarray/conventions.py", line 480, in decode_cf
+    ds = Dataset(vars, attrs=attrs)
+  File "/project/pr04/heimc/miniconda3/lib/python3.7/site-packages/xarray/core/dataset.py", line 383, in __init__
+    self._set_init_vars_and_dims(data_vars, coords, compat)
+  File "/project/pr04/heimc/miniconda3/lib/python3.7/site-packages/xarray/core/dataset.py", line 405, in _set_init_vars_and_dims
+    data_vars, coords, compat=compat)
+  File "/project/pr04/heimc/miniconda3/lib/python3.7/site-packages/xarray/core/merge.py", line 377, in merge_data_and_coords
+    indexes=indexes)
+  File "/project/pr04/heimc/miniconda3/lib/python3.7/site-packages/xarray/core/merge.py", line 446, in merge_core
+    expanded = expand_variable_dicts(aligned)
+  File "/project/pr04/heimc/miniconda3/lib/python3.7/site-packages/xarray/core/merge.py", line 222, in expand_variable_dicts
+    var = as_variable(var, name=name)
+  File "/project/pr04/heimc/miniconda3/lib/python3.7/site-packages/xarray/core/variable.py", line 117, in as_variable
+    obj = obj.to_index_variable()
+  File "/project/pr04/heimc/miniconda3/lib/python3.7/site-packages/xarray/core/variable.py", line 408, in to_index_variable
+    encoding=self._encoding, fastpath=True)
+  File "/project/pr04/heimc/miniconda3/lib/python3.7/site-packages/xarray/core/variable.py", line 1825, in __init__
+    self._data = PandasIndexAdapter(self._data)
+  File "/project/pr04/heimc/miniconda3/lib/python3.7/site-packages/xarray/core/indexing.py", line 1219, in __init__
+    self.array = utils.safe_cast_to_index(array)
+  File "/project/pr04/heimc/miniconda3/lib/python3.7/site-packages/xarray/core/utils.py", line 78, in safe_cast_to_index
+    index = pd.Index(np.asarray(array), **kwargs)
+  File "/project/pr04/heimc/miniconda3/lib/python3.7/site-packages/numpy/core/numeric.py", line 538, in asarray
+    return array(a, dtype, copy=False, order=order)
+  File "/project/pr04/heimc/miniconda3/lib/python3.7/site-packages/xarray/core/indexing.py", line 510, in __array__
+    return np.asarray(array[self.key], dtype=None)
+  File "/project/pr04/heimc/miniconda3/lib/python3.7/site-packages/numpy/core/numeric.py", line 538, in asarray
+    return array(a, dtype, copy=False, order=order)
+  File "/project/pr04/heimc/miniconda3/lib/python3.7/site-packages/xarray/coding/variables.py", line 68, in __array__
+    return self.func(self.array)
+  File "/project/pr04/heimc/miniconda3/lib/python3.7/site-packages/xarray/coding/times.py", line 176, in decode_cf_datetime
+    calendar)
+  File "/project/pr04/heimc/miniconda3/lib/python3.7/site-packages/xarray/coding/times.py", line 141, in _decode_datetime_with_pandas
+    pd.to_timedelta(flat_num_dates.min(), delta) + ref_date
+  File "/project/pr04/heimc/miniconda3/lib/python3.7/site-packages/numpy/core/_methods.py", line 32, in _amin
+    return umr_minimum(a, axis, None, out, keepdims, initial)
+ValueError: zero-size array to reduction operation minimum which has no identity
+srun: error: nid03383: task 0: Exited with exit code 1
+srun: Terminating job step 21272279.0

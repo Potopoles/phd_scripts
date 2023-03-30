@@ -1,0 +1,15 @@
+#!/bin/bash
+dirin=/work/ka1081/DYAMOND/IFS-9km/
+
+for d in 11; do
+ #cdo --eccodes select,name=clwc ${dirin}mars_out_ml_moist.240 test.grb
+ #cdo -R -f nc -O copy test.grb test.nc
+ #cdo -P 8 -f nc -O -sellonlatbox,-90,-80,-34,-24 test.nc IFS_qc_dc_mean_20160811_00.nc
+
+ #cdo -P 8 -f nc -O -fldmean -sellonlatbox,-50,-30,0,20 test.nc IFS_qc_dc_mean_20160811_00.nc
+ #cdo remapbil,grids/latlon_0.10_deg -setgridtype,regular test.nc out.nc
+
+ cdo --eccodes select,name=clwc ${dirin}mars_out_ml_moist.240 tmp.grb
+ cdo -f nc -sellonlatbox,-90,-80,-34,-24 -setgridtype,regular tmp.grb test.nc
+done
+

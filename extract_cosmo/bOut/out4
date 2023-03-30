@@ -1,0 +1,242 @@
+ext 44207246 started on Fri Jan 13 13:12:37 CET 2023:
+   
+
+4
+2010-04-01 00:00:00
+2010-04-30 00:00:00
+Read user input:
+Using 6 task(s).
+Running case SA_3_pgw3: simulation COSMO 3.3 sim name SA_3_pgw3
+Variables: ['CLCL', 'CLCM', 'CLCH', 'LWUTOA', 'CLWUTOA', 'SWNDTOA', 'SWDTOA', 'CSWNDTOA', 'TSURF', 'PP', 'QC', 'QI', 'T', 'QV', 'U', 'V', 'W', 'P', 'CAPE', 'TQC', 'TQI', 'TQV', 'WSOIL', 'U10M', 'V10M', 'T2M', 'SLHFLX', 'SSHFLX', 'CIN', 'CLCT', 'TQR', 'TQG', 'TQS', 'TSOIL']
+#############################################
+#####################################################
+copy variables
+	 ############## var CLCL ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 1.001
+			min 5.019734495152448e-17
+	 ############## var CLCM ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 1.001
+			min 5.019734495152448e-17
+	 ############## var CLCH ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 1.001
+			min 5.019734495152448e-17
+	 ############## var LWUTOA ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max -61.530845306396486
+			min -400.4315561828613
+	 ############## var CLWUTOA ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max -228.98518684387207
+			min -402.1753025817871
+	 ############## var SWNDTOA ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 1264.509217651367
+			min 0.0
+	 ############## var SWDTOA ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 1367.0907005615234
+			min 0.0
+	 ############## var CSWNDTOA ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 1266.1790987548827
+			min 0.0
+	 ############## var TSURF ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 347.68202096557616
+			min 265.84777770996095
+	 ############## var PP ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 142.75930064392088
+			min 0.0
+	 ############## var QC ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 0.001956908139400184
+			min 0.0
+	 ############## var QI ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 0.0015621095679234712
+			min 0.0
+	 ############## var T ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 323.4975212707519
+			min 179.9125739593506
+	 ############## var QV ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var U ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 101.40867278289794
+			min -44.46633124160766
+	 ############## var V ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 72.14508631896972
+			min -71.70565196228027
+	 ############## var W ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 26.93780910682678
+			min -8.640399040222167
+	 ############## var P ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var CAPE ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 6426.035338378905
+			min 0.0
+	 ############## var TQC ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 11.84371817779541
+			min 0.0
+	 ############## var TQI ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 2.52750027513504
+			min 0.0
+	 ############## var TQV ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 107.65156562805174
+			min 0.44179508024454117
+	 ############## var WSOIL ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var U10M ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 32.093176380157466
+			min -24.7628648815155
+	 ############## var V10M ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 26.3144561214447
+			min -24.446161317825315
+	 ############## var T2M ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 326.3184546203613
+			min 272.5814547729492
+	 ############## var SLHFLX ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 122.07421514129638
+			min -1088.8625550537108
+	 ############## var SSHFLX ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 281.11252725219725
+			min -835.5903708496093
+	 ############## var CIN ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 1570.2531326904295
+			min -1000.8999244384764
+	 ############## var CLCT ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 1.001
+			min 5.019734495152448e-17
+	 ############## var TQR ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 91.19639093017577
+			min 0.0
+	 ############## var TQG ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 62.01492920303344
+			min 0.0
+	 ############## var TQS ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 64.87328778839111
+			min 0.0
+	 ############## var TSOIL ##################
+compute native
+compute daily
+Apply LOSSY compression.
+			max 318.9156734924316
+			min 266.5443155822754
+##########################################################
+Took 260.34 min.
+Detailed process times (cpu time, not real time):
+tot_cpu	100.0	%	283.66 	min
+ncrcat	28.0	%	80.62 	min
+merge	46.0	%	130.8 	min
+minmax	5.0	%	12.81 	min
+compress	11.0	%	30.33 	min
+compr	10.0	%	29.11 	min
+######################################
+Sucessfully finished case SA_3_pgw3: simulation COSMO 3.3 sim name SA_3_pgw3
+######################################
+ext 44207246 finished on Fri Jan 13 17:33:07 CET 2023
+
+
+
+Batch Job Summary Report (version 21.01.1) for Job "ext" (44207246) on daint
+
+Job information (1/2)
+-----------------------------------------------------------------------------------------------------
+             Submit            Eligible               Start                 End    Elapsed Time limit
+------------------- ------------------- ------------------- ------------------- ---------- ----------
+2023-01-13T13:12:23 2023-01-13T13:12:23 2023-01-13T13:12:27 2023-01-13T17:33:07   04:20:40   23:30:00
+-----------------------------------------------------------------------------------------------------
+
+Job information (2/2)
+-------------------------------------------------------------
+    Username      Account    Partition   NNodes        Energy
+------------ ------------ ------------ -------- -------------
+       heimc        pr133       normal        1   1777.097 kJ
+

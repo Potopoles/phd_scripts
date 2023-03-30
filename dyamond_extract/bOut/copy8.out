@@ -1,0 +1,30 @@
+copy started on Sat Nov 30 21:34:35 CET 2019:
+   
+
+copy from /project/pr04/heimc/data to /scratch/snx3000/heimc/data
+NICAM_3.5
+   DYAMOND_2
+       W
+       H
+       SWUTOA
+       SWNDTOA
+       SWDTOA
+       TQC
+       U10M
+       V10M
+       SLHFLX
+       SSHFLX
+       LWUTOA
+       QV
+       QC
+       T
+       T2M
+       SWDSFC
+       PP
+       PPCONV
+       PPGRID
+       SWNDSFC
+       SWDIFFUSFC
+       PPANVI
+copy finished on Sat Nov 30 21:58:02 CET 2019
+

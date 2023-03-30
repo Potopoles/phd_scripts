@@ -1,0 +1,258 @@
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+cmdModule.c(567):ERROR:50: Cannot open file '/apps/daint/UES/easybuild/modulefiles/xalt/2.7.24' for 'reading'
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+rsync: link_stat "/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/NICAM_3.5/tmp/H_*.nc" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1518) [Receiver=3.0.9]
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+rsync: link_stat "/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/NICAM_3.5/tmp/HSURF_*.nc" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1518) [Receiver=3.0.9]
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+rsync: link_stat "/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/NICAM_3.5/tmp/PS_*.nc" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1518) [Receiver=3.0.9]
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+rsync: link_stat "/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/NICAM_3.5/tmp/SWNDTOA_*.nc" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1518) [Receiver=3.0.9]
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+rsync: link_stat "/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/NICAM_3.5/tmp/SWDTOA_*.nc" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1518) [Receiver=3.0.9]
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+rsync: link_stat "/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/NICAM_3.5/tmp/SWDSFC_*.nc" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1518) [Receiver=3.0.9]
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+rsync: link_stat "/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/NICAM_3.5/tmp/SWNDSFC_*.nc" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1518) [Receiver=3.0.9]
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+rsync: link_stat "/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/NICAM_3.5/tmp/SWDIFFUSFC_*.nc" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1518) [Receiver=3.0.9]
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+rsync: link_stat "/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/NICAM_3.5/tmp/SST_*.nc" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1518) [Receiver=3.0.9]
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+rsync: link_stat "/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/NICAM_3.5/tmp/TQV_*.nc" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1518) [Receiver=3.0.9]
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+rsync: link_stat "/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/NICAM_3.5/tmp/CLCL_*.nc" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1518) [Receiver=3.0.9]
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+rsync: link_stat "/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/NICAM_3.5/tmp/CLCT_*.nc" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1518) [Receiver=3.0.9]
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+rsync: link_stat "/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/NICAM_3.5/tmp/PPCONV_*.nc" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1518) [Receiver=3.0.9]
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+rsync: link_stat "/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/NICAM_3.5/tmp/PPGRID_*.nc" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1518) [Receiver=3.0.9]
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 11: module: command not found
+rsync: link_stat "/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/NICAM_3.5/tmp/PPANVI_*.nc" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1518) [Receiver=3.0.9]
+srun: error: nordend04: task 0: Exited with exit code 23
+srun: Terminating job step 21749150.0
+ERROR: ld.so: object '/apps/daint/UES/xalt/xalt2/software/xalt/2.7.24/lib64/libxalt_init.so' from LD_PRELOAD cannot be preloaded: ignored.

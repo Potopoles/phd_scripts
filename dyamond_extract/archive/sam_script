@@ -1,0 +1,15 @@
+#!/bin/bash
+export GRIB_DEFINITION_PATH=/mnt/lustre01/sw/rhel6-x64/eccodes/definitions
+dirin=/work/ka1081/DYAMOND/SAM-4km/OUT_3D
+dirout=../SCu/data
+var=QC
+
+files=($(ls ${dirin}/*_00001[1-6]*${var}*))
+for f in ${files[@]}; do
+    echo $f
+done
+exit 1
+
+ ncatted -O -a units,lon,o,c,"degrees_east" -a units,lat,o,c,"degrees_north" $f ${dirout}/test.nc
+ #cdo -r -P 8 -O -settaxis,2016-08-01,00:30:00,30m -sellonlatbox,-50,-30,0,20 ${dirout}test.nc ${dirout}SAM_qc_dc_mean_20160811_0000z.nc
+

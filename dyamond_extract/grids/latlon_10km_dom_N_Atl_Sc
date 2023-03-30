@@ -1,0 +1,13 @@
+gridtype    =   lonlat
+xsize       =   290
+ysize       =   89
+xname       =   lon
+xlongname   =   "longitude"
+xunits      =   "degrees_east"
+yname       =   lat
+ylongname   =   "latitude"
+yunits      =   "degrees_north"
+xfirst      =   -46
+xinc        =   0.09
+yfirst      =   18
+yinc        =   0.09

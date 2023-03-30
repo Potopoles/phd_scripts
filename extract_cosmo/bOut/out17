@@ -1,0 +1,46 @@
+ext 44131691 started on Tue Jan 10 09:13:36 CET 2023:
+   
+
+None
+2007-01-01 00:00:00
+2007-12-31 00:00:00
+Read user input:
+Using 6 task(s).
+Running case SA_3_pgw3: simulation COSMO 3.3 sim name SA_3_pgw3
+Variables: ['P']
+#############################################
+#####################################################
+copy variables
+	 ############## var P ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+##########################################################
+Took 394.17 min.
+Detailed process times (cpu time, not real time):
+tot_cpu	100.0	%	496.47 	min
+ncrcat	6.0	%	27.99 	min
+merge	69.0	%	344.34 	min
+compr	25.0	%	124.14 	min
+######################################
+Sucessfully finished case SA_3_pgw3: simulation COSMO 3.3 sim name SA_3_pgw3
+######################################
+ext 44131691 finished on Tue Jan 10 15:47:55 CET 2023
+
+
+
+Batch Job Summary Report (version 21.01.1) for Job "ext" (44131691) on daint
+
+Job information (1/2)
+-----------------------------------------------------------------------------------------------------
+             Submit            Eligible               Start                 End    Elapsed Time limit
+------------------- ------------------- ------------------- ------------------- ---------- ----------
+2023-01-10T09:13:26 2023-01-10T09:13:26 2023-01-10T09:13:28 2023-01-10T15:47:55   06:34:27   23:30:00
+-----------------------------------------------------------------------------------------------------
+
+Job information (2/2)
+-------------------------------------------------------------
+    Username      Account    Partition   NNodes        Energy
+------------ ------------ ------------ -------- -------------
+       heimc        pr133       normal        1   3179.609 kJ
+

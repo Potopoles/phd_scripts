@@ -1,0 +1,124 @@
+ext 45544635 started on Wed Mar 22 13:26:29 CET 2023:
+   
+
+None
+2010-01-01 00:00:00
+2010-12-31 00:00:00
+Read user input:
+Using 12 task(s).
+Running case SA_3_pgw3: simulation COSMO 3.3 sim name SA_3_pgw3
+Variables: ['LWNDSFC', 'LWDSFC', 'CLWNDSFC']
+#############################################
+#####################################################
+copy variables
+	 ############## var LWNDSFC ##################
+compute native
+		 WARN: no file for var LWNDSFC and ts 20100101-00:00
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c/1h_2D_cg/2010/lffd201001010000*.nc
+		 WARN: no file for var LWNDSFC and ts 20110101-00:00
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c/1h_2D_cg/2011/lffd201101010000*.nc
+compute daily
+Apply LOSSY compression.
+			max 17.536153430938718
+			min -411.3445578918457
+	 ############## var LWDSFC ##################
+compute native
+		 WARN: no file for var LWDSFC and ts 20100101-00:00
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c/1h_2D_cg/2010/lffd201001010000*.nc
+		 WARN: no file for var LWDSFC and ts 20110101-00:00
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c/1h_2D_cg/2011/lffd201101010000*.nc
+compute daily
+Apply LOSSY compression.
+			max 613.2057938842772
+			min 171.57012519836425
+	 ############## var CLWNDSFC ##################
+compute native
+		 WARN: no file for var CLWNDSFC and ts 20100101-00:00
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c/1h_2D_cg/2010/lffd201001010000*.nc
+		 WARN: no file for var CLWNDSFC and ts 20110101-00:00
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c/1h_2D_cg/2011/lffd201101010000*.nc
+compute daily
+Apply LOSSY compression.
+			max -3.9733652629852294
+			min -411.6354979553222
+##########################################################
+Took 65.1 min.
+Detailed process times (cpu time, not real time):
+tot_cpu	100.0	%	65.1 	min
+ncrcat	67.0	%	43.71 	min
+merge	20.0	%	12.71 	min
+minmax	2.0	%	1.3 	min
+compress	11.0	%	7.37 	min
+######################################
+Sucessfully finished case SA_3_pgw3: simulation COSMO 3.3 sim name SA_3_pgw3
+######################################
+None
+2010-01-01 00:00:00
+2010-12-31 00:00:00
+Read user input:
+Using 12 task(s).
+Running case SA_3_ctrl: simulation COSMO 3.3 sim name SA_3_ctrl
+Variables: ['LWNDSFC', 'LWDSFC', 'CLWNDSFC']
+#############################################
+#####################################################
+copy variables
+	 ############## var LWNDSFC ##################
+compute native
+		 WARN: no file for var LWNDSFC and ts 20100101-00:00
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_ctrl/lm_c/1h_2D_cg/2010/lffd201001010000*.nc
+		 WARN: no file for var LWNDSFC and ts 20110101-00:00
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_ctrl/lm_c/1h_2D_cg/2011/lffd201101010000*.nc
+compute daily
+Apply LOSSY compression.
+			max 15.647494503021239
+			min -397.75065530395506
+	 ############## var LWDSFC ##################
+compute native
+		 WARN: no file for var LWDSFC and ts 20100101-00:00
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_ctrl/lm_c/1h_2D_cg/2010/lffd201001010000*.nc
+		 WARN: no file for var LWDSFC and ts 20110101-00:00
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_ctrl/lm_c/1h_2D_cg/2011/lffd201101010000*.nc
+compute daily
+Apply LOSSY compression.
+			max 555.1030714721679
+			min 154.96508853149413
+	 ############## var CLWNDSFC ##################
+compute native
+		 WARN: no file for var CLWNDSFC and ts 20100101-00:00
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_ctrl/lm_c/1h_2D_cg/2010/lffd201001010000*.nc
+		 WARN: no file for var CLWNDSFC and ts 20110101-00:00
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_ctrl/lm_c/1h_2D_cg/2011/lffd201101010000*.nc
+compute daily
+Apply LOSSY compression.
+			max -7.556116491794586
+			min -397.75065530395506
+##########################################################
+Took 65.61 min.
+Detailed process times (cpu time, not real time):
+tot_cpu	100.0	%	65.61 	min
+ncrcat	67.0	%	43.89 	min
+merge	20.0	%	12.99 	min
+minmax	2.0	%	1.33 	min
+compress	11.0	%	7.4 	min
+######################################
+Sucessfully finished case SA_3_ctrl: simulation COSMO 3.3 sim name SA_3_ctrl
+######################################
+ext 45544635 finished on Wed Mar 22 15:38:43 CET 2023
+
+
+
+Batch Job Summary Report (version 21.01.1) for Job "ext" (45544635) on daint
+
+Job information (1/2)
+-----------------------------------------------------------------------------------------------------
+             Submit            Eligible               Start                 End    Elapsed Time limit
+------------------- ------------------- ------------------- ------------------- ---------- ----------
+2023-03-22T11:18:14 2023-03-22T11:18:14 2023-03-22T13:26:07 2023-03-22T15:38:51   02:12:44   23:30:00
+-----------------------------------------------------------------------------------------------------
+
+Job information (2/2)
+-------------------------------------------------------------
+    Username      Account    Partition   NNodes        Energy
+------------ ------------ ------------ -------- -------------
+       heimc        pr133       normal        1   1063.586 kJ
+

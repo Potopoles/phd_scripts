@@ -1,0 +1,45 @@
+ext 44116910 started on Mon Jan  9 16:56:25 CET 2023:
+   
+
+None
+2008-01-01 00:00:00
+2008-12-31 00:00:00
+Read user input:
+Using 6 task(s).
+Running case SA_3_pgw3: simulation COSMO 3.3 sim name SA_3_pgw3
+Variables: ['LWUTOA']
+#############################################
+#####################################################
+copy variables
+	 ############## var LWUTOA ##################
+Apply LOSSY compression.
+			max -60.62105044555664
+			min -428.47101171874993
+##########################################################
+Took 6.59 min.
+Detailed process times (cpu time, not real time):
+tot_cpu	100.0	%	6.59 	min
+minmax	17.0	%	1.15 	min
+compress	83.0	%	5.45 	min
+######################################
+Sucessfully finished case SA_3_pgw3: simulation COSMO 3.3 sim name SA_3_pgw3
+######################################
+ext 44116910 finished on Mon Jan  9 17:03:21 CET 2023
+
+
+
+Batch Job Summary Report (version 21.01.1) for Job "ext" (44116910) on daint
+
+Job information (1/2)
+-----------------------------------------------------------------------------------------------------
+             Submit            Eligible               Start                 End    Elapsed Time limit
+------------------- ------------------- ------------------- ------------------- ---------- ----------
+2023-01-09T16:56:16 2023-01-09T16:56:16 2023-01-09T16:56:16 2023-01-09T17:03:21   00:07:05   23:30:00
+-----------------------------------------------------------------------------------------------------
+
+Job information (2/2)
+-------------------------------------------------------------
+    Username      Account    Partition   NNodes        Energy
+------------ ------------ ------------ -------- -------------
+       heimc        pr133       normal        1     49.236 kJ
+

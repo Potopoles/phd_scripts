@@ -1,0 +1,37 @@
+cp sim started on Tue Mar 21 10:36:25 CET 2023:
+   
+
+SA_3_ctrl
+    2006
+1h_2D
+copy from /project/pr133/heimc/data/cosmo_out/SA_3_ctrl/lm_c/1h_2D/2006 to /scratch/snx3000/heimc/data/compr_cosmo/SA_3_ctrl/lm_c/1h_2D/2006
+1h_2D_cg
+copy from /project/pr133/heimc/data/cosmo_out/SA_3_ctrl/lm_c/1h_2D_cg/2006 to /scratch/snx3000/heimc/data/compr_cosmo/SA_3_ctrl/lm_c/1h_2D_cg/2006
+3h_3D
+copy from /project/pr133/heimc/data/cosmo_out/SA_3_ctrl/lm_c/3h_3D/2006 to /scratch/snx3000/heimc/data/compr_cosmo/SA_3_ctrl/lm_c/3h_3D/2006
+30min_water
+copy from /project/pr133/heimc/data/cosmo_out/SA_3_ctrl/lm_c/30min_water/2006 to /scratch/snx3000/heimc/data/compr_cosmo/SA_3_ctrl/lm_c/30min_water/2006
+3h_3D_cloud
+copy from /project/pr133/heimc/data/cosmo_out/SA_3_ctrl/lm_c/3h_3D_cloud/2006 to /scratch/snx3000/heimc/data/compr_cosmo/SA_3_ctrl/lm_c/3h_3D_cloud/2006
+24h
+copy from /project/pr133/heimc/data/cosmo_out/SA_3_ctrl/lm_c/24h/2006 to /scratch/snx3000/heimc/data/compr_cosmo/SA_3_ctrl/lm_c/24h/2006
+    2007
+1h_2D
+copy from /project/pr133/heimc/data/cosmo_out/SA_3_ctrl/lm_c/1h_2D/2007 to /scratch/snx3000/heimc/data/compr_cosmo/SA_3_ctrl/lm_c/1h_2D/2007
+1h_2D_cg
+copy from /project/pr133/heimc/data/cosmo_out/SA_3_ctrl/lm_c/1h_2D_cg/2007 to /scratch/snx3000/heimc/data/compr_cosmo/SA_3_ctrl/lm_c/1h_2D_cg/2007
+3h_3D
+copy from /project/pr133/heimc/data/cosmo_out/SA_3_ctrl/lm_c/3h_3D/2007 to /scratch/snx3000/heimc/data/compr_cosmo/SA_3_ctrl/lm_c/3h_3D/2007
+30min_water
+copy from /project/pr133/heimc/data/cosmo_out/SA_3_ctrl/lm_c/30min_water/2007 to /scratch/snx3000/heimc/data/compr_cosmo/SA_3_ctrl/lm_c/30min_water/2007
+3h_3D_cloud
+copy from /project/pr133/heimc/data/cosmo_out/SA_3_ctrl/lm_c/3h_3D_cloud/2007 to /scratch/snx3000/heimc/data/compr_cosmo/SA_3_ctrl/lm_c/3h_3D_cloud/2007
+24h
+copy from /project/pr133/heimc/data/cosmo_out/SA_3_ctrl/lm_c/24h/2007 to /scratch/snx3000/heimc/data/compr_cosmo/SA_3_ctrl/lm_c/24h/2007
+    2008
+1h_2D
+copy from /project/pr133/heimc/data/cosmo_out/SA_3_ctrl/lm_c/1h_2D/2008 to /scratch/snx3000/heimc/data/compr_cosmo/SA_3_ctrl/lm_c/1h_2D/2008
+1h_2D_cg
+copy from /project/pr133/heimc/data/cosmo_out/SA_3_ctrl/lm_c/1h_2D_cg/2008 to /scratch/snx3000/heimc/data/compr_cosmo/SA_3_ctrl/lm_c/1h_2D_cg/2008
+3h_3D
+copy from /project/pr133/heimc/data/cosmo_out/SA_3_ctrl/lm_c/3h_3D/2008 to /scratch/snx3000/heimc/data/compr_cosmo/SA_3_ctrl/lm_c/3h_3D/2008

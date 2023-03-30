@@ -1,0 +1,42 @@
+calc_WVP started on Mon Apr 29 21:50:45 CEST 2019:
+   
+
+RAW4
+TimeStepMP: njobs = 12
+18.465810537338257
+SM4
+TimeStepMP: njobs = 12
+18.30921459197998
+RAW2
+TimeStepMP: njobs = 12
+41.84423327445984
+SM2
+TimeStepMP: njobs = 12
+41.77049112319946
+RAW1
+TimeStepMP: njobs = 12
+111.07264542579651
+SM1
+TimeStepMP: njobs = 12
+109.88568544387817
+341.3485474586487
+calc_WVP finished on Mon Apr 29 21:56:38 CEST 2019
+
+ 
+Batch Job Summary Report for Job "calc_WVP" (13445719) on daint
+-----------------------------------------------------------------------------------------------------
+             Submit            Eligible               Start                 End    Elapsed  Timelimit 
+------------------- ------------------- ------------------- ------------------- ---------- ---------- 
+2019-04-29T21:48:59 2019-04-29T21:48:59 2019-04-29T21:50:37 2019-04-29T21:56:38   00:06:01   00:30:00 
+-----------------------------------------------------------------------------------------------------
+Username    Account     Partition   NNodes   Energy
+----------  ----------  ----------  ------  --------------
+heimc       pr04        debug            1   50.63K joules
+ 
+This job did not utilize any GPUs
+ 
+----------------------------------------------------------
+Scratch File System        Files       Quota
+--------------------  ----------  ----------
+/scratch/snx3000           28147     1000000
+ 

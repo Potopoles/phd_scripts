@@ -1,0 +1,91 @@
+/apps/daint/UES/xalt/xalt2/software/xalt/xalt//libexec/xalt_run_submission: error while loading shared libraries: libnghttp2.so.14: cannot open shared object file: No such file or directory
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+rsync: link_stat "/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/P_*.nc" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1518) [Receiver=3.0.9]
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+rsync: link_stat "/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/HSURF_*.nc" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1518) [Receiver=3.0.9]
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+rsync: link_stat "/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/MSLP_*.nc" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1518) [Receiver=3.0.9]
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+rsync: link_stat "/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/SWNDTOA_*.nc" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1518) [Receiver=3.0.9]
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+rsync: link_stat "/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/SWNDSFC_*.nc" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1518) [Receiver=3.0.9]
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+rsync: link_stat "/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/SWDIFFUSFC_*.nc" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1518) [Receiver=3.0.9]
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+rsync: link_stat "/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/SST_*.nc" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1518) [Receiver=3.0.9]
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+rsync: link_stat "/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/CLCL_*.nc" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1518) [Receiver=3.0.9]
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+rsync: link_stat "/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/PPCONV_*.nc" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1518) [Receiver=3.0.9]
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+rsync: link_stat "/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/PPGRID_*.nc" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1518) [Receiver=3.0.9]
+/pf/b/b380876/.bashrc: line 9: module: command not found
+/pf/b/b380876/.bashrc: line 10: module: command not found
+rsync: link_stat "/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/PPANVI_*.nc" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1518) [Receiver=3.0.9]
+srun: error: nordend04: task 0: Exited with exit code 23
+srun: Terminating job step 20668067.0

@@ -1,0 +1,16 @@
+001_copy started on Thu Apr 18 14:28:51 CEST 2019:
+   
+
+shift
+  lm_c
+    1h_rad_dy
+  lm_f
+    1h_rad_dy
+GERB
+  TET
+  TRS
+SEVIRI_CERES
+  TET
+  TRS
+001_copy finished on Thu Apr 18 14:32:25 CEST 2019
+

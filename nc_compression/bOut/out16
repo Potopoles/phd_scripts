@@ -1,0 +1,533 @@
+cmpr started on Wed Apr 20 14:54:41 CEST 2022:
+   
+
+SA_3_pgw/lm_c
+Namespace(sim_name='SA_3_pgw/lm_c', n_par=12, first_date='200712010030', last_date='200801010000', output_groups='3h_3D_cloud', run_compression=0, run_coarse_grain=1)
+2007-12-01 00:30:00
+2008-01-01 00:00:00
+['3h_3D_cloud']
+SA_3_pgw/lm_c
+###################### Start compression job #####################
+Run with 12 parallel task(s) for simulation SA_3_pgw/lm_c and COSMO output group(s) ['3h_3D_cloud'] from 2007-12-01 00:30:00 until 2008-01-01 00:00:00
+##### COSMO output group 3h_3D_cloud 	 #####
+['/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071201030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071201060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071201090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071201120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071201150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071201180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071201210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071202000000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071202030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071202060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071202090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071202120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071202150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071202180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071202210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071203000000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071203030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071203060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071203090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071203120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071203150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071203180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071203210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071204000000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071204030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071204060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071204090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071204120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071204150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071204180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071204210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071205000000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071205030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071205060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071205090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071205120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071205150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071205180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071205210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071206000000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071206030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071206060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071206090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071206120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071206150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071206180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071206210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071207000000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071207030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071207060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071207090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071207120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071207150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071207180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071207210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071208000000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071208030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071208060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071208090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071208120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071208150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071208180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071208210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071209000000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071209030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071209060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071209090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071209120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071209150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071209180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071209210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071210000000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071210030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071210060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071210090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071210120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071210150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071210180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071210210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071211000000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071211030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071211060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071211090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071211120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071211150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071211180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071211210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071212000000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071212030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071212060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071212090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071212120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071212150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071212180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071212210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071213000000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071213030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071213060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071213090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071213120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071213150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071213180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071213210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071214000000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071214030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071214060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071214090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071214120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071214150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071214180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071214210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071215000000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071215030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071215060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071215090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071215120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071215150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071215180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071215210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071216000000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071216030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071216060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071216090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071216120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071216150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071216180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071216210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071217000000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071217030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071217060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071217090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071217120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071217150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071217180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071217210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071218000000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071218030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071218060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071218090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071218120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071218150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071218180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071218210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071219000000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071219030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071219060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071219090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071219120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071219150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071219180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071219210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071220000000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071220030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071220060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071220090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071220120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071220150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071220180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071220210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071221000000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071221030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071221060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071221090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071221120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071221150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071221180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071221210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071222000000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071222030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071222060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071222090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071222120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071222150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071222180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071222210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071223000000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071223030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071223060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071223090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071223120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071223150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071223180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071223210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071224000000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071224030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071224060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071224090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071224120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071224150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071224180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071224210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071225000000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071225030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071225060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071225090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071225120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071225150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071225180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071225210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071226000000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071226030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071226060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071226090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071226120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071226150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071226180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071226210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071227000000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071227030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071227060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071227090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071227120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071227150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071227180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071227210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071228000000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071228030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071228060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071228090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071228120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071228150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071228180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071228210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071229000000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071229030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071229060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071229090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071229120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071229150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071229180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071229210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071230000000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071230030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071230060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071230090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071230120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071230150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071230180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071230210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071231000000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071231030000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071231060000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071231090000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071231120000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071231150000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071231180000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071231210000z.nc', '/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20080101000000z.nc']
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071201030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071201210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071202150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071203090000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071204030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071204210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071205150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071206090000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071207030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071207210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071208150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071209090000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071208000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071208180000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071209120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071205000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071207060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071201060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071202000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071205180000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071202180000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071204060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071203120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071206120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071209150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071208210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071208030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071205030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071203150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071205210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071202030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071202210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071201090000z.nc/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071207090000z.nc
+
+coarse graincoarse grain
+
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071204090000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071206150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071209180000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071209000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071208060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071203180000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071206000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071203000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071205060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071202060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071204120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071201120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071207120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071206180000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071209210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071209030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071208090000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071203210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071203030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071206030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071206210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071204150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071207150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071205090000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071202090000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071201150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071210000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071209060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071204000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071208120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071203060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071207180000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071207000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071204180000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071205120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071206060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071201180000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071202120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071210030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071210210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071211150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071212090000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071213030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071213210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071214150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071215090000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071216030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071216210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071217150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071218090000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071210060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071211000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071211180000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071212120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071214000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071213060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071214180000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071217000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071216060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071215120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071217180000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071218120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071210090000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071211030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071211210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071212150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071214030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071213090000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071217030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071215150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071214210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071216090000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071218150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071217210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071210120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071211060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071212000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071212180000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071213120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071214060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071215180000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071218180000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071217060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071215000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071216120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071218000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071210150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071212030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071211090000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071212210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071213150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071214090000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071215210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071218210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071216150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071215030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071217090000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071218030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071210180000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071212060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071211120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071213000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071213180000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071214120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071216000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071216180000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071219000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071215060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071218060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071217120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071219030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071219210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071220150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071221090000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071222030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071222210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071223150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071224090000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071225030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071225210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071226150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071227090000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071219060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071220000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071220180000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071221120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071222060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071223000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071223180000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071224120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071226180000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071225060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071227120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071226000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071219090000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071220030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071220210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071221150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071222090000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071223030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071226210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071223210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071224150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071227150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071226030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071225090000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071219120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071220060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071221000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071221180000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071222120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071223060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071227000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071227180000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071224000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071224180000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071225120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071226060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071219150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071220090000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071221030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071221210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071222150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071223090000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071227030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071227210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071224210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071224030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071225150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071226090000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071219180000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071220120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071221060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071222000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071222180000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071223120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071228000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071227060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071225000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071226120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071225180000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071224060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071228030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071228210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071229150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071230090000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071231030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071231210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071228060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071229000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071229180000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071230120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071231060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20080101000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071228090000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071229030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071229210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071230150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071231090000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071228120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071229060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071230180000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071230000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071231120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071228150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071229090000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071230210000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071230030000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071231150000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071228180000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071229120000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071231000000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071230060000z.nc
+coarse grain
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw/lm_c/3h_3D_cloud/2007/lffd20071231180000z.nc
+coarse grain
+##########################################################
+Took 4902.4 sec.
+Detailed process times (cpu time, not real time):
+tot_cpu	100.0	%	4902.4 	sec
+D_cloud	100.0	%	4902.4 	sec
+cmpr finished on Wed Apr 20 16:22:47 CEST 2022
+
+
+
+Batch Job Summary Report (version 21.01.1) for Job "cmpr" (37822570) on daint
+
+Job information (1/2)
+-----------------------------------------------------------------------------------------------------
+             Submit            Eligible               Start                 End    Elapsed Time limit
+------------------- ------------------- ------------------- ------------------- ---------- ----------
+2022-04-20T14:49:17 2022-04-20T14:49:17 2022-04-20T14:51:32 2022-04-20T16:22:48   01:31:16   23:30:00
+-----------------------------------------------------------------------------------------------------
+
+Job information (2/2)
+-------------------------------------------------------------
+    Username      Account    Partition   NNodes        Energy
+------------ ------------ ------------ -------- -------------
+       heimc        pr133       normal        1    754.835 kJ
+

@@ -1,0 +1,67 @@
+copy_GEOS started on Tue Apr  7 20:24:11 CEST 2020:
+   
+
+copy from /scratch/snx3000/heimc/data to /project/pr04/heimc/data
+GEOS_3
+   SA
+       QV
+       QC
+       T
+       W
+       H
+       U
+       V
+       P
+       HSURF
+       MSLP
+       PS
+       T2M
+       U10M
+       V10M
+       LWUTOA
+       SWUTOA
+       SWNDTOA
+       SWDTOA
+       SST
+       SLHFLX
+       SSHFLX
+       TQC
+       TQI
+       TQV
+       CLCL
+       CLCT
+       PP
+       PPCONV
+       PPGRID
+   DYAMOND_2
+       QV
+       QC
+       T
+       W
+       H
+       U
+       V
+       P
+       HSURF
+       MSLP
+       PS
+       T2M
+       U10M
+       V10M
+       LWUTOA
+       SWUTOA
+       SWNDTOA
+       SWDTOA
+       SST
+       SLHFLX
+       SSHFLX
+       TQC
+       TQI
+       TQV
+       CLCL
+       CLCT
+       PP
+       PPCONV
+       PPGRID
+copy_GEOS finished on Wed Apr  8 01:03:08 CEST 2020
+

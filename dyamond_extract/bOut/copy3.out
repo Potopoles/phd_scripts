@@ -1,0 +1,76 @@
+copy started on Thu Mar 19 17:23:07 CET 2020:
+   
+
+copy from /project/pr04/heimc/data to /scratch/snx3000/heimc/data
+ARPEGE-NH_2.5
+   DYAMOND_2
+       QV
+       QC
+       T
+       W
+       H
+       U
+       V
+       P
+       HSURF
+       MSLP
+       PS
+       T2M
+       U10M
+       V10M
+       LWUTOA
+       SWUTOA
+       SWNDTOA
+       SWDTOA
+       SWDSFC
+       SWNDSFC
+       SWDIFFUSFC
+       SST
+       SLHFLX
+       SSHFLX
+       TQC
+       TQI
+       TQV
+       CLCL
+       CLCT
+       PP
+       PPCONV
+       PPGRID
+       PPANVI
+FV3_3.25
+   DYAMOND_2
+       QV
+       QC
+       T
+       W
+       H
+       U
+       V
+       P
+       HSURF
+       MSLP
+       PS
+       T2M
+       U10M
+       V10M
+       LWUTOA
+       SWUTOA
+       SWNDTOA
+       SWDTOA
+       SWDSFC
+       SWNDSFC
+       SWDIFFUSFC
+       SST
+       SLHFLX
+       SSHFLX
+       TQC
+       TQI
+       TQV
+       CLCL
+       CLCT
+       PP
+       PPCONV
+       PPGRID
+       PPANVI
+copy finished on Thu Mar 19 23:26:44 CET 2020
+

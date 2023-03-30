@@ -1,0 +1,31 @@
+cp sim started on Fri Jan 13 10:33:37 CET 2023:
+   
+
+10120100
+lrfd20110101000000o
+lbfd20101231210000.nc
+2010
+SA_3_pgw3
+lm_c
+/project/pr133/heimc/data/cosmo_out/SA_3_pgw3
+############### LM C ###############
+##### copy restart
+
+##### copy constant fields
+##### copy debug
+##### copy output fields
+    1h_2D_cg
+       copy to compression
+    3h_3D
+       copy to compression
+    3h_3D_cloud
+       copy to compression
+    1h_2D
+       copy to compression
+    30min_water
+       copy to compression
+    24h
+       copy to compression
+####################################
+cp sim finished on Fri Jan 13 12:56:58 CET 2023
+

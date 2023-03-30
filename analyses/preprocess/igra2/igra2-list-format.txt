@@ -1,0 +1,109 @@
+Format Description of IGRA 2 Station, Country, and U.S. State Code Lists
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+I. FORMAT OF "igra2-station-list.txt"
+
+------------------------------
+Variable   Columns   Type
+------------------------------
+ID            1-11   Character
+LATITUDE     13-20   Real
+LONGITUDE    22-30   Real
+ELEVATION    32-37   Real
+STATE        39-40   Character
+NAME         42-71   Character
+FSTYEAR      73-76   Integer
+LSTYEAR      78-81   Integer
+NOBS         83-88   Integer
+------------------------------
+
+These variables have the following definitions:
+
+ID         is the station identification code.  Note that the first two
+           characters denote the FIPS  country code, the third character 
+           is a network code that identifies the station numbering system 
+           used, and the remaining eight characters contain the actual 
+           station ID. 
+
+           See "igra2-country-list.txt" for a complete list of country codes.
+
+           The network code  has the following five values:
+
+           I = ICAO callsign (last four characters of the IGRA 2 ID)
+           M = WMO identification number (last five characters of the
+               IGRA 2 ID)
+           V = Volunteer Observing Ship callsign (last four
+               to six characters of the IGRA 2 ID)
+           W = Weather Bureau, Army, Navy (WBAN) identification number 
+               (last five characters of the IGRA 2 ID)
+           X = Specially constructed station identifier ("UA" followed by 
+               an additional six alphanumeric characters)
+
+LATITUDE   is the latitude of the station (in decimal degrees,
+           mobile = -98.8888).
+
+LONGITUDE  is the longitude of the station (in decimal degrees,
+           mobile = -998.8888).
+
+ELEVATION  is the elevation of the station (in meters, missing = -999.9, 
+           mobile = -998.8).
+
+
+STATE      is the U.S. postal code for the state (for stations in the United
+           States, Puerto Rico, and Virgin Islands only).
+
+
+NAME       is the name of the station.
+
+FSTYEAR    is the first year of record in the sounding data.
+
+LSTYEAR    is the last year of record in the sounding data.
+
+NOBS   	   is the number of soundings in the sounding data record.
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+NOTE: Derived parameters and monthly means are available for a subset of the
+stations listed and may not be available for the full period of record of any 
+one station.
+
+
+II. FORMAT OF "igra2-country-list.txt"
+
+------------------------------
+Variable   Columns   Type
+------------------------------
+CODE         1- 2    Character
+NAME         4-43    Character
+------------------------------
+
+These variables have the following definitions:
+
+CODE       is the FIPS country code of the country where the station is 
+           located (from FIPS Publication 10-4 at 
+    	   www.cia.gov/cia/publications/factbook/appendix/appendix-d.html).
+
+NAME       is the name of the country.
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+III. FORMAT OF "igra2-us-states.txt"
+
+------------------------------
+Variable   Columns   Type
+------------------------------
+CODE         1- 2    Character
+NAME         4-50    Character
+------------------------------
+
+These variables have the following definitions:
+
+CODE       is the POSTAL code of the U.S. state where the station is 
+           located.
+
+NAME       is the name of the state (or territory).
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+

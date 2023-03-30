@@ -1,0 +1,118 @@
+MPAS_pp started on Tue Apr 28 14:13:08 CEST 2020:
+   
+
+running MPAS_3.75 with 6 parallel jobs
+run for variables:
+['T']
+	 T
+		#### Apply LOSSY compression to compr_out_daily.
+		 find min&max
+30.5 % of memory used.
+28.5 % of memory used.
+27.4 % of memory used.
+25.6 % of memory used.
+22.8 % of memory used.
+20.6 % of memory used.
+31.3 % of memory used.
+29.3 % of memory used.
+28.4 % of memory used.
+28.3 % of memory used.
+26.6 % of memory used.
+24.5 % of memory used.
+32.1 % of memory used.
+30.1 % of memory used.
+28.2 % of memory used.
+26.2 % of memory used.
+25.6 % of memory used.
+25.6 % of memory used.
+32.9 % of memory used.
+31.1 % of memory used.
+29.0 % of memory used.
+27.0 % of memory used.
+25.0 % of memory used.
+23.1 % of memory used.
+33.4 % of memory used.
+31.8 % of memory used.
+29.8 % of memory used.
+27.9 % of memory used.
+27.8 % of memory used.
+24.0 % of memory used.
+34.4 % of memory used.
+32.6 % of memory used.
+30.6 % of memory used.
+28.7 % of memory used.
+26.8 % of memory used.
+24.9 % of memory used.
+26.9 % of memory used.
+25.0 % of memory used.
+26.9 % of memory used.
+25.2 % of memory used.
+			max 312.25921630859375
+			min 246.6112823486328
+		 compress
+23.2 % of memory used.
+23.2 % of memory used.23.2 % of memory used.
+
+23.2 % of memory used.
+23.2 % of memory used.
+23.2 % of memory used.
+47.8 % of memory used.
+41.5 % of memory used.
+41.4 % of memory used.
+34.9 % of memory used.
+34.9 % of memory used.
+34.9 % of memory used.
+49.4 % of memory used.
+46.3 % of memory used.
+44.1 % of memory used.
+41.4 % of memory used.
+35.8 % of memory used.
+36.0 % of memory used.
+49.7 % of memory used.
+46.3 % of memory used.
+44.0 % of memory used.
+40.3 % of memory used.
+40.4 % of memory used.
+39.3 % of memory used.
+48.4 % of memory used.
+46.0 % of memory used.
+43.6 % of memory used.
+46.2 % of memory used.
+43.8 % of memory used.
+43.1 % of memory used.
+49.7 % of memory used.
+45.4 % of memory used.
+43.1 % of memory used.
+44.4 % of memory used.
+42.9 % of memory used.
+41.7 % of memory used.
+48.1 % of memory used.
+43.5 % of memory used.
+36.9 % of memory used.
+33.9 % of memory used.
+##########################################################
+Took 10.11 min.
+Detailed process times (cpu time, not real time):
+tot_cpu	100.0	%	10.11 	min
+minmax	17.0	%	1.74 	min
+ompress	83.0	%	8.36 	min
+MPAS_pp finished on Tue Apr 28 14:23:23 CEST 2020
+
+ 
+Batch Job Summary Report for Job "MPAS_pp" (22250463) on daint
+-----------------------------------------------------------------------------------------------------
+             Submit            Eligible               Start                 End    Elapsed  Timelimit 
+------------------- ------------------- ------------------- ------------------- ---------- ---------- 
+2020-04-28T14:10:39 2020-04-28T14:10:39 2020-04-28T14:12:57 2020-04-28T14:23:24   00:10:27   00:30:00 
+-----------------------------------------------------------------------------------------------------
+Username    Account     Partition   NNodes   Energy
+----------  ----------  ----------  ------  --------------
+heimc       pr94        debug            1   68.64K joules
+ 
+This job did not utilize any GPUs
+ 
+----------------------------------------------------------
+Scratch File System        Files       Quota
+--------------------  ----------  ----------
+/scratch/snx3000          117828     1000000
+ 

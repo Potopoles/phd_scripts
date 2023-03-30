@@ -1,0 +1,8 @@
+#!/bin/bash
+export GRIB_DEFINITION_PATH=/mnt/lustre01/sw/rhel6-x64/eccodes/definitions
+dirin=/work/ka1081/DYAMOND/ICON-2.5km/
+
+for d in 11; do
+ cdo -P 16 -f nc -O -fldmean -sellonlatbox,-50,-30,0,20 -setgrid,/work/bk1040/experiments/input/2.5km/icon_grid_0017_R02B10_G.nc ${dirin}nwp_R2B10_lkm1007_atm_3d_tot_qc_dia_ml_201608${d}T000000Z.grb test.nc
+done
+

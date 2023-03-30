@@ -1,0 +1,204 @@
+GEOS_T2MPS started on Tue Apr  7 16:37:40 CEST 2020:
+   
+
+running GEOS_3 with 12 parallel jobs
+run for variables:
+['T2M', 'PS', 'MSLP']
+	 T2M
+		#### Apply LOSSY compression to compr_out_daily.
+		 find min&max
+21.9 % of memory used.
+20.3 % of memory used.
+19.2 % of memory used.
+18.5 % of memory used.
+18.1 % of memory used.
+16.6 % of memory used.
+16.2 % of memory used.
+15.4 % of memory used.
+15.3 % of memory used.
+14.2 % of memory used.
+13.6 % of memory used.
+13.0 % of memory used.
+22.2 % of memory used.
+21.0 % of memory used.
+20.0 % of memory used.
+19.1 % of memory used.
+19.1 % of memory used.
+18.3 % of memory used.
+17.0 % of memory used.
+16.5 % of memory used.
+16.0 % of memory used.
+15.0 % of memory used.
+14.3 % of memory used.
+13.8 % of memory used.
+21.9 % of memory used.
+20.9 % of memory used.
+20.9 % of memory used.
+19.7 % of memory used.
+19.6 % of memory used.
+18.8 % of memory used.
+17.6 % of memory used.
+17.4 % of memory used.
+16.5 % of memory used.
+15.7 % of memory used.
+14.9 % of memory used.
+14.2 % of memory used.
+17.3 % of memory used.
+15.3 % of memory used.
+14.7 % of memory used.
+14.5 % of memory used.
+			max 315.67364501953125
+			min 274.0994567871094
+		 compress
+13.5 % of memory used.
+13.5 % of memory used.
+13.5 % of memory used.
+13.5 % of memory used.
+13.5 % of memory used.
+13.5 % of memory used.
+13.5 % of memory used.13.5 % of memory used.
+
+13.5 % of memory used.
+13.5 % of memory used.
+13.5 % of memory used.13.5 % of memory used.
+
+21.6 % of memory used.
+20.0 % of memory used.
+19.8 % of memory used.
+19.5 % of memory used.
+19.5 % of memory used.
+19.5 % of memory used.
+19.5 % of memory used.
+19.3 % of memory used.
+19.3 % of memory used.
+19.3 % of memory used.
+19.3 % of memory used.
+19.2 % of memory used.
+20.7 % of memory used.
+20.4 % of memory used.
+20.4 % of memory used.
+20.4 % of memory used.
+20.1 % of memory used.
+20.0 % of memory used.
+19.9 % of memory used.
+19.7 % of memory used.
+19.6 % of memory used.
+19.6 % of memory used.
+19.7 % of memory used.
+19.8 % of memory used.
+21.0 % of memory used.
+20.7 % of memory used.
+20.5 % of memory used.
+20.3 % of memory used.
+	 PS
+		#### Apply LOSSY compression to compr_out_daily.
+		 find min&max
+36.0 % of memory used.
+33.5 % of memory used.
+32.4 % of memory used.
+31.9 % of memory used.
+30.6 % of memory used.
+30.1 % of memory used.
+29.4 % of memory used.
+29.1 % of memory used.
+29.1 % of memory used.
+27.8 % of memory used.
+26.9 % of memory used.
+26.8 % of memory used.
+34.6 % of memory used.
+34.3 % of memory used.
+34.3 % of memory used.
+34.0 % of memory used.
+33.1 % of memory used.
+32.9 % of memory used.
+29.6 % of memory used.
+29.0 % of memory used.29.0 % of memory used.
+
+28.3 % of memory used.
+27.2 % of memory used.
+26.8 % of memory used.
+35.3 % of memory used.
+35.0 % of memory used.
+33.3 % of memory used.
+32.6 % of memory used.
+32.2 % of memory used.
+31.7 % of memory used.
+30.7 % of memory used.
+30.7 % of memory used.
+29.1 % of memory used.
+28.0 % of memory used.
+27.5 % of memory used.
+26.9 % of memory used.
+28.9 % of memory used.
+29.0 % of memory used.
+27.4 % of memory used.
+27.3 % of memory used.
+			max 103418.390625
+			min 76944.140625
+		 compress
+26.3 % of memory used.
+26.3 % of memory used.
+26.3 % of memory used.
+26.3 % of memory used.26.3 % of memory used.
+
+26.3 % of memory used.
+26.3 % of memory used.
+26.3 % of memory used.
+26.3 % of memory used.
+26.3 % of memory used.
+26.3 % of memory used.26.3 % of memory used.
+
+32.5 % of memory used.
+32.5 % of memory used.
+32.5 % of memory used.
+32.5 % of memory used.
+32.5 % of memory used.
+32.5 % of memory used.
+32.5 % of memory used.
+32.5 % of memory used.
+32.5 % of memory used.
+32.5 % of memory used.
+32.5 % of memory used.
+32.5 % of memory used.
+35.5 % of memory used.
+35.4 % of memory used.
+34.3 % of memory used.
+34.1 % of memory used.
+34.1 % of memory used.
+34.0 % of memory used.
+34.0 % of memory used.
+33.8 % of memory used.
+34.0 % of memory used.
+34.1 % of memory used.
+35.2 % of memory used.
+36.3 % of memory used.
+36.3 % of memory used.
+35.8 % of memory used.
+35.0 % of memory used.
+34.9 % of memory used.
+##########################################################
+Took 6.07 min.
+Detailed process times (cpu time, not real time):
+tot_cpu	100.0	%	6.07 	min
+minmax	12.0	%	0.7 	min
+ompress	88.0	%	5.37 	min
+GEOS_T2MPS finished on Tue Apr  7 16:43:51 CEST 2020
+
+ 
+Batch Job Summary Report for Job "GEOS_T2MPS" (21767228) on daint
+-----------------------------------------------------------------------------------------------------
+             Submit            Eligible               Start                 End    Elapsed  Timelimit 
+------------------- ------------------- ------------------- ------------------- ---------- ---------- 
+2020-04-07T16:34:07 2020-04-07T16:34:07 2020-04-07T16:37:27 2020-04-07T16:43:51   00:06:24   01:30:00 
+-----------------------------------------------------------------------------------------------------
+Username    Account     Partition   NNodes   Energy
+----------  ----------  ----------  ------  --------------
+heimc       pr94        normal           1   50.78K joules
+ 
+This job did not utilize any GPUs
+ 
+----------------------------------------------------------
+Scratch File System        Files       Quota
+--------------------  ----------  ----------
+/scratch/snx3000          522696     1000000
+ 

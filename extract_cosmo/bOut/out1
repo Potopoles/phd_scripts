@@ -1,0 +1,118 @@
+ext 45544628 started on Wed Mar 22 13:26:29 CET 2023:
+   
+
+None
+2009-01-01 00:00:00
+2009-12-31 00:00:00
+Read user input:
+Using 12 task(s).
+Running case SA_3_pgw3: simulation COSMO 3.3 sim name SA_3_pgw3
+Variables: ['LWNDSFC', 'LWDSFC', 'CLWNDSFC']
+#############################################
+#####################################################
+copy variables
+	 ############## var LWNDSFC ##################
+compute native
+		 WARN: no file for var LWNDSFC and ts 20090101-00:00
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c/1h_2D_cg/2009/lffd200901010000*.nc
+		 WARN: no file for var LWNDSFC and ts 20100101-00:00
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c/1h_2D_cg/2010/lffd201001010000*.nc
+compute daily
+Apply LOSSY compression.
+			max 17.69953992080688
+			min -414.6763470458984
+	 ############## var LWDSFC ##################
+compute native
+		 WARN: no file for var LWDSFC and ts 20090101-00:00
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c/1h_2D_cg/2009/lffd200901010000*.nc
+		 WARN: no file for var LWDSFC and ts 20100101-00:00
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c/1h_2D_cg/2010/lffd201001010000*.nc
+compute daily
+Apply LOSSY compression.
+			max 601.343540649414
+			min 152.04133369445802
+	 ############## var CLWNDSFC ##################
+compute native
+		 WARN: no file for var CLWNDSFC and ts 20090101-00:00
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c/1h_2D_cg/2009/lffd200901010000*.nc
+		 WARN: no file for var CLWNDSFC and ts 20100101-00:00
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c/1h_2D_cg/2010/lffd201001010000*.nc
+compute daily
+Apply LOSSY compression.
+			max -5.80544753408432
+			min -414.74718807983396
+##########################################################
+Took 65.16 min.
+Detailed process times (cpu time, not real time):
+tot_cpu	100.0	%	65.16 	min
+ncrcat	67.0	%	43.85 	min
+merge	19.0	%	12.65 	min
+minmax	2.0	%	1.29 	min
+compress	11.0	%	7.36 	min
+######################################
+Sucessfully finished case SA_3_pgw3: simulation COSMO 3.3 sim name SA_3_pgw3
+######################################
+None
+2009-01-01 00:00:00
+2009-12-31 00:00:00
+Read user input:
+Using 12 task(s).
+Running case SA_3_ctrl: simulation COSMO 3.3 sim name SA_3_ctrl
+Variables: ['LWNDSFC', 'LWDSFC', 'CLWNDSFC']
+#############################################
+#####################################################
+copy variables
+	 ############## var LWNDSFC ##################
+compute native
+		 WARN: no file for var LWNDSFC and ts 20100101-00:00
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_ctrl/lm_c/1h_2D_cg/2010/lffd201001010000*.nc
+compute daily
+Apply LOSSY compression.
+			max 17.730074651718137
+			min -419.3013592834472
+	 ############## var LWDSFC ##################
+compute native
+		 WARN: no file for var LWDSFC and ts 20100101-00:00
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_ctrl/lm_c/1h_2D_cg/2010/lffd201001010000*.nc
+compute daily
+Apply LOSSY compression.
+			max 558.4074589843749
+			min 155.049873046875
+	 ############## var CLWNDSFC ##################
+compute native
+		 WARN: no file for var CLWNDSFC and ts 20100101-00:00
+/scratch/snx3000/heimc/data/compr_cosmo/SA_3_ctrl/lm_c/1h_2D_cg/2010/lffd201001010000*.nc
+compute daily
+Apply LOSSY compression.
+			max -0.11478620941936969
+			min -419.3031921691894
+##########################################################
+Took 70.57 min.
+Detailed process times (cpu time, not real time):
+tot_cpu	100.0	%	70.56 	min
+ncrcat	57.0	%	40.14 	min
+merge	21.0	%	15.15 	min
+minmax	3.0	%	2.45 	min
+compress	18.0	%	12.82 	min
+######################################
+Sucessfully finished case SA_3_ctrl: simulation COSMO 3.3 sim name SA_3_ctrl
+######################################
+ext 45544628 finished on Wed Mar 22 15:43:41 CET 2023
+
+
+
+Batch Job Summary Report (version 21.01.1) for Job "ext" (45544628) on daint
+
+Job information (1/2)
+-----------------------------------------------------------------------------------------------------
+             Submit            Eligible               Start                 End    Elapsed Time limit
+------------------- ------------------- ------------------- ------------------- ---------- ----------
+2023-03-22T11:18:06 2023-03-22T11:18:07 2023-03-22T13:26:07 2023-03-22T15:43:42   02:17:35   23:30:00
+-----------------------------------------------------------------------------------------------------
+
+Job information (2/2)
+-------------------------------------------------------------
+    Username      Account    Partition   NNodes        Energy
+------------ ------------ ------------ -------- -------------
+       heimc        pr133       normal        1   1065.689 kJ
+

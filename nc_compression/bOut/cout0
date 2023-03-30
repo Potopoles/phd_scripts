@@ -1,0 +1,48 @@
+cp cmpressed started on Mon Jan 16 08:23:47 CET 2023:
+   
+
+SA_3_pgw3/lm_c/
+  2006
+     1h_2D/2006
+     1h_2D_cg/2006
+     30min_water/2006
+     3h_3D/2006
+     3h_3D_cloud/2006
+     24h/2006
+  2007
+     1h_2D/2007
+     1h_2D_cg/2007
+     30min_water/2007
+     3h_3D/2007
+     3h_3D_cloud/2007
+     24h/2007
+  2008
+     1h_2D/2008
+     1h_2D_cg/2008
+     30min_water/2008
+     3h_3D/2008
+     3h_3D_cloud/2008
+     24h/2008
+  2009
+     1h_2D/2009
+     1h_2D_cg/2009
+     30min_water/2009
+     3h_3D/2009
+     3h_3D_cloud/2009
+     24h/2009
+  2010
+     1h_2D/2010
+skipping non-regular file "lffd20100101000000.nc"
+     1h_2D_cg/2010
+skipping non-regular file "lffd20100101000000.nc"
+     30min_water/2010
+skipping non-regular file "lffd20100101000000.nc"
+     3h_3D/2010
+skipping non-regular file "lffd20100101000000z.nc"
+     3h_3D_cloud/2010
+skipping non-regular file "lffd20100101000000z.nc"
+     24h/2010
+skipping non-regular file "lffd20100101000000.nc"
+
+cp cmpressed finished on Mon Jan 16 12:19:24 CET 2023
+

@@ -1,0 +1,15 @@
+TABS
+######################################################
+:tabedit		open file named ARG as tab
+:tabfind		browse through files to open as tab
+gt			go to next tab
+gT			go to previous Tab
+:mks! ARG		saves current session in file name ARG
+
+
+
+IN OUT
+######################################################
+sudo apt-get install vim-gtk		Download this in order to paste from clipboard
+
+

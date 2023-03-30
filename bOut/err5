@@ -1,0 +1,7 @@
+/var/spool/slurmd/job32044861/slurm_script: line 13: ../load_modules_daint.sh: No such file or directory
+/usr/bin/tar: Removing leading `/' from member names
+slurmstepd: error: *** STEP 32044861.0 ON nid04973 CANCELLED AT 2021-06-22T12:56:20 ***
+slurmstepd: error: *** JOB 32044861 ON nid04973 CANCELLED AT 2021-06-22T12:56:20 ***
+srun: got SIGCONT
+srun: Job step aborted: Waiting up to 92 seconds for job step to finish.
+srun: forcing job termination

@@ -1,0 +1,44 @@
+IFS_9_EXTR started on Sat Mar 21 16:10:07 CET 2020:
+   
+
+running IFS_9 with 6 parallel jobs
+	 CLCL
+	 	#### merge time
+	 	#### del 15/45 min files
+	 	#### lonlatbox
+		#### Apply CONSERVING compression to compr_inp_daily.
+		#### Apply LOSSY compression to compr_out_daily.
+			max 1.0
+			min 0.0
+##########################################################
+Took 1.37 min.
+Detailed process times (cpu time, not real time):
+tot_cpu	100.0	%	0.9 	min
+merge	48.0	%	0.43 	min
+del15	0.0	%	0.0 	min
+selbox	13.0	%	0.12 	min
+minmax	1.0	%	0.01 	min
+ompress	37.0	%	0.33 	min
+caught signal <cdo.Cdo object at 0x2aaabeaf4fd0> 15 <frame at 0x5555568d2868, file '/project/pr04/heimc/miniconda3/lib/python3.7/multiprocessing/process.py', line 317, code _bootstrap>
+caught signal <cdo.Cdo object at 0x2aaabeaf4fd0> 15 <frame at 0x2aaabf1561f0, file '/project/pr04/heimc/miniconda3/lib/python3.7/threading.py', line 1272, code _shutdown>
+RUNNING FOR FV3_3.25
+################# U ##############
+################# V ##############
+ 
+Batch Job Summary Report for Job "IFS_9_EXTR" (21307605) on daint
+-----------------------------------------------------------------------------------------------------
+             Submit            Eligible               Start                 End    Elapsed  Timelimit 
+------------------- ------------------- ------------------- ------------------- ---------- ---------- 
+2020-03-21T13:19:56 2020-03-21T13:19:56 2020-03-21T16:08:47 2020-03-21T16:59:52   00:51:05   23:00:00 
+-----------------------------------------------------------------------------------------------------
+Username    Account     Partition   NNodes   Energy
+----------  ----------  ----------  ------  --------------
+heimc       pr04        normal           1  287.67K joules
+ 
+This job did not utilize any GPUs
+ 
+----------------------------------------------------------
+Scratch File System        Files       Quota
+--------------------  ----------  ----------
+/scratch/snx3000          580245     1000000
+ 

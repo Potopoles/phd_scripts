@@ -1,0 +1,43 @@
+#!/bin/bash
+#SBATCH --job-name="mm-1X"
+#SBATCH --account=pr94
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --time=02:30:00
+#SBATCH --partition=normal
+#SBATCH --output=/users/lhentge/postproc_scripts/scripts_maps/maps_formovies/output/slurm-OUT_mm_DD1X.log
+#SBATCH --error=/users/lhentge/postproc_scripts/scripts_maps/maps_formovies/output/slurm-ERR_mm_DD1X.log
+#SBATCH --exclusive
+##SBATCH --mem=32g
+#SBATCH --constraint=gpu
+##SBATCH --dependency=afterok:000000 #you can make this job dependent
+
+
+ulimit -a
+
+#path=/users/lhentge/run_scripts/forjobs/extract_data/
+#script=extract_DATA_NEW.sh
+
+
+echo -e "==============================================================================="
+echo -e "$SLURM_JOB_NAME started on $(date)."
+#echo -e "Extract field from raw data."
+#echo -e "atlantictests Atlantic_ppcc_EXPL 2km 2004 T."
+echo -e "==============================================================================="
+
+
+#var=T
+#resol=2km
+
+
+
+#srun $path$script atlantictests Atlantic_ppcc_EXPL ${resol} 2004 T 02 0131 0023 6h_3D
+srun run_maps_movies_DD1X.sh
+
+
+
+echo -e "==============================================================="
+echo -e "$SLURM_JOB_NAME finished on $(date)."
+echo -e "==============================================================="
+
+

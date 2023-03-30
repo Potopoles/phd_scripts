@@ -1,0 +1,178 @@
+ext 44116474 started on Mon Jan  9 16:40:42 CET 2023:
+   
+
+10
+2009-10-01 00:00:00
+2009-10-31 00:00:00
+Read user input:
+Using 6 task(s).
+Running case SA_3_pgw3: simulation COSMO 3.3 sim name SA_3_pgw3
+Variables: ['LWUTOA', 'CLWUTOA', 'SWNDTOA', 'SWDTOA', 'CSWNDTOA', 'TSURF', 'PP', 'QC', 'QI', 'T', 'QV', 'U', 'V', 'W', 'P', 'CAPE', 'CLCL', 'CLCM', 'CLCH', 'TQC', 'TQI', 'TQV', 'WSOIL', 'U10M', 'V10M', 'T2M', 'SLHFLX', 'SSHFLX', 'CIN', 'CLCT', 'TQR', 'TQG', 'TQS', 'TSOIL']
+#############################################
+#####################################################
+copy variables
+	 ############## var LWUTOA ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var CLWUTOA ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var SWNDTOA ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var SWDTOA ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var CSWNDTOA ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var TSURF ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var PP ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var QC ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var QI ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var T ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var QV ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var U ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var V ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var W ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var P ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var CAPE ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var CLCL ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var CLCM ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var CLCH ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var TQC ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var TQI ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var TQV ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var WSOIL ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var U10M ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var V10M ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var T2M ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var SLHFLX ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var SSHFLX ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var CIN ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var CLCT ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var TQR ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var TQG ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var TQS ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+	 ############## var TSOIL ##################
+compute native
+compute daily
+Apply CONSERVING compression.
+##########################################################
+Took 208.31 min.
+Detailed process times (cpu time, not real time):
+tot_cpu	100.0	%	400.26 	min
+ncrcat	16.0	%	62.86 	min
+merge	25.0	%	99.16 	min
+compr	60.0	%	238.24 	min
+######################################
+Sucessfully finished case SA_3_pgw3: simulation COSMO 3.3 sim name SA_3_pgw3
+######################################
+ext 44116474 finished on Mon Jan  9 20:09:14 CET 2023
+
+
+
+Batch Job Summary Report (version 21.01.1) for Job "ext" (44116474) on daint
+
+Job information (1/2)
+-----------------------------------------------------------------------------------------------------
+             Submit            Eligible               Start                 End    Elapsed Time limit
+------------------- ------------------- ------------------- ------------------- ---------- ----------
+2023-01-09T16:39:19 2023-01-09T16:39:19 2023-01-09T16:40:14 2023-01-09T20:09:14   03:29:00   23:30:00
+-----------------------------------------------------------------------------------------------------
+
+Job information (2/2)
+-------------------------------------------------------------
+    Username      Account    Partition   NNodes        Energy
+------------ ------------ ------------ -------- -------------
+       heimc        pr133       normal        1   1508.409 kJ
+

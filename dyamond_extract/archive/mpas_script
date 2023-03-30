@@ -1,0 +1,13 @@
+#!/bin/bash
+#export GRIB_DEFINITION_PATH=/mnt/lustre01/sw/rhel6-x64/eccodes/definitions
+dirin=/work/ka1081/DYAMOND/MPAS-7.5km/
+
+for d in 11; do
+ cdo setattribute,*@axis="txz" -selname,qc ${dirin}history.2016-08-11_00.00.00.nc temp.nc
+
+ #cdo -P 16 -f nc4 -O -fldmean -sellonlatbox,-50,-30,0,20 \
+ #       -setgrid,mpas:/work/ka1081/2019_06_Hackathon_Mainz/falko/MPAS_7.5km_grid.nc temp.nc test.nc
+ cdo -P 16 -f nc4 -O -sellonlatbox,-50,-30,0,20 \
+        -setgrid,mpas:/work/ka1081/2019_06_Hackathon_Mainz/falko/MPAS_7.5km_grid.nc temp.nc test.nc
+done
+

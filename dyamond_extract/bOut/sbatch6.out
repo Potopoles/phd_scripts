@@ -1,0 +1,118 @@
+GEOS_3 started on Tue Apr  7 13:13:57 CEST 2020:
+   
+
+running GEOS_3 with 6 parallel jobs
+run for variables:
+['V']
+	 V
+		#### Apply LOSSY compression to compr_out_daily.
+		 find min&max
+54.5 % of memory used.
+52.6 % of memory used.
+50.5 % of memory used.
+39.2 % of memory used.
+39.1 % of memory used.
+31.6 % of memory used.
+52.9 % of memory used.
+49.1 % of memory used.
+45.2 % of memory used.
+42.0 % of memory used.
+38.2 % of memory used.
+34.4 % of memory used.
+52.8 % of memory used.
+49.3 % of memory used.
+48.9 % of memory used.
+42.7 % of memory used.
+38.9 % of memory used.
+35.1 % of memory used.
+55.4 % of memory used.
+48.8 % of memory used.
+45.1 % of memory used.
+45.4 % of memory used.
+39.5 % of memory used.
+35.7 % of memory used.
+59.5 % of memory used.
+48.8 % of memory used.
+47.5 % of memory used.
+48.7 % of memory used.
+40.2 % of memory used.
+36.4 % of memory used.
+55.3 % of memory used.
+48.4 % of memory used.
+44.6 % of memory used.
+45.1 % of memory used.
+42.2 % of memory used.
+36.2 % of memory used.
+42.2 % of memory used.
+35.2 % of memory used.
+38.7 % of memory used.
+35.3 % of memory used.
+			max 42.83118438720703
+			min -37.887054443359375
+		 compress
+31.5 % of memory used.
+31.5 % of memory used.
+31.5 % of memory used.
+31.5 % of memory used.
+31.5 % of memory used.
+31.5 % of memory used.
+49.1 % of memory used.
+46.4 % of memory used.
+46.2 % of memory used.
+47.5 % of memory used.
+47.7 % of memory used.
+47.9 % of memory used.
+56.6 % of memory used.
+54.4 % of memory used.
+55.2 % of memory used.
+49.6 % of memory used.
+50.1 % of memory used.
+50.9 % of memory used.
+58.8 % of memory used.
+54.6 % of memory used.
+55.4 % of memory used.
+58.5 % of memory used.
+57.2 % of memory used.
+58.2 % of memory used.
+61.9 % of memory used.
+54.7 % of memory used.
+55.2 % of memory used.
+56.7 % of memory used.
+54.1 % of memory used.
+58.1 % of memory used.
+60.0 % of memory used.
+56.7 % of memory used.
+57.1 % of memory used.
+56.4 % of memory used.
+59.6 % of memory used.
+57.8 % of memory used.
+55.9 % of memory used.
+56.4 % of memory used.
+46.4 % of memory used.
+46.4 % of memory used.
+##########################################################
+Took 52.31 min.
+Detailed process times (cpu time, not real time):
+tot_cpu	100.0	%	52.31 	min
+minmax	11.0	%	5.99 	min
+ompress	89.0	%	46.32 	min
+GEOS_3 finished on Tue Apr  7 14:06:27 CEST 2020
+
+ 
+Batch Job Summary Report for Job "GEOS_3" (21763088) on daint
+-----------------------------------------------------------------------------------------------------
+             Submit            Eligible               Start                 End    Elapsed  Timelimit 
+------------------- ------------------- ------------------- ------------------- ---------- ---------- 
+2020-04-07T13:10:09 2020-04-07T13:10:09 2020-04-07T13:13:40 2020-04-07T14:06:29   00:52:49   01:30:00 
+-----------------------------------------------------------------------------------------------------
+Username    Account     Partition   NNodes   Energy
+----------  ----------  ----------  ------  --------------
+heimc       pr94        normal           1        0 joules
+ 
+This job did not utilize any GPUs
+ 
+----------------------------------------------------------
+Scratch File System        Files       Quota
+--------------------  ----------  ----------
+/scratch/snx3000          522613     1000000
+ 

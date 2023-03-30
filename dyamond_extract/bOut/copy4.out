@@ -1,0 +1,73 @@
+copy started on Sun Mar  1 17:38:45 CET 2020:
+   
+
+FV3_3.25
+   DYAMOND_2
+       QV
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/QV_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/QV
+       QC
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/QC_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/QC
+       T
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/T_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/T
+       W
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/W_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/W
+       H
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/H_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/H
+       U
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/U_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/U
+       V
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/V_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/V
+       P
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/P_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/P
+       HSURF
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/HSURF_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/HSURF
+       MSLP
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/MSLP_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/MSLP
+       PS
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/PS_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/PS
+       T2M
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/T2M_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/T2M
+       U10M
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/U10M_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/U10M
+       V10M
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/V10M_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/V10M
+       LWUTOA
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/LWUTOA_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/LWUTOA
+       SWUTOA
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/SWUTOA_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/SWUTOA
+       SWNDTOA
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/SWNDTOA_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/SWNDTOA
+       SWDTOA
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/SWDTOA_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/SWDTOA
+       SWDSFC
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/SWDSFC_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/SWDSFC
+       SWNDSFC
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/SWNDSFC_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/SWNDSFC
+       SWDIFFUSFC
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/SWDIFFUSFC_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/SWDIFFUSFC
+       SST
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/SST_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/SST
+       SLHFLX
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/SLHFLX_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/SLHFLX
+       SSHFLX
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/SSHFLX_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/SSHFLX
+       TQC
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/TQC_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/TQC
+       TQI
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/TQI_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/TQI
+       TQV
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/TQV_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/TQV
+       CLCL
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/CLCL_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/CLCL
+       CLCT
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/CLCT_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/CLCT
+       PP
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/PP_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/PP
+       PPCONV
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/PPCONV_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/PPCONV
+       PPGRID
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/PPGRID_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/PPGRID
+       PPANVI
+copy b380876@mistral.dkrz.de:/work/ka1081/2019_06_Hackathon_Mainz/christoph_heim/newdata/FV3_3.25/tmp/PPANVI_*.nc to /project/pr04/heimc/data/simulations/FV3_3.25/DYAMOND_2/native/PPANVI
+copy finished on Sun Mar  1 21:33:50 CET 2020
+

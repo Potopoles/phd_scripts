@@ -1,0 +1,48 @@
+rsync: change_dir "/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c//1h_2D/2006" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1189) [sender=3.1.3]
+rsync: change_dir "/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c//1h_2D_cg/2006" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1189) [sender=3.1.3]
+rsync: change_dir "/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c//30min_water/2006" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1189) [sender=3.1.3]
+rsync: change_dir "/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c//3h_3D/2006" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1189) [sender=3.1.3]
+rsync: change_dir "/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c//3h_3D_cloud/2006" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1189) [sender=3.1.3]
+rsync: change_dir "/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c//24h/2006" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1189) [sender=3.1.3]
+rsync: change_dir "/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c//1h_2D/2007" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1189) [sender=3.1.3]
+rsync: change_dir "/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c//1h_2D_cg/2007" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1189) [sender=3.1.3]
+rsync: change_dir "/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c//30min_water/2007" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1189) [sender=3.1.3]
+rsync: change_dir "/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c//3h_3D/2007" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1189) [sender=3.1.3]
+rsync: change_dir "/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c//3h_3D_cloud/2007" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1189) [sender=3.1.3]
+rsync: change_dir "/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c//24h/2007" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1189) [sender=3.1.3]
+rsync: change_dir "/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c//1h_2D/2008" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1189) [sender=3.1.3]
+rsync: change_dir "/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c//1h_2D_cg/2008" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1189) [sender=3.1.3]
+rsync: change_dir "/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c//30min_water/2008" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1189) [sender=3.1.3]
+rsync: change_dir "/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c//3h_3D/2008" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1189) [sender=3.1.3]
+rsync: change_dir "/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c//3h_3D_cloud/2008" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1189) [sender=3.1.3]
+rsync: change_dir "/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c//24h/2008" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1189) [sender=3.1.3]
+rsync: change_dir "/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c//1h_2D/2009" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1189) [sender=3.1.3]
+rsync: change_dir "/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c//1h_2D_cg/2009" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1189) [sender=3.1.3]
+rsync: change_dir "/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c//30min_water/2009" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1189) [sender=3.1.3]
+rsync: change_dir "/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c//3h_3D/2009" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1189) [sender=3.1.3]
+rsync: change_dir "/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c//3h_3D_cloud/2009" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1189) [sender=3.1.3]
+rsync: change_dir "/scratch/snx3000/heimc/data/compr_cosmo/SA_3_pgw3/lm_c//24h/2009" failed: No such file or directory (2)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1189) [sender=3.1.3]

@@ -1,0 +1,15 @@
+/project/pr04/heimc/miniconda3/lib/python3.7/site-packages/dask/config.py:168: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+  data = yaml.load(f.read()) or {}
+/project/pr04/heimc/miniconda3/lib/python3.7/site-packages/distributed/config.py:20: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+  defaults = yaml.load(f)
+srun: Job 21307605 step creation temporarily disabled, retrying
+srun: Step created for job 21307605
+/project/pr04/heimc/miniconda3/lib/python3.7/site-packages/dask/config.py:168: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+  data = yaml.load(f.read()) or {}
+/project/pr04/heimc/miniconda3/lib/python3.7/site-packages/distributed/config.py:20: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+  defaults = yaml.load(f)
+srun: Job step aborted: Waiting up to 92 seconds for job step to finish.
+srun: got SIGCONT
+slurmstepd: error: *** STEP 21307605.1 ON nid07144 CANCELLED AT 2020-03-21T16:59:53 ***
+slurmstepd: error: *** JOB 21307605 ON nid07144 CANCELLED AT 2020-03-21T16:59:53 ***
+srun: forcing job termination

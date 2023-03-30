@@ -1,0 +1,13 @@
+#!/bin/bash
+export GRIB_DEFINITION_PATH=/mnt/lustre01/sw/rhel6-x64/eccodes/definitions
+dirin=/work/ka1081/DYAMOND/GEOS-3km/inst/inst_03hr_3d_QL_Mv/
+dirin2=/work/ka1081/DYAMOND/GEOS-3km/inst/inst_03hr_3d_H_Mv/
+
+for d in 11; do
+ for h in 00 03 06 09 12 15 18 21; do
+ cdo -P 8 -f nc -O -fldmean -sellonlatbox,-50,-30,0,20 ${dirin}DYAMOND.inst_03hr_3d_QL_Mv.20160811_${h}00z.nc4 GEOS_qc_dc_mean_20160811_0000z.nc
+dirin=/work/ka1081/DYAMOND/GEOS-3km/inst/inst_03hr_3d_H_Mv/
+for d in 11; do
+ cdo -P 8 -f nc -O -fldmean -sellonlatbox,-50,-30,0,20 ${dirin}DYAMOND.inst_03hr_3d_H_Mv.20160811_0000z.nc4 GEOS_h_dc_mean_20160811_0000z.nc
+done
+
