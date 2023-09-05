@@ -1,0 +1,4426 @@
+
+#==============================================================================
+# Preprocessing extractions
+# This extractions are performed at the beginning of the task
+# (just after module lm_arget and before lm_preproc) 
+#==============================================================================
+cat << EOFPREPROC >! $permntDir/nl.PREPROC
+
+&RunSpecification
+ strict_nl_parsing  = .true.
+ verbosity          = "moderate"
+ diagnostic_length  = 110
+/
+
+&GlobalResource
+ dictionary         = "$LM_LDIR/dictionary_cosmo.txt",
+/
+
+&GlobalSettings
+ dictionary_default ="cosmo"
+ model_tag          = "cosmo-2" 
+/
+
+&ModelSpecification
+ spec_tag           = "cosmo-2" /
+
+&Process
+  in_file  = 'laf lm file' 
+  out_type = "INCORE" /
+&Process in_field = "HSURF", tag="HSURF" / 
+&Process in_field = "FR_LAND", tag="fr_land" /
+&Process in_field = "T_SO", levlist=0, tag="sst"   /
+
+# Here we define the fields that are merged from the interpolated IFS file
+# this are external parameters and the lower levels of W_SO
+&Process
+  in_file      = 'laf ifs file'
+  out_file     = 'laf output file'
+  out_type     = "GRIB1", in_grid = "HSURF", out_size_field=980 /
+&Process in_field = "VIO3", levlist = -1, set_refdate  = 'laf output refdate' /  
+&Process in_field = "HMO3",   set_refdate  = 'laf output refdate' / 
+&Process in_field = "PLCOV",  set_refdate  = 'laf output refdate' / 
+&Process in_field = "LAI",    set_refdate  = 'laf output refdate' / 
+&Process in_field = "ROOTDP", set_refdate  = 'laf output refdate' / 
+&Process in_field = "FOR_D",  set_refdate  = 'laf output refdate' / 
+&Process in_field = "FOR_E",  set_refdate  = 'laf output refdate' / 
+&Process in_field = "T_SO",   levlist=0, merge_with="sst", merge_mask="fr_land>0.5", 
+                 set_pds4=5, set_refdate  = 'laf output refdate' / 
+
+
+# Here we define that the snow temperature, snow amount, the interception
+# storage, fresh snow and snow density shall be taken from the snowanalysis from MCH
+&Process
+  in_file      = 'laf snowana file'
+  out_file     = 'laf output file'
+  out_type     = "GRIB1", in_grid = "HSURF", out_size_field=980 /
+&Process in_field = "T_SNOW"   , levlist = -1, set_refdate  = 'laf output refdate' / 
+&Process in_field = "W_SNOW"   , levlist = -1, set_refdate  = 'laf output refdate' / 
+&Process in_field = "W_I"      , levlist = -1, set_refdate  = 'laf output refdate' / 
+&Process in_field = "FRESHSNW" , levlist = -1, set_refdate  = 'laf output refdate' / 
+&Process in_field = "RHO_SNOW" , levlist = -1, set_refdate  = 'laf output refdate' / 
+
+
+# Here we define the fields that are merged from the interpolated IFS file
+# this are external parameters, and the lower levels of W_SO
+
+&Process
+  in_file  = 'laf lm file' 
+  out_file = 'laf output file' 
+  out_type = "GRIB1", in_grid = "HSURF", out_size_field=980 
+  selection_mode = "EXCLUDE"/
+&Process in_field = "VIO3"  /
+&Process in_field = "HMO3"  /
+&Process in_field = "PLCOV" /
+&Process in_field = "LAI"   /
+&Process in_field = "ROOTDP"/
+&Process in_field = "T_SO"  , levlist = 0/
+&Process in_field = "T_SNOW"/
+&Process in_field = "W_SNOW"/
+&Process in_field = "W_I"   /
+&Process in_field = "FRESHSNW" /
+&Process in_field = "RHO_SNOW" /
+&Process in_field = "FOR_D" /
+&Process in_field = "FOR_E" /
+
+
+EOFPREPROC
+
+
+
+#==============================================================================
+# *** OPR only *** OPR only *** OPR only *** OPR only *** OPR only ***
+# Time critical extractions
+# This extractions are performed concurrently with lm_lm:
+# postprocessing is sliced in $LM_DPPT hours segments
+# *** OPR only *** OPR only *** OPR only *** OPR only *** OPR only ***
+#==============================================================================
+cat << EOFTC >! $permntDir/nl.TC
+
+# Run specification and global blocks (compulsory!)
+#--------------------------------------------------
+&RunSpecification
+ strict_nl_parsing   = .true.
+ verbosity           = "moderate"
+ diagnostic_length   = 110
+ wait_time           = 10
+ mx_wait_time        = 7200
+ out_noready_postfix = ".incomplete"
+ out_force_postfix   = ".snapshot_"
+ stop_wait_flag      = "${LM_F_PPSTOPF}_f"
+/
+
+&GlobalResource
+ dictionary         = "$LM_LDIR/dictionary_cosmo.txt",
+ kalman_coef        = "$LM_WDIR/$LM_TAG/coefLM${LM_ZZ}_f.pri"
+ location_list      = "$LM_LDIR/location_list.txt"
+ region_list        = "$LM_LDIR/region_list.txt"
+/
+
+&GlobalSettings
+ dictionary_default = "cosmo",
+ model_tag          = "cosmo-2"
+ loc_to_gp          = "sn" 
+ experiment         = "$LM_NL_TEXPN",
+/
+
+&ModelSpecification
+ spec_tag           = "cosmo-2" 
+ precip_all         = "RAIN_GSP", "SNOW_GSP", "GRAU_GSP" 
+ precip_snow        = "SNOW_GSP", "GRAU_GSP"
+ precip_rain        = "RAIN_GSP"
+ precip_convective  =  
+ precip_gridscale   = "RAIN_GSP", "SNOW_GSP", "GRAU_GSP" /
+
+# In core data
+#-------------
+&Process
+  in_file  = "lfff00000000c"
+  out_type = "INCORE" /
+&Process in_field    = "FR_LAND" /
+&Process in_field    = "SOILTYP" /
+&Process in_field    = "HSURF",tag='HSURF' /
+&Process in_field    = "FIS" /
+
+&Process
+  in_file  = "${LM_WDIR}/${LM_TAG}/lm_cnmet/lfsf00000000c"
+  out_type = "INCORE" /
+&Process in_field    = "PLCOV",tag='HSURF_cnmet' /
+
+# Extraction for TRT (LOM)
+# ------------------------
+&Process
+  in_file  = "lfff<DDHH>0000"
+  tstart = 0,tstop=6,tincr=1
+  out_file = "hzero_<YYYYMMDDHH:$LM_YYYY$LM_MM$LM_DD$LM_ZZ>.txt", out_type="XLS_TABLE"
+  in_grid="swiss,297.0,-100.0,2.,2.,305,269"
+  in_grid_intpl="next_neighbour,square,2.,1." /
+&Process in_field="HZEROCL",regrid=.true./
+
+# Extraction for Luca Panziera (LOM)
+# ----------------------------------
+&Process
+  in_file  = "${LM_WDIR}/${LM_TAG}/lm_cnmet/lfsf<DDHHMMSS>"
+  tstart = 0,tstop=43200,tincr=600
+  out_file = "$LM_YYYY$LM_MM$LM_DD${LM_ZZ}_<DDHHMMSS>_TOT_PREC"
+  out_type="GRIB1"
+  in_grid="swiss,290.0,-160.0,1.,1.,620,620"
+  in_grid_intpl="linear_fit,square,1.5,1." /
+&Process in_field="TOT_PREC",regrid=.true./
+
+# Input data for pseudo-ANETZ
+#-----------------------------
+&Process
+  in_file  = "lfff<DDHH>0000"
+  out_file = "ALB_RAD_f", out_type = "PSA_TABLE", out_type_fmt = "f73_dh", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Albedo at the surface"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "ALB_RAD", scale=0.01 /
+
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "BFLQD_f", out_type = "PSA_TABLE", out_type_fmt  = "f71_dh", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Latent heat flux at surface [W/m**2]"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "ALHFL_S", toper="tdelta,1,hour" /
+
+&Process
+  in_file    = "lfff<DDHH>0000"
+  out_file   = "CLCH_f" , out_type   = "PSA_TABLE", out_type_fmt    = "clc",  
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Cloud cover with high clouds [octas] : mean over 13 COSMO-gridpoints"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "CLCH", scale=0.08, hoper="c13" /
+
+&Process
+  in_file    = "lfff<DDHH>0000"
+  out_file   = "CLCL_f" , out_type   = "PSA_TABLE", out_type_fmt    = "clc",  
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Cloud cover with low clouds [octas] : mean over 13 COSMO-gridpoints"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "CLCL", scale=0.08, hoper="c13" /
+
+&Process
+  in_file    = "lfff<DDHH>0000"
+  out_file   = "CLCM_f" , out_type   = "PSA_TABLE", out_type_fmt    = "clc",  
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Cloud cover with medium clouds [octas] : mean over 13 COSMO-gridpoints"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "CLCM", scale=0.08, hoper="c13" /
+
+&Process
+  in_file    = "lfff<DDHH>0000"
+  out_file   = "CLCT_f" , out_type   = "PSA_TABLE", out_type_fmt    = "clc", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Total cloud cover [octas] : mean over 13 COSMO-gridpoints"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "CLCT", scale=0.08, hoper="c13" /
+
+&Process
+  in_file      = "lfff<DDHH>0000"
+  out_file     = "DDFF_f", out_type = "PSA_TABLE", out_type_fmt = "ddff", 
+  out_type_text1   = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2   = "Wind direction [per ten degrees] and wind speed [kt] // output only for representative stations, stations above 1300m without wind speed"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 1
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "U_10M" /
+&Process in_field = "V_10M" /
+&Process out_field = "DD_10M", scale=0.1 /
+&Process out_field = "FF_10M", scale=1.94 /
+
+&Process
+  in_file    = "lfff<DDHH>0000"
+  out_file   = "DPSDT_f" , out_type   = "PSA_TABLE", out_type_fmt    = "f72_h", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Tendency of the surface pressure in the last 3 hours [hPa]"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "PS", toper="delta,3,hour", scale=0.01 /
+
+# Evaporation = alhfl_s*3*3600/2.5e6 = avlh_s*0.00432 [mm/3h]
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "EVAP_f", out_type = "PSA_TABLE", out_type_fmt = "f72_dh", 
+  
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Evaporation at the surface [mm]; sum in the last 3 hours"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "ALHFL_S", toper="tdelta,3,hour", scale=0.00432 /
+
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "GLOB_f" , out_type = "PSA_TABLE" , out_type_fmt = "f71_dh", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Global (solar) radiation at surface in the last hour [W/m**2]"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "ALB_RAD", scale=0.01 /
+&Process in_field = "ASOB_S", ignore_tri=.true., toper="tdelta_g" /
+&Process out_field = "GLOB"/
+
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "LUM_f" , out_type = "PSA_TABLE" , out_type_fmt = "f73_dh", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Luminosity [klux; lux*1000.]"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "ALB_RAD", scale=0.01 /
+&Process in_field = "ASOB_S", ignore_tri=.true., toper="tdelta_g" /
+&Process out_field = "LUM"/
+
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "PS_f" , out_type = "PSA_TABLE" , out_type_fmt = "f71_h", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Surface pressure (at height of the gridpoint) [hPa]"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "PS", scale=0.01 /
+
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "PSRED_f" , out_type = "PSA_TABLE" , out_type_fmt = "f71_h", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Pressure on mean sea level [hPa]"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "PMSL", scale=0.01 /
+
+&Process
+  in_type = "INCORE"
+  out_file = "QNH_f" , out_type = "PSA_TABLE" , out_type_fmt = "f71_dh", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Pressure reduced at sea level, based on standard atmosphere [hPa]"
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "HSURF" /
+
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "QNH_f" , out_type = "PSA_TABLE" , out_type_fmt = "f71_dh", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Pressure reduced at sea level, based on standard atmosphere [hPa]"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "PS" /
+&Process out_field = "QNH", scale=0.01 /
+
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "RELHUM_f" , out_type = "PSA_TABLE" , out_type_fmt = "i_dh", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Relative humidity [%]"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M" /
+&Process out_field = "RELHUM_2M" /
+
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "RH_KAL_f" , out_type = "PSA_TABLE" , out_type_fmt = "i_dh", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations" 
+  out_type_text2 = "Relative humidity after correction with kalman filter [%]"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CGI","MAH","FRE","BRL","PUY","CDF",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "FAH","GRE","BER","BAS","STC","WYN","RUE",
+            "BUS","LAE","CHZ","REH","KLO","SMA","SHA",
+            "TAE","HOE","GUT",
+            ! Voralpen
+            "ABO","INT","NAP","PIL","LUZ","ENG","ALT","WAE",
+            "GLA","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "PIO","OTL","CIM","MAG","MTR","SBO","LUG","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","BEZ" /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M" /
+&Process out_field = "RH_2M_K" /
+
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "RR+RS_f" , out_type = "PSA_TABLE" , out_type_fmt = "f71_dh_prec", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Total amount of precipitation (rain+snow) in the last 3 hours [mm] : 1 COSMO-gridpoint"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "TOT_PREC", toper="delta,3,hour" /
+
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "RR+RS05_f" , out_type = "PSA_TABLE" , out_type_fmt = "f71_dh_prec", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Total amount of precipitation (rain+snow) in the last 3 hours [mm] : mean over 5 COSMO-gridpoints"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "TOT_PREC", hoper="c5", toper="delta,3,hour" /
+
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "RR+RS13_f" , out_type = "PSA_TABLE" , out_type_fmt = "f71_dh_prec", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Total amount of precipitation (rain+snow) in the last 3 hours [mm] : mean over 13 COSMO-gridpoints"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "TOT_PREC", hoper="c13", toper="delta,3,hour" /
+
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "RS_f" , out_type = "PSA_TABLE" , out_type_fmt = "f71_h_prec", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Total amount of precipitation in snow in the last 3 hours [mm] : 1 COSMO-gridpoint"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "SNOW_GSP", toper="delta,3,hour" /
+&Process in_field = "GRAU_GSP", toper="delta,3,hour" /
+&Process out_field = "TOT_SNOW" /
+
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "RS_%_f" , out_type = "PSA_TABLE" , out_type_fmt = "i_h_prec", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Percentage of precipitation in snow [%] : 1 COSMO-gridpoint"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process    in_field = "TOT_PREC", toper="delta,3,hour" /
+&Process    in_field = "SNOW_GSP", toper="delta,3,hour" /
+&Process    in_field = "GRAU_GSP", toper="delta,3,hour" /
+&Process out_field = "SNOW_%" /
+
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "SOSB_f" , out_type = "PSA_TABLE" , out_type_fmt = "f71_dh", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Solar radiation budget at surface [W/m**2]"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "ASOB_S", ignore_tri=.true., toper="tdelta_g" /
+
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "T10M_f" , out_type = "PSA_TABLE" , out_type_fmt = "f71_dh", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Temperature at lowest model layer (about 10m above surface; corrected to station height) [deg C]"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "T", levlist=$LM_NL_KELM_F, offset=-273.15, poper="hcor,-.006" /
+
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "T30M_f" , out_type = "PSA_TABLE" , out_type_fmt = "f71_dh", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Temperature at second lowest model layer (about 32m above surface; corrected to station height) [deg C]"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "T", levlist=$LM_NL_KEM1_F, offset=-273.15, poper="hcor,-.006" /
+
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "T65M_f" , out_type = "PSA_TABLE" , out_type_fmt = "f71_dh", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Temperature at third lowest model layer (about 65m above surface; corrected to station height) [deg C]"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "T", levlist=$LM_NL_KEM2_F, offset=-273.15, poper="hcor,-.006" /
+
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "T2M_f" , out_type = "PSA_TABLE" , out_type_fmt = "f71_dh", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "2m-temperature (corrected with 0.6 K/100m to station height) [deg C]"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","MRP","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "T_2M", poper="hcor,-.006", offset=-273.15 /
+
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "T2M_KAL_f" , out_type = "PSA_TABLE" , out_type_fmt = "f71_dh", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations" 
+  out_type_text2 = "2m-temperature corrected with kalman filter [deg C]"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+              ! Ouest
+  loclist = "DOL","GVE","CGI","MAH","FRE","BRL","PUY","CDF",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "FAH","GRE","BER","BAS","STC","WYN","RUE",
+            "BUS","LAE","CHZ","REH","KLO","SMA","SHA",
+            "TAE","HOE","GUT",
+            ! Voralpen
+            "ABO","INT","NAP","PIL","LUZ","ENG","ALT","WAE",
+            "GLA","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "PIO","OTL","CIM","MAG","MTR","SBO","LUG","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","BEZ" /
+&Process in_field = "T_2M" /
+&Process out_field = "T_2M_K" , offset = -273.15/
+
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "TS_f" , out_type = "PSA_TABLE" , out_type_fmt = "f71_dh", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Temperature of the snow-surface (corrected to station height) [deg C]"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "T_SNOW", poper="hcor,-.006", offset=-273.15 /
+
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "TB_f" , out_type = "PSA_TABLE" , out_type_fmt = "f71_dh", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Temperature of the ground surface (soil) (corrected to station height) [deg C]"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "T_SO", levlist=0, poper="hcor,-.006", offset=-273.15 /
+
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "TM_f" , out_type = "PSA_TABLE" , out_type_fmt = "f71_dh", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Temperature between upper and medium soil layer [deg C]"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "T_SO", levlist=6, poper="hcor,-.006", offset=-273.15 /
+
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "TD2M_f" , out_type = "PSA_TABLE" , out_type_fmt = "f71_dh", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "2m-dewpoint temperature (corrected with 0.6 K/100m to station height) [deg C]"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "TD_2M", poper="hcor,-.006", offset=-273.15 /
+
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "TD2M_KAL_f" , out_type = "PSA_TABLE" , out_type_fmt = "f71_dh", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations" 
+  out_type_text2 = "2m-dewpoint temperature corrected with kalman filter [deg C]"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CGI","MAH","FRE","BRL","PUY","CDF",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "FAH","GRE","BER","BAS","STC","WYN","RUE",
+            "BUS","LAE","CHZ","REH","KLO","SMA","SHA",
+            "TAE","HOE","GUT",
+            ! Voralpen
+            "ABO","INT","NAP","PIL","LUZ","ENG","ALT","WAE",
+            "GLA","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "PIO","OTL","CIM","MAG","MTR","SBO","LUG","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","BEZ" /
+&Process in_field = "TD_2M" /
+&Process in_field = "T_2M" /
+&Process out_field = "TD_2M_K" ,offset = -273.15 /
+
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "U10M_f" , out_type = "PSA_TABLE" , out_type_fmt = "f71_dh", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Zonal windcomponent at 10m [m/s]"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "U_10M", poper='n2geog' /
+&Process in_field = "V_10M" /
+&Process out_field = "U_10M" /
+
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "V10M_f" , out_type = "PSA_TABLE" , out_type_fmt = "f71_dh", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Meridional windcomponent at 10m [m/s]"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "U_10M" /
+&Process in_field = "V_10M", poper='n2geog' /
+&Process out_field = "V_10M" /
+
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "VBM10M_f" , out_type = "PSA_TABLE" , out_type_fmt = "i_dh", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Maximal windspeed at 10m in the last 1 hours [kt]"
+  tstart = 0 , tstop = $LM_NL_HENDE_F , tincr = 1, out_tstart = 0 , out_tincr = 1
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "VMAX_10M", scale=1.94 /
+
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "WS_f" , out_type = "PSA_TABLE" , out_type_fmt = "i_h", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Water content of snow [mm] (1 mm water ~ 1 cm of snow)"
+  tstart = 0 , tstop = $LM_NL_HENDE_F, tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "W_SNOW" /
+
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "H_SNOW_f" , out_type = "PSA_TABLE" , out_type_fmt = "i_h", 
+  out_type_text1 = "COSMO-gridpoint output at ANETZ locations"
+  out_type_text2 = "Height of snow [cm]"
+  tstart = 0 , tstop = $LM_NL_HENDE_F, tincr = 1, out_tstart = 0 , out_tincr = 3
+  out_force_tlist = 6,12,18
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Mittelland
+            "BOU","FAH","DEM","GRE","BER","P_BBM","BAN","BAS","STC","WYN","MOE","RUE",
+            "EGO","SPF","BUS","MOA","LAE","CHZ","UEB","REH","KLO","SMA","BAR","AEG",
+            "SHA","TAE","SCM","HOE","STK","GUT",
+            ! Voralpen
+            "BOL","ABO","AMS","INT","NAP","BRZ","P_MEI","GIH","PIL","P_ALP","LUZ",
+            "ENG","ALT","WAE","GLA","QUI","SAE","STG","VAD","ARH",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR",
+            ! Alpen
+            "MAE","JUN","GRH","TIT","ROE","GUE","DIS","COM","CMA","SBE","AND","PMA",
+            "CHU","VAB","COV","WFJ","DAV","SAM","ROB","NAS","BUF","SCU",
+            ! Ticino
+            "CEV","PIO","OTL","CIM","MAG","MTR","SBO","LUG","LOR","GEN",
+            ! KKWs
+            "MUB","GOE","LEI","PSI","BEZ" /
+&Process in_field = "W_SNOW" /
+&Process in_field = "RHO_SNOW" /
+&Process out_field = "H_SNOW", scale=100. /
+
+
+# Input data for vertical profile 
+#--------------------------------
+&Process
+  in_type  = "INCORE"
+  out_file = "LMverUA_f.l2e", out_type = "L2E", out_type_depreciated=.true.,
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",
+  loclist  = "06610", "06630", "06672", "07292", "07481", "07645", "10618", "10738",
+             "10739", "10771", "10868", "10946", "11035", "11120", "14240", "16044", 
+             "16080", "16144" /
+&Process in_field="HSURF" /
+&Process in_field="HFL", levmin=1, levmax=$LM_NL_KELM_F /
+
+&Process
+  in_file  = "lfff<DDHH>0000"
+  out_file = "LMverUA_f.l2e", out_type = "L2E", out_type_depreciated=.true.,
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",
+  tstart = 0, tstop = $LM_NL_HENDE_CL_F, tincr = 6
+  loclist  = "06610", "06630", "06672", "07292", "07481", "07645", "10618", "10738",
+             "10739", "10771", "10868", "10946", "11035", "11120", "14240", "16044", 
+             "16080", "16144" /
+&Process in_field = "PS" /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M"  /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "P", levmin=1, levmax=$LM_NL_KELM_F /
+&Process in_field = "T", levmin=1, levmax=$LM_NL_KELM_F /
+&Process in_field = "U", levmin=1, levmax=$LM_NL_KELM_F, regrid=.t./
+&Process in_field = "V", levmin=1, levmax=$LM_NL_KELM_F, regrid=.t./
+&Process in_field = "QV", levmin=1, levmax=$LM_NL_KELM_F /
+&Process in_field = "QC", levmin=1, levmax=$LM_NL_KELM_F /
+&Process out_field="HSURF" /
+&Process out_field="HFL" /
+&Process out_field = "PS", scale=0.1 /
+&Process out_field = "T_2M", offset=-273.15, scale=10. /
+&Process out_field = "D_TD_2M", scale=10. /
+&Process out_field = "DD_10M" /
+&Process out_field = "FF_10M" /
+&Process out_field = "P", scale=0.1 /
+&Process out_field = "T", offset=-273.15, scale=10. /
+&Process out_field = "D_TD", scale=10. /
+&Process out_field = "DD" /
+&Process out_field = "FF" /
+&Process out_field = "QV" /
+&Process out_field = "QC" /
+&Process out_field = "RELHUM" /
+
+# Input data for vertical profile,
+# version with time unit minutes (for DWH) 
+#-----------------------------------------
+&Process
+  in_type  = "INCORE"
+  out_file = "LMverUAmm_f.l2e", out_type = "L2E", 
+  out_type_depreciated=.true., out_type_mminfo='yes',
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",
+  loclist  = "06610", "06630", "06672", "07292", "07481", "07645", "10618", "10738",
+             "10739", "10771", "10868", "10946", "11035", "11120", "14240", "16044", 
+             "16080", "16144", "06620", "06632", "06660", "06700" / 
+&Process in_field="HSURF" /
+&Process in_field="HFL", levmin=1, levmax=$LM_NL_KELM_F /
+
+&Process
+  in_file  = "lfff<DDHH>0000"
+  out_file = "LMverUAmm_f.l2e", out_type = "L2E", 
+  out_type_depreciated=.true., out_type_mminfo='yes',
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",
+  tstart = 0, tstop = $LM_NL_HENDE_CL_F, tincr = 6
+  loclist  = "06610", "06630", "06672", "07292", "07481", "07645", "10618", "10738",
+             "10739", "10771", "10868", "10946", "11035", "11120", "14240", "16044", 
+             "16080", "16144", "06620", "06632", "06660", "06700" / 
+&Process in_field = "PS" /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M"  /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "P", levmin=1, levmax=$LM_NL_KELM_F /
+&Process in_field = "T", levmin=1, levmax=$LM_NL_KELM_F /
+&Process in_field = "U", levmin=1, levmax=$LM_NL_KELM_F, regrid=.t./
+&Process in_field = "V", levmin=1, levmax=$LM_NL_KELM_F, regrid=.t./
+&Process in_field = "QV", levmin=1, levmax=$LM_NL_KELM_F /
+&Process in_field = "QC", levmin=1, levmax=$LM_NL_KELM_F /
+&Process out_field="HSURF" /
+&Process out_field="HFL" /
+&Process out_field = "PS", scale=0.1 /
+&Process out_field = "T_2M", offset=-273.15, scale=10. /
+&Process out_field = "D_TD_2M", scale=10. /
+&Process out_field = "DD_10M" /
+&Process out_field = "FF_10M" /
+&Process out_field = "P", scale=0.1 /
+&Process out_field = "T", offset=-273.15, scale=10. /
+&Process out_field = "D_TD", scale=10. /
+&Process out_field = "DD" /
+&Process out_field = "FF" /
+&Process out_field = "QV" /
+&Process out_field = "QC" /
+&Process out_field = "RELHUM" /
+
+# Input data for upper-air verif 
+#-------------------------------
+&Process
+  in_type  = "INCORE"
+  out_file = "LMverUA2_f.l2e", out_type = "L2E", out_type_mminfo='yes',
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",
+  loclist  = "06610", "06630", "06672", "07292", "07481", "07645", "10618", "10738",
+             "10739", "10771", "10868", "10946", "11035", "11120", "14240", "16044", 
+             "16080", "16144" / 
+&Process in_field="HSURF" /
+&Process in_field="HFL", levmin=1, levmax=$LM_NL_KELM_F /
+
+&Process
+  in_file  = "lfff<DDHH>0000"
+  out_file = "LMverUA2_f.l2e", out_type = "L2E", out_type_mminfo='yes',
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",
+  tstart = 0, tstop = $LM_NL_HENDE_F, tincr = 3
+  loclist  = "06610", "06630", "06672", "07292", "07481", "07645", "10618", "10738",
+             "10739", "10771", "10868", "10946", "11035", "11120", "14240", "16044", 
+             "16080", "16144" / 
+&Process in_field = "PS" /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M"  /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "P", levmin=1, levmax=$LM_NL_KELM_F /
+&Process in_field = "T", levmin=1, levmax=$LM_NL_KELM_F /
+&Process in_field = "U", levmin=1, levmax=$LM_NL_KELM_F, regrid=.t./
+&Process in_field = "V", levmin=1, levmax=$LM_NL_KELM_F, regrid=.t./
+&Process in_field = "QV", levmin=1, levmax=$LM_NL_KELM_F /
+&Process in_field = "QC", levmin=1, levmax=$LM_NL_KELM_F /
+&Process out_field="HSURF" /
+&Process out_field="HFL" /
+&Process out_field = "PS", scale=0.1 /
+&Process out_field = "T_2M", offset=-273.15, scale=10. /
+&Process out_field = "D_TD_2M", scale=10. /
+&Process out_field = "DD_10M" /
+&Process out_field = "FF_10M" /
+&Process out_field = "P", scale=0.1 /
+&Process out_field = "T", offset=-273.15, scale=10. /
+&Process out_field = "D_TD", scale=10. /
+&Process out_field = "DD" /
+&Process out_field = "FF" /
+&Process out_field = "QV" /
+&Process out_field = "QC" /
+&Process out_field = "RELHUM" /
+
+# Input for sounding tool
+#------------------------
+&Process 
+  in_type  = "INCORE"
+  out_file = "ASTA_f.l2e", out_type = "L2E", out_type_depreciated=.true.,
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",
+  loclist  = "06702", "06610", "06730", "06643", "06680", "06990", "06712",
+             "06609", "06616", "06724", "06748", "06605", "06659", "06672",
+             "06745", "06753", "06770", "06792", "06786", "06639", "06720",
+             "06762", "06604", "06771", "06734", "06782", "06788", "06784",
+             "06681", "06685", "06700", "06670", "06750", "06711", "06717",
+             "06735", "06727", "06612", "06645", "06633", "06650", "06655",
+             "06620", "06660", "06783", "06780", "06791", "06601", "06794",
+             "06798", "06705", "06619", "06631", "06621", "06626", "06673",
+             "06679", "06664", "06760", "06646", "06636", "06759", "06722",
+             "06666", "06716", "06744", "06756", "06669", "06689", "06628", "06751" /
+&Process in_field="HSURF" /
+&Process in_field="HFL", levmin=1, levmax=$LM_NL_KELM_F /
+
+&Process 
+  in_file  = "lfff<DDHH>0000"
+  out_file = "ASTA_f.l2e", out_type = "L2E", out_type_depreciated=.true.,
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",
+  tstart = 0,tstop = $LM_NL_HENDE_CL_F,tincr = 6,
+  loclist  = "06702", "06610", "06730", "06643", "06680", "06990", "06712",
+             "06609", "06616", "06724", "06748", "06605", "06659", "06672",
+             "06745", "06753", "06770", "06792", "06786", "06639", "06720",
+             "06762", "06604", "06771", "06734", "06782", "06788", "06784",
+             "06681", "06685", "06700", "06670", "06750", "06711", "06717",
+             "06735", "06727", "06612", "06645", "06633", "06650", "06655",
+             "06620", "06660", "06783", "06780", "06791", "06601", "06794",
+             "06798", "06705", "06619", "06631", "06621", "06626", "06673",
+             "06679", "06664", "06760", "06646", "06636", "06759", "06722",
+             "06666", "06716", "06744", "06756", "06669", "06689", "06628", "06751" /
+&Process in_field = "PS" /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M"  /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "P", levmin=1, levmax=$LM_NL_KELM_F /
+&Process in_field = "T", levmin=1, levmax=$LM_NL_KELM_F /
+&Process in_field = "U", levmin=1, levmax=$LM_NL_KELM_F, regrid=.t./
+&Process in_field = "V", levmin=1, levmax=$LM_NL_KELM_F, regrid=.t./
+&Process in_field = "QV", levmin=1, levmax=$LM_NL_KELM_F /
+&Process in_field = "QC", levmin=1, levmax=$LM_NL_KELM_F /
+&Process out_field="HSURF" /
+&Process out_field="HFL" /
+&Process out_field = "PS", scale=0.1 /
+&Process out_field = "T_2M", offset=-273.15, scale=10. /
+&Process out_field = "D_TD_2M", scale=10. /
+&Process out_field = "DD_10M" /
+&Process out_field = "FF_10M" /
+&Process out_field = "P", scale=0.1 /
+&Process out_field = "T", offset=-273.15, scale=10. /
+&Process out_field = "D_TD", scale=10. /
+&Process out_field = "DD" /
+&Process out_field = "FF" /
+&Process out_field = "QV" /
+&Process out_field = "QC" /
+&Process out_field = "RELHUM" /
+
+
+# Extraction for Ninjo HSURF
+#---------------------------
+&Process
+  in_type="INCORE"
+  out_file="new-ninjo${LM_YYYY}${LM_MM}${LM_DD}${LM_ZZ}_al_HSURF.grb1", out_type="GRIB1"
+/
+&Process in_field = "HSURF" /
+
+# New Extraction (copy) for Ninjo HSURF
+#--------------------------------------
+&Process
+  in_type="INCORE"
+  out_file="ninjo_cosmo2_${LM_YYYY}${LM_MM}${LM_DD}${LM_ZZ}_ch_HSURF.grb1", out_type="GRIB1"
+  imin=130, jmin=128, imax=319, jmax=262
+/
+&Process in_field = "HSURF" /
+
+# Extraction for Ninjo single level fields every 1h
+#--------------------------------------------------
+&Process
+  in_file="lfff<DDHH>0000"
+  out_file="new-ninjo${LM_YYYY}${LM_MM}${LM_DD}${LM_ZZ}_al_<HH>.grb1", out_type="GRIB1"
+  tstart=0, tstop=$LM_NL_HENDE_CL_F, tincr=1
+/
+&Process in_field = "CAPE_MU" /
+&Process in_field = "CAPE_ML" /
+&Process in_field = "CIN_MU" /
+&Process in_field = "CIN_ML" /
+&Process in_field = "CLCT" /
+&Process in_field = "CLCL" /
+&Process in_field = "CLCM" /
+&Process in_field = "CLCH" /
+&Process in_field = "DBZ_CMAX" /
+&Process in_field = "DURSUN" /
+&Process in_field = "HZEROCL" /
+&Process in_field = "PMSL" /
+&Process in_field = "PS" /
+&Process in_field = "SI" /
+&Process in_field = "SLI" /
+&Process in_field = "SNOWLMT" /
+&Process in_field = "SWISS00" /
+&Process in_field = "SWISS12" /
+&Process in_field = "T_2M" /
+&Process in_field = "T_G" /
+&Process in_field = "TD_2M"/
+&Process in_field = "TMAX_2M" /
+&Process in_field = "TMIN_2M" /
+&Process in_field = "TOT_PREC" /
+&Process in_field = "SNOW_GSP" /
+&Process in_field = "GRAU_GSP" /
+&Process in_field = "TWATER" /
+&Process in_field = "U_10M" /
+&Process in_field = "V_10M" /
+&Process in_field = "VMAX_10M" /
+&Process in_field = "W_SO", levlist=0,1,3,9, voper='int_d2d', voper_lev=0,10, /
+&Process out_field = "CAPE_MU" /
+&Process out_field = "CAPE_ML" /
+&Process out_field = "CIN_MU" /
+&Process out_field = "CIN_ML" /
+&Process out_field = "CLCT" /
+&Process out_field = "CLCL" /
+&Process out_field = "CLCM" /
+&Process out_field = "CLCH" /
+&Process out_field = "DBZ_CMAX" /
+&Process out_field = "DURSUN" /
+&Process out_field = "HZEROCL" /
+&Process out_field = "PMSL" /
+&Process out_field = "PS" /
+&Process out_field = "SI" /
+&Process out_field = "SLI" /
+&Process out_field = "SNOWLMT" /
+&Process out_field = "SWISS00" /
+&Process out_field = "SWISS12" /
+&Process out_field = "T_2M" /
+&Process out_field = "T_G" /
+&Process out_field = "TD_2M" /
+&Process out_field = "TMAX_2M" /
+&Process out_field = "TMIN_2M" /
+&Process out_field = "TOT_PREC" /
+&Process out_field = "TOT_SNOW" /
+&Process out_field = "TWATER" /
+&Process out_field = "U_10M" /
+&Process out_field = "V_10M" /
+&Process out_field = "VMAX_10M" /
+&Process out_field = "W_SO" /
+
+# New Extraction (copy) for Ninjo single level fields every 1h
+#-------------------------------------------------------------
+&Process
+  in_file="lfff<DDHH>0000"
+  out_file="ninjo_cosmo2_${LM_YYYY}${LM_MM}${LM_DD}${LM_ZZ}_ch_<HH>.grb1", out_type="GRIB1"
+  tstart=0, tstop=$LM_NL_HENDE_CL_F, tincr=1
+  imin=130, jmin=128, imax=319, jmax=262
+/
+&Process in_field = "CAPE_MU" /
+&Process in_field = "CAPE_ML" /
+&Process in_field = "CIN_MU" /
+&Process in_field = "CIN_ML" /
+&Process in_field = "CLCT" /
+&Process in_field = "CLCL" /
+&Process in_field = "CLCM" /
+&Process in_field = "CLCH" /
+&Process in_field = "DBZ_CMAX" /
+&Process in_field = "DURSUN" /
+&Process in_field = "HPBL" /
+&Process in_field = "HZEROCL" /
+&Process in_field = "LCL_ML" /
+&Process in_field = "LFC_ML" /
+&Process in_field = "PMSL" /
+&Process in_field = "PS" /
+&Process in_field = "SDI_1" /
+&Process in_field = "SDI_2" /
+&Process in_field = "SI" /
+&Process in_field = "SLI" /
+&Process in_field = "SNOWLMT" /
+&Process in_field = "SWISS00" /
+&Process in_field = "SWISS12" /
+&Process in_field = "T_2M" /
+&Process in_field = "T_G" /
+&Process in_field = "TD_2M"/
+&Process in_field = "TMAX_2M" /
+&Process in_field = "TMIN_2M" /
+&Process in_field = "TOT_PREC" /
+&Process in_field = "SNOW_GSP" /
+&Process in_field = "GRAU_GSP" /
+&Process in_field = "TWATER" /
+&Process in_field = "U_10M" /
+&Process in_field = "V_10M" /
+&Process in_field = "VMAX_10M" /
+&Process in_field = "W_SO", levlist=0,1,3,9, voper='int_d2d', voper_lev=0,10, /
+&Process out_field = "CAPE_MU" /
+&Process out_field = "CAPE_ML" /
+&Process out_field = "CIN_MU" /
+&Process out_field = "CIN_ML" /
+&Process out_field = "CLCT" /
+&Process out_field = "CLCL" /
+&Process out_field = "CLCM" /
+&Process out_field = "CLCH" /
+&Process out_field = "DBZ_CMAX" /
+&Process out_field = "DURSUN" /
+&Process out_field = "HPBL" /
+&Process out_field = "HZEROCL" /
+&Process out_field = "LCL_ML" /
+&Process out_field = "LFC_ML" /
+&Process out_field = "PMSL" /
+&Process out_field = "PS" /
+&Process out_field = "RELHUM_2M" /
+&Process out_field = "SDI_1" /
+&Process out_field = "SDI_2" /
+&Process out_field = "SI" /
+&Process out_field = "SLI" /
+&Process out_field = "SNOWLMT" /
+&Process out_field = "SWISS00" /
+&Process out_field = "SWISS12" /
+&Process out_field = "T_2M" /
+&Process out_field = "T_G" /
+&Process out_field = "TD_2M" /
+&Process out_field = "TMAX_2M" /
+&Process out_field = "TMIN_2M" /
+&Process out_field = "TOT_PREC" /
+&Process out_field = "TOT_SNOW" /
+&Process out_field = "TWATER" /
+&Process out_field = "U_10M" /
+&Process out_field = "V_10M" /
+&Process out_field = "VMAX_10M" /
+&Process out_field = "W_SO" /
+
+# Extraction for Ninjo model and pressure level fields every 1h
+#--------------------------------------------------------------
+&Process
+  in_file="lfff<DDHH>0000"
+  out_file="new-ninjo${LM_YYYY}${LM_MM}${LM_DD}${LM_ZZ}_alkp_<HH>.grb1", out_type="GRIB1"
+  in_grid="HSURF"
+  tstart=0, tstop=$LM_NL_HENDE_CL_F, tincr=1
+/
+&Process in_field = "P",  levmin=11, levmax=$LM_NL_KELM_F /
+&Process in_field = "QV", levmin=11, levmax=$LM_NL_KELM_F /
+&Process in_field = "T",  levmin=11, levmax=$LM_NL_KELM_F /
+&Process in_field = "U",  levmin=11, levmax=$LM_NL_KELM_F /
+&Process in_field = "V",  levmin=11, levmax=$LM_NL_KELM_F /
+&Process tmp1_field = "P"  /
+&Process tmp1_field = "QV" /
+&Process tmp1_field = "T"  /
+&Process tmp1_field = "THETAE" /
+&Process tmp1_field = "U"  /
+&Process tmp1_field = "V"  /
+&Process out_field = "P" /
+&Process out_field = "QV" /
+&Process out_field = "T" /
+&Process out_field = "THETAE" /
+&Process out_field = "THETAE", tag= "thetae_p", voper="k2p,lnp", voper_lev=850,700 /
+&Process out_field = "U" /
+&Process out_field = "V" /
+
+# New Extraction for Ninjo model and pressure level fields every 1h
+#------------------------------------------------------------------
+&Process
+  in_file="lfff<DDHH>0000"
+  out_file="ninjo_cosmo2_${LM_YYYY}${LM_MM}${LM_DD}${LM_ZZ}_chkp_<HH>.grb1", out_type="GRIB1"
+  in_grid="HSURF"
+  tstart=0, tstop=$LM_NL_HENDE_CL_F, tincr=1
+  imin=130, jmin=128, imax=319, jmax=262
+/
+&Process in_field = "P",  levmin=11, levmax=$LM_NL_KELM_F /
+&Process in_field = "QC", levmin=11, levmax=$LM_NL_KELM_F /
+&Process in_field = "QI", levmin=11, levmax=$LM_NL_KELM_F /
+&Process in_field = "QV", levmin=11, levmax=$LM_NL_KELM_F /
+&Process in_field = "T",  levmin=11, levmax=$LM_NL_KELM_F /
+&Process in_field = "U",  levmin=11, levmax=$LM_NL_KELM_F /
+&Process in_field = "V",  levmin=11, levmax=$LM_NL_KELM_F /
+&Process in_field = "W",  levmin=11, levmax=$LM_NL_KELM_F /
+&Process out_field = "P" /
+&Process out_field = "QC" /
+&Process out_field = "QI" /
+&Process out_field = "QV" /
+&Process out_field = "RELHUM" /
+&Process out_field = "T" /
+&Process out_field = "THETAE" /
+&Process out_field = "THETAE", tag= "thetae_p", voper="k2p,lnp", voper_lev=1000,950,925,900,850,800,750,700,600,500,400,300 /
+&Process out_field = "U" /
+&Process out_field = "V" /
+&Process out_field = "W" /
+
+# Extraction for Ninjo PRESSURE-LEVELS every 1h
+#----------------------------------------------
+&Process
+  in_file="lfff<DDHH>0000p"
+  out_file="new-ninjo${LM_YYYY}${LM_MM}${LM_DD}${LM_ZZ}_alp_<HH>.grb1", out_type="GRIB1"
+  tstart=0, tstop=$LM_NL_HENDE_CL_F, tincr=1
+/
+&Process in_field = "FI",     levlist = 1000,925,850,700,600,500,400,300,200 /    
+&Process in_field = "OMEGA",  levlist = 700 /
+&Process in_field = "QV",     levlist = 1000,925,850,700,600,500,400,300,200 /
+&Process in_field = "T",      levlist = 1000,925,850,700,600,500,400,300,200 /    
+&Process in_field = "U",      levlist = 1000,925,850,700,600,500,400,300,200 /
+&Process in_field = "V",      levlist = 1000,925,850,700,600,500,400,300,200 /
+
+# New Extraction for Ninjo PRESSURE-LEVELS every 1h
+#--------------------------------------------------
+&Process
+  in_file="lfff<DDHH>0000p"
+  out_file="ninjo_cosmo2_${LM_YYYY}${LM_MM}${LM_DD}${LM_ZZ}_chp_<HH>.grb1", out_type="GRIB1"
+  tstart=0, tstop=$LM_NL_HENDE_CL_F, tincr=1
+  imin=130, jmin=128, imax=319, jmax=262
+/
+&Process in_field = "FI",     levlist = 1000,950,925,900,850,800,750,700,600,500,400,300,200 /    
+&Process in_field = "OMEGA",  levlist = 700 /
+&Process in_field = "QV",     levlist = 1000,950,925,900,850,800,750,700,600,500,400,300,200 /
+&Process in_field = "RELHUM", levlist = 1000,950,925,900,850,800,750,700,600,500,400,300,200 /
+&Process in_field = "T",      levlist = 1000,950,925,900,850,800,750,700,600,500,400,300,200 /
+&Process in_field = "U",      levlist = 1000,950,925,900,850,800,750,700,600,500,400,300,200 /
+&Process in_field = "V",      levlist = 1000,950,925,900,850,800,750,700,600,500,400,300,200 /
+
+# Extraction for NinJo heat index and vorticity every 1h
+#-------------------------------------------------------
+&Process
+  in_file="lfff<DDHH>0000"
+  out_file="new-ninjo${LM_YYYY}${LM_MM}${LM_DD}${LM_ZZ}_ali_<HH>.grb1", out_type="GRIB1",
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",
+  tstart=0, tstop=$LM_NL_HENDE_CL_F, tincr=1
+/
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M" /
+
+&Process
+  in_file="lfff<DDHH>0000p"
+  out_file="new-ninjo${LM_YYYY}${LM_MM}${LM_DD}${LM_ZZ}_ali_<HH>.grb1", out_type="GRIB1"
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",
+  tstart=0, tstop=$LM_NL_HENDE_CL_F, tincr=1
+/
+&Process in_field = "U", regrid=.t., levlist = 700,500,300 /
+&Process in_field = "V", regrid=.t., levlist = 700,500,300 /
+&Process tmp1_field = "RELHUM_2M" /
+&Process tmp1_field = "T_2M" /
+&Process tmp1_field = "U" /
+&Process tmp1_field = "V" /
+&Process out_field = "HI", undefcode = 999.0 /
+&Process out_field = "VORTP_ABS", levlist = 500,300 /
+&Process out_field = "VORTP_REL", levlist = 700,500 /
+
+# New Extraction (copy) for NinJo heat index and vorticity every 1h
+#------------------------------------------------------------------
+&Process
+  in_file="lfff<DDHH>0000"
+  out_file="ninjo_cosmo2_${LM_YYYY}${LM_MM}${LM_DD}${LM_ZZ}_chi_<HH>.grb1", out_type="GRIB1",
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",
+  tstart=0, tstop=$LM_NL_HENDE_CL_F, tincr=1
+  imin=130, jmin=128, imax=319, jmax=262
+/
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M" /
+
+&Process
+  in_file="lfff<DDHH>0000p"
+  out_file="ninjo_cosmo2_${LM_YYYY}${LM_MM}${LM_DD}${LM_ZZ}_chi_<HH>.grb1", out_type="GRIB1"
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",
+  tstart=0, tstop=$LM_NL_HENDE_CL_F, tincr=1
+  imin=130, jmin=128, imax=319, jmax=262
+/
+&Process in_field = "U", regrid=.t., levlist = 700,500,300 /
+&Process in_field = "V", regrid=.t., levlist = 700,500,300 /
+&Process tmp1_field = "RELHUM_2M" /
+&Process tmp1_field = "T_2M" /
+&Process tmp1_field = "U" /
+&Process tmp1_field = "V" /
+&Process out_field = "HI", undefcode = 999.0 /
+&Process out_field = "VORTP_ABS", levlist = 500,300 /
+&Process out_field = "VORTP_REL", levlist = 700,500 /
+
+# Extraction for Ninjo HEIGHT-LEVELS every 1h
+#--------------------------------------------
+&Process
+  in_file="lfff<DDHH>0000z"
+  out_file="new-ninjo${LM_YYYY}${LM_MM}${LM_DD}${LM_ZZ}_alz_<HH>.grb1", out_type="GRIB1",
+  tstart=0, tstop=$LM_NL_HENDE_CL_F, tincr=1
+/
+&Process in_field = "P",   levlist = 1000,2000,3000,4000,5000 / 
+&Process in_field = "T",   levlist = 1000,2000,3000,4000,5000 / 
+&Process in_field = "U",   levlist = 1000,2000,3000,4000,5000 / 
+&Process in_field = "V",   levlist = 1000,2000,3000,4000,5000 /
+&Process in_field = "DBZ", levlist = 3000 /
+
+# New Extraction for Ninjo HEIGHT-LEVELS every 1h
+#------------------------------------------------
+&Process
+  in_file="lfff<DDHH>0000z"
+  out_file="ninjo_cosmo2_${LM_YYYY}${LM_MM}${LM_DD}${LM_ZZ}_chz_<HH>.grb1", out_type="GRIB1",
+  tstart=0, tstop=$LM_NL_HENDE_CL_F, tincr=1
+  imin=130, jmin=128, imax=319, jmax=262
+/
+&Process in_field = "RELHUM", levlist = 750,1000,2000,3000,4000,5000 / 
+&Process in_field = "T",      levlist = 750,1000,2000,3000,4000,5000 / 
+&Process in_field = "U",      levlist = 750,1000,2000,3000,4000,5000 / 
+&Process in_field = "V",      levlist = 750,1000,2000,3000,4000,5000 / 
+&Process in_field = "DBZ",    levlist = 3000 /
+
+
+# Extraction for HSK (ASCII for "kleine Prognosen") until +24h
+#-------------------------------------------------------------
+&Process
+  in_type  = "INCORE",
+  out_file = "ENSI.pri", out_type = "MADUK"
+  in_grid="HSURF_cnmet", in_grid_intpl="average,square,0.9,0.",
+  out_type_text1 = 'Automatic generated file by COSMO-2 with WB-gridpoints for HSK'
+  loclist="WB101","WB102","WB103","WB104","WB105","WB106","WB107","WB108","WB109","WB110",
+          "WB111","WB112","WB113","WB114","WB115","WB116","WB117","WB118","WB119","WB120",
+          "WB121","WB122","WB123","WB124","WB125","WB126","WB127","WB201","WB202","WB203",
+          "WB204","WB205","WB206","WB207","WB208","WB209","WB210","WB211","WB212","WB213",
+          "WB214","WB215","WB216","WB217","WB218","WB219","WB220","WB221","WB222","WB223",
+          "WB224","WB225","WB301","WB302","WB303","WB304","WB305","WB306","WB307","WB308",
+          "WB309","WB310","WB311","WB312","WB313","WB314","WB315","WB316","WB317","WB318",
+          "WB319","WB320","WB321","WB322","WB323","MS001","MS002","MS003","MS004","MS005",
+          "MS006","MS007","MS008","MS009","MS010","MS011","MS012","MS013","MS014","MS015",
+          "MS016","MS017","MS018","MS019","MS020","MS021","MS022","MS023","MS024","MS025",
+          "MS026","MS027","MS028","MS029","MS030","MS031","MS032","MS033","MS034","MS035" /
+&Process in_field = "HFL", levmin=1, levmax=$LM_NL_KELM_F, regrid = .t. /
+&Process in_field = "HSURF", regrid = .t. /
+
+&Process
+  in_file  = "${LM_WDIR}/${LM_TAG}/lm_cnmet/lfsf<DDHHMMSS>",
+  out_file = "ENSI.pri", out_type = "MADUK"
+  in_grid="HSURF_cnmet", in_grid_intpl="average,square,0.9,0.",
+  out_type_text1 = 'Automatic generated file by COSMO-2 with WB-gridpoints for HSK'
+  tstart = 0, tstop = 86400, tincr = 600
+  loclist="WB101","WB102","WB103","WB104","WB105","WB106","WB107","WB108","WB109","WB110",
+          "WB111","WB112","WB113","WB114","WB115","WB116","WB117","WB118","WB119","WB120",
+          "WB121","WB122","WB123","WB124","WB125","WB126","WB127","WB201","WB202","WB203",
+          "WB204","WB205","WB206","WB207","WB208","WB209","WB210","WB211","WB212","WB213",
+          "WB214","WB215","WB216","WB217","WB218","WB219","WB220","WB221","WB222","WB223",
+          "WB224","WB225","WB301","WB302","WB303","WB304","WB305","WB306","WB307","WB308",
+          "WB309","WB310","WB311","WB312","WB313","WB314","WB315","WB316","WB317","WB318",
+          "WB319","WB320","WB321","WB322","WB323","MS001","MS002","MS003","MS004","MS005",
+          "MS006","MS007","MS008","MS009","MS010","MS011","MS012","MS013","MS014","MS015",
+          "MS016","MS017","MS018","MS019","MS020","MS021","MS022","MS023","MS024","MS025",
+          "MS026","MS027","MS028","MS029","MS030","MS031","MS032","MS033","MS034","MS035" /
+&Process in_field="PS" /
+&Process in_field="CLCT" /
+&Process in_field="TOT_PREC", toper="delta,10,minute"  /
+&Process in_field="ASHFL_S", toper="tdelta,10,minute" /
+&Process in_field="AUMFL_S", regrid=.t., toper="tdelta_g", poper="n2geog" /
+&Process in_field="AVMFL_S", regrid=.t., toper="tdelta_g", poper="n2geog" /
+&Process in_field="ASOB_S", ignore_tri=.TRUE., toper="tdelta_g" /
+&Process in_field="ALB_RAD", scale=0.01 /
+&Process in_field="T_2M" /
+&Process in_field="TD_2M"  /
+&Process in_field="U_10M"  /
+&Process in_field="V_10M"  /
+&Process in_field="P", levmin=45, levmax=$LM_NL_KELM_F /
+&Process in_field="T", levmin=45, levmax=$LM_NL_KELM_F, voper="k2h,lnp", voper_lev=10,70,110,200,500, offset=-273.15 /
+&Process in_field="QV", levmin=45, levmax=$LM_NL_KELM_F /
+&Process in_field="U", regrid=.t., levmin=45, levmax=$LM_NL_KELM_F, voper="k2h,lnp", voper_lev=70,100,110,200,500 /
+&Process in_field="V", regrid=.t., levmin=45, levmax=$LM_NL_KELM_F, voper="k2h,lnp", voper_lev=70,100,110,200,500 /
+&Process out_field="CLCT" /
+&Process out_field="ASHFL_S" /
+&Process out_field="AUMFL_S" /
+&Process out_field="AVMFL_S" /
+&Process out_field="DD_10M" /
+&Process out_field="FF_10M" /
+&Process out_field="T_2M", poper="hcor,-.006", offset=-273.15 /
+&Process out_field="RELHUM_2M" /
+&Process out_field="PS", scale=0.01 /
+&Process out_field="TOT_PREC" /
+&Process out_field="GLOB"  /
+&Process out_field="DD" /
+&Process out_field="FF" /
+&Process out_field="T" /
+
+
+# Extraction for HSK (ASCII for "grosse Prognosen")
+#--------------------------------------------------
+&Process
+  in_file  = "${LM_WDIR}/${LM_TAG}/lm_cnmet/lfsf<DDHHMMSS>c"
+  out_file = "hsk00000000c", out_type = "GRIB1"
+  tstart = 0, tstop = 0, tincr = 600
+  imin = 39, jmin = 51, imax = 123, jmax = 135 /  
+&Process in_field = "HSURF" /
+&Process in_field = "RLON" /
+&Process in_field = "RLAT" /
+&Process in_field = "HHL", levmin=43, levmax=$LM_NL_KELM_F /
+
+&Process
+  in_file  = "${LM_WDIR}/${LM_TAG}/lm_cnmet/lfsf<DDHHMMSS>",
+  out_file = "hsk00000000", out_type = "GRIB1"
+  in_grid="HSURF_cnmet", in_grid_intpl="average,square,0.9,0.",
+  tstart = 0, tstop = 0, tincr = 600
+  imin = 39, jmin = 51, imax = 123, jmax = 135 /  
+&Process in_field="PS" /
+&Process in_field="CLCT" /
+&Process in_field="T_2M" /
+&Process in_field="TD_2M"  /
+&Process in_field="U_10M"  /
+&Process in_field="V_10M"  /
+&Process in_field="P", levmin=43, levmax=$LM_NL_KELM_F /
+&Process in_field="T", levmin=43, levmax=$LM_NL_KELM_F /
+&Process in_field="QV", levmin=43, levmax=$LM_NL_KELM_F /
+&Process in_field="U", regrid=.t., levmin=43, levmax=$LM_NL_KELM_F /
+&Process in_field="V", regrid=.t., levmin=43, levmax=$LM_NL_KELM_F /
+&Process out_field="CLCT" /
+&Process out_field="DD_10M" /
+&Process out_field="FF_10M" /
+&Process out_field="T_2M", offset=-273.15 /
+&Process out_field="RELHUM_2M" /
+&Process out_field="PS", scale=0.01 /
+&Process out_field="DD" /
+&Process out_field="FF" /
+&Process out_field="T", offset=-273.15 /
+
+&Process
+  in_file  = "${LM_WDIR}/${LM_TAG}/lm_cnmet/lfsf<DDHHMMSS>",
+  out_file = "hsk<DDHHMMSS>", out_type = "GRIB1"
+  in_grid="HSURF_cnmet", in_grid_intpl="average,square,0.9,0.",
+  tstart = 0, tstop = 86400, tincr = 600, out_tstart = 600, tlag = -600,0
+  imin = 39, jmin = 51, imax = 123, jmax = 135 /  
+&Process in_field="PS" /
+&Process in_field="CLCT" /
+&Process in_field="TOT_PREC", toper="delta,10,minute"  /
+&Process in_field="ASHFL_S", toper="tdelta_g" /
+&Process in_field="AUMFL_S", regrid=.t., toper="tdelta_g", poper="n2geog" /
+&Process in_field="AVMFL_S", regrid=.t., toper="tdelta_g", poper="n2geog" /
+&Process in_field="ASOB_S", ignore_tri=.TRUE., toper="tdelta_g" /
+&Process in_field="ALB_RAD", scale=0.01 /
+&Process in_field="T_2M" /
+&Process in_field="TD_2M"  /
+&Process in_field="U_10M"  /
+&Process in_field="V_10M"  /
+&Process in_field="P", levmin=43, levmax=$LM_NL_KELM_F /
+&Process in_field="T", levmin=43, levmax=$LM_NL_KELM_F /
+&Process in_field="QV", levmin=43, levmax=$LM_NL_KELM_F /
+&Process in_field="U", regrid=.t., levmin=43, levmax=$LM_NL_KELM_F /
+&Process in_field="V", regrid=.t., levmin=43, levmax=$LM_NL_KELM_F /
+&Process out_field="CLCT" /
+&Process out_field="ASHFL_S" /
+&Process out_field="AUMFL_S" /
+&Process out_field="AVMFL_S" /
+&Process out_field="DD_10M" /
+&Process out_field="FF_10M" /
+&Process out_field="T_2M", offset=-273.15 /
+&Process out_field="RELHUM_2M" /
+&Process out_field="PS", scale=0.01 /
+&Process out_field="TOT_PREC" /
+&Process out_field="GLOB"  /
+&Process out_field="DD" /
+&Process out_field="FF" /
+&Process out_field="T", offset=-273.15 /
+
+
+# Data for WSL/AWEL (Bahnhof Loewenstrasse) 
+#------------------------------------------
+&Process
+  in_file  = "lfff<DDHH>0000"
+  out_file = "cosmo2_sihl"
+  out_type = "GRIB1", out_type_noundef = .false.
+  tstart   = 0   
+  tstop    = $LM_NL_HENDE_CL_F
+  tincr    = 1
+  imin     =  137, imax   =  320, jmin   =  130, jmax   =  260 /  
+&Process in_field = "TOT_PREC" /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  / 
+&Process in_field = "T_2M" / 
+&Process in_field = "TD_2M" /
+&Process in_field = "ASOB_S", ignore_tri=.true., toper='tdelta_g' /
+&Process in_field = "ALB_RAD", scale = 0.01 /
+&Process in_field = "DURSUN" /
+&Process out_field = "TOT_PREC", toper='delta,1,hour' / 
+&Process out_field = "FF_10M"  / 
+&Process out_field = "T_2M" /
+&Process out_field = "TD_2M" /
+&Process out_field = "GLOB" /
+&Process out_field = "DURSUN", toper='delta,1,hour' /
+
+
+# Extraction for search.ch
+#-------------------------
+&Process
+  in_file    = "${LM_WDIR}/${LM_TAG}/lm_cnmet/lfsf<DDHHMMSS>"
+  out_file   = "search_cosmo2_PREC.txt", out_type = "BLK_TABLE",
+  out_type_noundef=.true.,out_type_undefcode=-999.0, 
+  out_type_mminfo='yes'
+  out_type_fmt    = "15F8.2"
+  tstart     = 3000, tstop = 64800, tincr = 600
+  out_tstart = 3600, out_tincr = 600 
+  imin = 1, imax = 190, jmin = 1, jmax = 130 /
+&Process in_field     = "TOT_PREC"/
+&Process out_field = "TOT_PREC", toper ='delta_g' /
+
+&Process
+  in_file    = "${LM_WDIR}/${LM_TAG}/lm_cnmet/lfsf<DDHHMMSS>"
+  out_file   = "search_cosmo2_CLCT.txt", out_type = "BLK_TABLE",
+  out_type_noundef=.true.,out_type_undefcode=-999.0,
+  out_type_mminfo='yes'
+  out_type_fmt    = "15F6.0"
+  tstart     = 3000, tstop = 64800, tincr = 600
+  out_tstart = 3600, out_tincr = 600
+  imin = 1, imax = 190, jmin = 1, jmax = 130 /
+&Process in_field = "CLCT"/
+
+&Process
+  in_file    = "${LM_WDIR}/${LM_TAG}/lm_cnmet/lfsf<DDHHMMSS>"
+  out_file   = "search_cosmo2_T2m.txt", out_type = "BLK_TABLE",
+  out_type_noundef=.true.,out_type_undefcode=-999.0,
+  out_type_mminfo='yes'
+  out_type_fmt    = "15F7.1"
+  tstart     = 3000, tstop = 64800, tincr = 600
+  out_tstart = 3600, out_tincr = 600
+  imin = 1, imax = 190, jmin = 1, jmax = 130 /
+&Process in_field = "T_2M", offset = -273.15 /
+
+# Input for vorticity plots
+#--------------------------
+&Process
+  in_file  = "lfff<DDHH>0000"
+  out_file = "_SINP_plot_hi_vortp_f<HH>", out_type = "GRIB1", 
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",                 
+  tstart   = 0, tstop = $LM_NL_HENDE_F, tincr = 3
+/
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M" /
+&Process
+  in_file  = "lfff<DDHH>0000p"
+  out_file = "_SINP_plot_hi_vortp_f<HH>", out_type = "GRIB1", 
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",
+  tstart   = 0, tstop = $LM_NL_HENDE_F, tincr = 3
+/
+&Process in_field = "U", regrid=.t.,
+ levlist = 1000,950,925,900,850,800,750,700,650,600,
+           550,500,450,400,350,300,250,200,150,100
+/
+&Process in_field = "V", regrid=.t.,
+ levlist = 1000,950,925,900,850,800,750,700,650,600,
+           550,500,450,400,350,300,250,200,150,100
+/
+&Process tmp1_field = "T_2M" /
+&Process tmp1_field = "RELHUM_2M" /
+&Process tmp1_field = "U" /
+&Process tmp1_field = "V" /
+&Process out_field = "HI", undefcode = 999.0 /
+&Process out_field = "VORTP_ABS" /
+&Process out_field = "VORTP_REL" /
+
+
+# Extraction for DWH (projects Methodes and GIN)
+#-----------------------------------------------
+&Process
+  in_type    = "INCORE"
+  out_file   = "cosmo2_METHODES.pri", out_type   = "FLD_TABLE"
+  out_postproc_module = "forecast_matrix"
+  out_type_fmt="12F9.1"
+  loclist = "GVE","DOL","FRE","NEU","CDF","CHA","CGI","PUY","PAY","MLS","AIG","PLF",
+            "FAH","BAS","RUE","SHA","BER","WYN","BUS","LAE","REH","KLO","SMA","TAE",
+            "GUT","HOE","ABO","INT","NAP","PIL","LUZ","ENG","ALT","WAE","GLA","STG",
+            "SAE","VAD","SIO","VIS","MVE","ULR","ZER","GSB","EVO","FEY","GRH","JUN",
+            "GUE","DIS","CHU","WFJ","DAV","SCU","SAM","COV","HIR","SBE","ROB","COM",
+            "ROE","OTL","MAG","CIM","PIO","LUG","SBO","GOE","BEZ","MUB","LEI","PSI",
+            "CEV","DEM","CHE","BRL","STC","MOE","PRE","BIE","ORO","MAH","CRM","BAN",
+	    "GRE","EGO","MOA","CHZ","UEB","STK","BAR","ARH","DIA","BOL","AMS","BRZ",
+	    "MAE","SPF","GIH","TIT","AEG","SCM","QUI","CMA","VAB","PMA","BUF","NAS",
+	    "BOU","ATT","EVI","GOR","EGH","LOR","GEN","MTR","BIZ","MRP"/
+&Process in_field = "HSURF" /
+
+&Process
+  in_file    = "lfff<DDHH>0000"
+  tstart     = 0
+  tstop      = $LM_NL_HENDE_CL_F
+  tincr      = 1
+  out_tstart = 0
+  out_file   = "cosmo2_METHODES.pri", out_type   = "FLD_TABLE"
+  out_postproc_module = "forecast_matrix"
+  out_type_fmt="12F9.1"
+  loclist = "GVE","DOL","FRE","NEU","CDF","CHA","CGI","PUY","PAY","MLS","AIG","PLF",
+            "FAH","BAS","RUE","SHA","BER","WYN","BUS","LAE","REH","KLO","SMA","TAE",
+            "GUT","HOE","ABO","INT","NAP","PIL","LUZ","ENG","ALT","WAE","GLA","STG",
+            "SAE","VAD","SIO","VIS","MVE","ULR","ZER","GSB","EVO","FEY","GRH","JUN",
+            "GUE","DIS","CHU","WFJ","DAV","SCU","SAM","COV","HIR","SBE","ROB","COM",
+            "ROE","OTL","MAG","CIM","PIO","LUG","SBO","GOE","BEZ","MUB","LEI","PSI",
+            "CEV","DEM","CHE","BRL","STC","MOE","PRE","BIE","ORO","MAH","CRM","BAN",
+	    "GRE","EGO","MOA","CHZ","UEB","STK","BAR","ARH","DIA","BOL","AMS","BRZ",
+	    "MAE","SPF","GIH","TIT","AEG","SCM","QUI","CMA","VAB","PMA","BUF","NAS",
+	    "BOU","ATT","EVI","GOR","EGH","LOR","GEN","MTR","BIZ","MRP"/
+&Process in_field = "ASOB_S", ignore_tri=.true., toper='tdelta_g' /
+&Process in_field = "ALB_RAD", scale=0.01 /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M" /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "VMAX_10M"/
+&Process in_field = "PS" /
+&Process in_field = "PMSL" /
+&Process in_field = "RAIN_GSP" /
+&Process in_field = "SNOW_GSP" /
+&Process in_field = "GRAU_GSP" /
+&Process in_field = "DURSUN", scale = 0.00027777, toper="delta,1,hour" /
+&Process in_field = "DURSUN_M", scale = 0.00027777, toper="delta,1,hour" /
+&Process in_field = "W_SNOW"  /
+&Process in_field = "CLCH", hoper="c13" /
+&Process in_field = "CLCM", hoper="c13" /
+&Process in_field = "CLCL", hoper="c13" /
+&Process in_field = "CLCT", hoper="c13" /
+&Process in_field = "SNOWLMT", poper='mask,=-999.0' /
+&Process in_field = "HZEROCL", poper='mask,=-999.0' /
+
+&Process
+  in_file    = "lfff<DDHH>0000z"
+  tstart     = 0
+  tstop      = $LM_NL_HENDE_CL_F
+  tincr      = 1
+  out_tstart = 0
+  out_file   = "cosmo2_METHODES.pri", out_type   = "FLD_TABLE"
+  out_postproc_module = "forecast_matrix"
+  out_type_fmt="12F9.1"
+  loclist = "GVE","DOL","FRE","NEU","CDF","CHA","CGI","PUY","PAY","MLS","AIG","PLF",
+            "FAH","BAS","RUE","SHA","BER","WYN","BUS","LAE","REH","KLO","SMA","TAE",
+            "GUT","HOE","ABO","INT","NAP","PIL","LUZ","ENG","ALT","WAE","GLA","STG",
+            "SAE","VAD","SIO","VIS","MVE","ULR","ZER","GSB","EVO","FEY","GRH","JUN",
+            "GUE","DIS","CHU","WFJ","DAV","SCU","SAM","COV","HIR","SBE","ROB","COM",
+            "ROE","OTL","MAG","CIM","PIO","LUG","SBO","GOE","BEZ","MUB","LEI","PSI",
+            "CEV","DEM","CHE","BRL","STC","MOE","PRE","BIE","ORO","MAH","CRM","BAN",
+	    "GRE","EGO","MOA","CHZ","UEB","STK","BAR","ARH","DIA","BOL","AMS","BRZ",
+	    "MAE","SPF","GIH","TIT","AEG","SCM","QUI","CMA","VAB","PMA","BUF","NAS",
+	    "BOU","ATT","EVI","GOR","EGH","LOR","GEN","MTR","BIZ","MRP"/
+&Process in_field = "T" , levlist = 2000, poper="mask,HSURF>2000"/
+&Process in_field = "T" , levlist = 3000, poper="mask,HSURF>3000"/
+&Process in_field = "T" , levlist = 4000, poper="mask,HSURF>4000"/
+&Process in_field = "U" , levlist = 2000,3000,4000/
+&Process in_field = "V" , levlist = 2000,3000,4000/
+
+&Process
+  in_file    = "lfff<DDHH>0000p"
+  tstart     = 0
+  tstop      = $LM_NL_HENDE_CL_F
+  tincr      = 1
+  out_tstart = 0
+  out_file   = "cosmo2_METHODES.pri", out_type   = "FLD_TABLE"
+  out_postproc_module = "forecast_matrix"
+  out_type_fmt="12F9.1"
+  loclist = "GVE","DOL","FRE","NEU","CDF","CHA","CGI","PUY","PAY","MLS","AIG","PLF",
+            "FAH","BAS","RUE","SHA","BER","WYN","BUS","LAE","REH","KLO","SMA","TAE",
+            "GUT","HOE","ABO","INT","NAP","PIL","LUZ","ENG","ALT","WAE","GLA","STG",
+            "SAE","VAD","SIO","VIS","MVE","ULR","ZER","GSB","EVO","FEY","GRH","JUN",
+            "GUE","DIS","CHU","WFJ","DAV","SCU","SAM","COV","HIR","SBE","ROB","COM",
+            "ROE","OTL","MAG","CIM","PIO","LUG","SBO","GOE","BEZ","MUB","LEI","PSI",
+            "CEV","DEM","CHE","BRL","STC","MOE","PRE","BIE","ORO","MAH","CRM","BAN",
+	    "GRE","EGO","MOA","CHZ","UEB","STK","BAR","ARH","DIA","BOL","AMS","BRZ",
+	    "MAE","SPF","GIH","TIT","AEG","SCM","QUI","CMA","VAB","PMA","BUF","NAS",
+	    "BOU","ATT","EVI","GOR","EGH","LOR","GEN","MTR","BIZ","MRP"/
+&Process in_field = "FI", levlist = 850,700 /
+
+&Process tmp1_field = "T_2M" /
+&Process tmp1_field = "TD_2M" /
+&Process tmp1_field = "U_10M", tag='u_10m'  /
+&Process tmp1_field = "V_10M", tag='v_10m'  /
+&Process tmp1_field = "U_10M", toper='avg,-2,0,1,hour', tag='u_10m_mean_3h'  /
+&Process tmp1_field = "V_10M", toper='avg,-2,0,1,hour', tag='v_10m_mean_3h'  /
+&Process tmp1_field = "VMAX_10M" /
+&Process tmp1_field = "GLOB"  /
+&Process tmp1_field = "PS" /
+&Process tmp1_field = "PMSL" /
+&Process tmp1_field = "QNH" /
+&Process tmp1_field = "RAIN_GSP", hoper= "s9", toper="delta,1,hour", tag='rain_gsp_s9_1h'  /
+&Process tmp1_field = "SNOW_GSP", hoper= "s9", toper="delta,1,hour", tag='snow_gsp_s9_1h'  /
+&Process tmp1_field = "GRAU_GSP", hoper= "s9", toper="delta,1,hour", tag='grau_gsp_s9_1h'  /
+&Process tmp1_field = "RAIN_GSP", hoper='regavg,2', tag='rain_gsp_regavg' /
+&Process tmp1_field = "SNOW_GSP", hoper='regavg,2', tag='snow_gsp_regavg' /
+&Process tmp1_field = "GRAU_GSP", hoper='regavg,2', tag='grau_gsp_regavg' /
+&Process tmp1_field = "DURSUN", hoper="s9", tag='dursun_sum_1h' /
+&Process tmp1_field = "DURSUN", toper='sum,-11,0,1,hour', tag='dursun_sum_12h' /
+&Process tmp1_field = "DURSUN_M", toper='sum,-11,0,1,hour', tag='dursun_m_sum_12h' /
+&Process tmp1_field = "DURSUN", toper='sum,-23,0,1,hour', tag='dursun_sum_24h' /
+&Process tmp1_field = "DURSUN_M", toper='sum,-23,0,1,hour', tag='dursun_m_sum_24h' /
+&Process tmp1_field = "W_SNOW"  /
+&Process tmp1_field = "CLCH", scale=0.08 /
+&Process tmp1_field = "CLCM", scale=0.08 /
+&Process tmp1_field = "CLCL", scale=0.08 /
+&Process tmp1_field = "CLCT", scale=0.08 /
+&Process tmp1_field = "CH_CLL", toper="avg,-6,0,1,hour", tag = "cll_mean_6h" /
+&Process tmp1_field = "CH_CLL", toper="avg,-12,0,1,hour", tag = "cll_mean_12h" /
+&Process tmp1_field = "SNOWLMT", hoper='regavg,3' /
+&Process tmp1_field = "HZEROCL", hoper='fill_undef,12' /
+&Process tmp1_field = "T" , levlist = 2000,3000,4000, hoper="fill_undef,5" /
+&Process tmp1_field = "U" , levlist = 2000,3000,4000/
+&Process tmp1_field = "V" , levlist = 2000,3000,4000/
+&Process tmp1_field = "FI", levlist = 850,700 /
+
+&Process tmp2_field = "T_2M" /
+&Process tmp2_field = "TD_2M" /
+&Process tmp2_field = "TOT_PREC", use_tag='rain_gsp_s9_1h,snow_gsp_s9_1h,grau_gsp_s9_1h', tag='PREC' /
+&Process tmp2_field = "TOT_PREC", use_tag='rain_gsp_s9_1h,snow_gsp_s9_1h,grau_gsp_s9_1h', toper = 'sum,-2,0,1,hour', tag='PREC_3' /
+&Process tmp2_field = "TOT_PREC", use_tag='rain_gsp_s9_1h,snow_gsp_s9_1h,grau_gsp_s9_1h', toper = 'sum,-5,0,1,hour', tag='PREC_6' /
+&Process tmp2_field = "TOT_PREC", use_tag='rain_gsp_s9_1h,snow_gsp_s9_1h,grau_gsp_s9_1h', toper = 'sum,-11,0,1,hour', tag='PREC_12' /
+&Process tmp2_field = "TOT_PREC", use_tag='rain_gsp_s9_1h,snow_gsp_s9_1h,grau_gsp_s9_1h', toper = 'sum,-23,0,1,hour', tag='PREC_24' /
+&Process tmp2_field = "TOT_GSP", use_tag='rain_gsp_s9_1h,snow_gsp_s9_1h,grau_gsp_s9_1h' /
+&Process tmp2_field = "PS"/
+&Process tmp2_field = "PMSL", tag='PMSL_1' /
+&Process tmp2_field = "PMSL", toper='avg,-23,0,1,hour', tag='PMSL_24' /
+&Process tmp2_field = "QNH" /
+&Process tmp2_field = "DD_10M", use_tag='u_10m,v_10m', tag='DD10M' /
+&Process tmp2_field = "FF_10M", use_tag='u_10m,v_10m', tag='FF10M' /
+&Process tmp2_field = "DD_10M", use_tag='u_10m_mean_3h,v_10m_mean_3h', poper='azimut_class,8,FF10M_AM>1.5', tag='DD10MC_AM' /
+&Process tmp2_field = "DD_10M", use_tag='u_10m_mean_3h,v_10m_mean_3h', tag='DD10M_AM' /
+&Process tmp2_field = "FF_10M", use_tag='u_10m_mean_3h,v_10m_mean_3h', tag='FF10M_AM' /
+&Process tmp2_field = "DD_10M", use_tag='u_10m_mean_3h,v_10m_mean_3h', poper='azimut_class,8,FF10M_PM>1.5', tag='DD10MC_PM' /
+&Process tmp2_field = "DD_10M", use_tag='u_10m_mean_3h,v_10m_mean_3h', tag='DD10M_PM' /
+&Process tmp2_field = "FF_10M", use_tag='u_10m_mean_3h,v_10m_mean_3h', tag='FF10M_PM' /
+&Process tmp2_field = "DD_10M", use_tag='u_10m_mean_3h,v_10m_mean_3h', poper='azimut_class,8,FF10M_D>1.5', tag='DD10MC_D' /
+&Process tmp2_field = "DD_10M", use_tag='u_10m_mean_3h,v_10m_mean_3h', tag='DD10M_D' /
+&Process tmp2_field = "FF_10M", use_tag='u_10m_mean_3h,v_10m_mean_3h', tag='FF10M_D' /
+&Process tmp2_field = "VMAX_10M" /
+&Process tmp2_field = "GLOB"  /
+&Process tmp2_field = "dursun_sum_1h", tag='DRS' /
+&Process tmp2_field = "DURSUN_R", use_tag='dursun_sum_12h,dursun_m_sum_12h', hoper="s9", tag='DRSR_12' /
+&Process tmp2_field = "DURSUN_R", use_tag='dursun_sum_24h,dursun_m_sum_24h', hoper="s9", tag='DRSR_24' /
+&Process tmp2_field = "DURSUN_R", use_tag='dursun_sum_12h,dursun_m_sum_12h', hoper="regavg,2", tag='DRSR_RG12' /
+&Process tmp2_field = "DURSUN_R", use_tag='dursun_sum_24h,dursun_m_sum_24h', hoper="regavg,2", tag='DRSR_RG24' /
+&Process tmp2_field = "W_SNOW"  /
+&Process tmp2_field = "CLCH" /
+&Process tmp2_field = "CLCM" /
+&Process tmp2_field = "CLCL" /
+&Process tmp2_field = "CLCT" /
+&Process tmp2_field = "cll_mean_6h", hoper="regavg,2", tag = "cll_mean_6h_rg" /
+&Process tmp2_field = "cll_mean_12h", hoper="regavg,2", tag = "cll_mean_12h_rg" /
+&Process tmp2_field = "SNOWLMT", poper = 'replace_undef,0.0' /
+&Process tmp2_field = "HZEROCL", poper = 'replace_undef,0.0' /
+&Process tmp2_field = "TOT_PREC", use_tag='rain_gsp_regavg,snow_gsp_regavg,grau_gsp_regavg', toper='delta,6,hour', tag='PREC_RG6' /
+&Process tmp2_field = "TOT_PREC", use_tag='rain_gsp_regavg,snow_gsp_regavg,grau_gsp_regavg', toper='delta,24,hour', tag='PREC_RG24' /
+&Process tmp2_field = "T" , levlist = 2000,3000,4000 /
+&Process tmp2_field = "U" , levlist = 2000,3000,4000/
+&Process tmp2_field = "V" , levlist = 2000,3000,4000/
+&Process tmp2_field = "FI", levlist = 850,700 /
+
+&Process out_field = "T_2M", offset=-273.15, poper='hcor,-.006', tag='T2M' /
+&Process out_field = "T_2M_K", offset=-273.15, tag='T2MK' /
+&Process out_field = "T_2M",   tag='T2M_MX24', toper="max,-23,0,1,hour", offset=-273.15, poper='hcor,-.006' /
+&Process out_field = "T_2M_K", tag='T2MK_MX24', toper="max,-23,0,1,hour", offset=-273.15 /
+&Process out_field = "T_2M",   tag='T2M_MN24', toper="min,-23,0,1,hour", offset=-273.15, poper='hcor,-.006' /
+&Process out_field = "T_2M_K", tag='T2MK_MN24', toper="min,-23,0,1,hour", offset=-273.15 /
+&Process out_field = "TD_2M",   offset=-273.15, poper="hcor,-.006" /
+&Process out_field = "TD_2M_K", offset=-273.15 /
+&Process out_field = "PREC" /
+&Process out_field = "PREC_3" /
+&Process out_field = "PREC_6" /
+&Process out_field = "PREC_12" /
+&Process out_field = "PREC_24" /
+&Process out_field = "TOT_GSP" /
+&Process out_field = "PS", scale = 0.01/
+&Process out_field = "PMSL_1", scale = 0.01 /
+&Process out_field = "PMSL_24", scale = 0.01 /
+&Process out_field = "QNH", scale = 0.01 /
+&Process out_field = "DD10M", tag="DD10M" /
+&Process out_field = "FF10M", tag="FF10M" /
+&Process out_field = "DD10M", poper='azimut_class,8,FF10M>1.5', tag="DD10MC" /
+&Process out_field = "FF10M", scale=3.6, tag="FF10MKMH" /
+&Process out_field = "DD10MC_AM" /
+&Process out_field = "DD10M_AM" /
+&Process out_field = "FF10M_AM" /
+&Process out_field = "DD10MC_PM" /
+&Process out_field = "DD10M_PM" /
+&Process out_field = "FF10M_PM" /
+&Process out_field = "DD10MC_D" /
+&Process out_field = "DD10M_D" /
+&Process out_field = "FF10M_D" /
+&Process out_field = "VMAX_10M", tag="VMAX10M" /
+&Process out_field = "VMAX_10M", toper='max,-2,0,1,hour', scale=3.6, tag="VMAX_MX3" /
+&Process out_field = "GLOB"  /
+&Process out_field = "DRS" /
+&Process out_field = "DRSR_12" /
+&Process out_field = "DRSR_24" /
+&Process out_field = "DRSR_RG12" /
+&Process out_field = "DRSR_RG24" /
+&Process out_field = "W_SNOW"  /
+&Process out_field = "CLCH" /
+&Process out_field = "CLCM" /
+&Process out_field = "CLCL" /
+&Process out_field = "CLCT" /
+&Process out_field = "SNOWLMT" /
+&Process out_field = "HZEROCL" /
+&Process out_field = "PREC_RG6" /
+&Process out_field = "PREC_RG24" /
+&Process out_field = "T" ,  levlist = 2000,3000,4000, offset=-273.15/
+&Process out_field = "FF",  levlist = 2000,3000,4000/
+&Process out_field = "DD" , levlist = 2000, tag='DDDEG'/
+&Process out_field = "DD" , levlist = 3000, tag='DDDEG'/
+&Process out_field = "DD" , levlist = 4000, tag='DDDEG'/
+&Process out_field = "DD" , levlist = 2000, poper='azimut_class,8,FF>1.5', tag='DDC'/
+&Process out_field = "DD" , levlist = 3000, poper='azimut_class,8,FF>1.5', tag='DDC'/
+&Process out_field = "DD" , levlist = 4000, poper='azimut_class,8,FF>1.5', tag='DDC'/
+&Process out_field = "cll_mean_6h_rg", tag = "DRSRRG_AM" /
+&Process out_field = "cll_mean_6h_rg", tag = "DRSRRG_PM" /
+&Process out_field = "cll_mean_12h_rg", tag = "DRSRRG_D" /
+&Process out_field = "FI" , levlist = 850,700, scale = 0.1019716 /
+
+
+# Extraction for BAFU
+#--------------------
+&Process
+  in_file  = "lfff<DDHH>0000"
+  out_file = "bafu_cosmo2", out_type = "GRIB1"
+  out_type_noundef = .true.,
+  imin =  139, imax = 310, jmin = 132, jmax = 264
+  tstart = 0, tstop = $LM_NL_HENDE_CL_F, tincr = 1 /
+&Process in_field = "TOT_PREC" /
+&Process in_field = "U_10M" /
+&Process in_field = "V_10M" /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M" /
+&Process in_field = "ASOB_S", ignore_tri=.true., toper = 'tdelta,1,hour' /
+&Process in_field = "ALB_RAD", scale = 0.01 /
+&Process in_field = "DURSUN" / 
+&Process out_field = "TOT_PREC" /
+&Process out_field = "U_10M" / 
+&Process out_field = "V_10M" / 
+&Process out_field = "T_2M" /
+&Process out_field = "TD_2M" /
+&Process out_field = "GLOB"  / 
+&Process out_field = "DURSUN" / 
+
+# Extraction for Skyguide
+#------------------------
+&Process
+  in_file  =  "lfff<DDHH>0000p"
+  out_file = "cosmo2_skyguide.csv", out_type = "XLS_TABLE",
+  out_type_separator=';',
+  loclist = "GVE", "KLO", 
+  tstart   = 0, tstop = 9, tincr = 1,
+  in_grid = "HSURF", in_grid_intpl="average,square,0.9,0."
+/
+&Process in_field = "U", levlist = 700, 500, 400, 300, 250, 200, regrid = .true. /
+&Process in_field = "V", levlist = 700, 500, 400, 300, 250, 200, regrid = .true. /
+&Process out_field = "FF", scale = 1.94 /
+&Process out_field = "DD" /
+
+
+# Extraction for Luca Egli and Michael Lehning, SLF Davos
+#--------------------------------------------------------
+&Process
+  in_file  = "lfff<DDHH>0000"
+  out_file = "cosmo2_SLF.txt",
+  out_type = "BLK_TABLE",
+  out_type_undefcode = -999.0
+  out_type_epsminfo = 'yes',
+  out_type_fmt = "18F10.2",
+  tstart   = 0, tstop = $LM_NL_HENDE_CL_F, tincr = 1
+  imin = 139, imax = 310, jmin = 132, jmax = 252 /
+&Process in_field = "TD_2M" /
+&Process in_field = "T", levlist = 60, offset = -273.15/
+&Process in_field = "T_2M" /
+&Process in_field = "T_SNOW" , offset = -273.15 /
+&Process in_field = "RAIN_GSP"  /
+&Process in_field = "RAIN_CON"  /
+&Process in_field = "SNOW_GSP"  /
+&Process in_field = "SNOW_CON"  /
+&Process in_field = "GRAU_GSP"  /
+&Process in_field = "W_SNOW"  /
+&Process in_field = "U_10M" /
+&Process in_field = "V_10M" /
+&Process in_field = "ATHB_S", ignore_tri=.true., toper="tdelta_g" /
+&Process in_field = "T_G" /
+&Process in_field = "ASOB_S", ignore_tri=.true., toper="tdelta_g" /
+&Process in_field = "ALB_RAD" , scale = 0.01 /
+&Process out_field = "RELHUM_2M" /
+&Process out_field = "RAIN_GSP"  /
+&Process out_field = "RAIN_CON"  /
+&Process out_field = "SNOW_GSP"  /
+&Process out_field = "SNOW_CON"  /
+&Process out_field = "GRAU_GSP"  /
+&Process out_field = "W_SNOW"  /
+&Process out_field = "T_SNOW"  /
+&Process out_field = "T" /
+&Process out_field = "T_2M", offset=-273.15 /
+&Process out_field = "DD_10M" /
+&Process out_field = "FF_10M" /
+&Process out_field = "ASOB_S"  /
+&Process out_field = "ALB_RAD"  /
+&Process out_field = "LW_IN_TG" /
+&Process out_field = "GLOB" /
+
+
+# Extraction for GIN
+#-------------------
+&Process
+  in_file="lfff<DDHH>0000"
+  out_file="_NCLINP_<HH>_f", out_type="GRIB1"
+  tstart=0, tstop=$LM_NL_HENDE_CL_F, tincr=3
+/
+&Process in_field = "U_10M", poper = "n2geog" /
+&Process in_field = "V_10M", poper = "n2geog" /
+&Process in_field = "SNOWLMT" /
+&Process in_field = "HZEROCL" /
+
+# Extraction for GIN delta 3h
+#------------------------------
+&Process
+  in_file="lfff<DDHH>0000"
+  out_file="_NCLINP_<HH>_delta03h_f", out_type="GRIB1"
+  tstart=0, tstop=$LM_NL_HENDE_CL_F, tincr=1, tlag=-3,0,1, out_tstart=3, out_tincr=3 /
+&Process in_field = "TOT_PREC", toper="delta,3,hour" /
+&Process out_field = "TOT_PREC" /
+
+
+# Extraction for GIN delta 6h
+#------------------------------
+&Process
+  in_file="lfff<DDHH>0000"
+  out_file="_NCLINP_<HH>_delta06h_f", out_type="GRIB1"
+  tstart=0, tstop=$LM_NL_HENDE_CL_F, tincr=6, tlag=-6, out_tstart=6, out_tincr=6 /
+&Process in_field = "TOT_PREC", toper="delta,6,hour" /
+&Process out_field = "TOT_PREC" /
+
+
+# Extraction for GIN delta 12h
+#-------------------------------
+&Process
+  in_file="lfff<DDHH>0000"
+  out_file="_NCLINP_<HH>_delta12h_f", out_type="GRIB1"
+  tstart=0, tstop=$LM_NL_HENDE_CL_F, tincr=12, tlag=-12, out_tstart=12, out_tincr=12 /
+&Process in_field = "TOT_PREC", toper="delta,12,hour" /
+
+
+# Extraction for GIN delta 24h
+#-------------------------------
+&Process
+  in_file="lfff<DDHH>0000"
+  out_file="_NCLINP_<HH>_delta24h_f", out_type="GRIB1"
+  tstart=0, tstop=$LM_NL_HENDE_CL_F, tincr=24, tlag=-24, out_tstart=24, out_tincr=24 /
+&Process in_field = "TOT_PREC", toper="delta,24,hour" /
+
+
+# Extractions for SUPSI/AET (Maurizio Pozzoni)
+#---------------------------------------------
+&Process
+  in_file  = "lfff<DDHH>0000"
+  out_file = "AET_cosmo2.txt",out_type = "BLK_TABLE", 
+  out_type_noundef=.true.,out_type_undefcode=-999.0, 
+  out_type_verbosity=2, out_type_epsminfo='yes',
+  out_type_fmt = "21F8.2"
+  imin = 229, imax = 250, jmin = 165, jmax = 183,
+  tstart     = 0,
+  tstop      = $LM_NL_HENDE_CL_F,
+  tincr      = 1,
+  out_tstart = 1 /
+&Process in_field = "TOT_PREC", toper = 'delta_g' /
+&Process in_field = "T_2M", offset = -273.15 /
+&Process out_field = "TOT_PREC" /
+&Process out_field = "T_2M" /
+
+# Extractions for SAFNWC (Marco Sassi)
+#-------------------------------------
+&Process
+  in_type = "INCORE"
+  out_type = "GRIB1"
+  out_file = "NWP_$LM_YYYY$LM_MM$LM_DD${LM_ZZ}00_<HH>_cosmo2"
+  out_grid = "geolatlon,2.25,43.00,0.025,0.02,568,340"
+  out_grid_intpl="next_neighbour,square,2.0,0."    
+  tstart = 0, tstop = 8, tincr = 1 /
+&Process in_field = "HSURF" /
+&Process in_field = "FR_LAND" /
+&Process in_field = "FIS" /
+
+&Process
+  in_file = "lfff<DDHH>0000p"
+  out_type = "GRIB1"
+  out_file = "NWP_$LM_YYYY$LM_MM$LM_DD${LM_ZZ}00_<HH>_cosmo2"
+  out_grid = "geolatlon,2.25,43.00,0.025,0.02,568,340"
+  out_grid_intpl="next_neighbour,square,2.0,0."    
+  tstart = 0, tstop = 8, tincr = 1 /
+&Process in_field = "U", levlist = 1000,925,850,700,500,400,300,250,200, poper='n2geog' /
+&Process in_field = "V", levlist = 1000,925,850,700,500,400,300,250,200, poper='n2geog' /
+&Process in_field = "FI", levlist = 1000,925,850,700,500,400,300,250,200 /
+&Process in_field = "T", levlist = 1000,925,850,700,500,400,300,250,200 /
+&Process in_field = "RELHUM", levlist = 1000,925,850,700,500,400,300,250,200 /
+
+&Process
+  in_file  = "lfff<DDHH>0000"
+  out_type = "GRIB1"
+  out_file = "NWP_$LM_YYYY$LM_MM$LM_DD${LM_ZZ}00_<HH>_cosmo2"
+  out_grid = "geolatlon,2.25,43.00,0.025,0.02,568,340"
+  out_grid_intpl="next_neighbour,square,2.0,0."  
+  tstart = 0, tstop = 8, tincr = 1 /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M" /
+&Process in_field = "T_G" /
+&Process in_field = "PS" /
+&Process in_field = "TQV" /
+
+&Process out_field = "HSURF" /
+&Process out_field = "FR_LAND" /
+&Process out_field = "FIS" /
+&Process out_field = "FI" /
+&Process out_field = "T" /
+&Process out_field = "U" /
+&Process out_field = "V" /
+&Process out_field = "RELHUM" /
+&Process out_field = "T_2M" /
+&Process out_field = "TD_2M" /
+&Process out_field = "RELHUM_2M" /
+&Process out_field = "T_G" /
+&Process out_field = "PS" /
+&Process out_field = "TQV" /
+
+
+# Extraction for INCA (MCH, Matteo Buzzi)
+#----------------------------------------
+&Process
+  in_type="INCORE"
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",
+  out_file="cosmo2_inca_mch_$LM_YYYY$LM_MM$LM_DD${LM_ZZ}_00",
+  out_type="GRIB1"
+  imin = 20,
+  imax = 370,
+  jmin = 70,
+  jmax = 290
+/
+&Process in_field = "HSURF" /
+&Process in_field = "HFL", levlist=60,59,58,57,56,55,54,53,52,51,50,49,48,47,46,44,42,40,38,36,34,32,30,28,26,24,22/
+
+&Process
+  in_file  = "lfff00000000"
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",
+  out_file = "cosmo2_inca_mch_$LM_YYYY$LM_MM$LM_DD${LM_ZZ}_00"
+  out_type = "GRIB1"
+  imin = 20,
+  imax = 370,
+  jmin = 70,
+  jmax = 290
+/
+&Process in_field = "PMSL" /
+&Process in_field = "PS" /
+&Process in_field = "T_G" /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M" /
+&Process in_field = "CLCL" /
+&Process in_field = "CLCM" /
+&Process in_field = "CLCH" /
+&Process in_field = "TOT_PREC" /
+&Process in_field = "RAIN_GSP"/
+&Process in_field = "SNOW_GSP"/
+&Process in_field = "U_10M" /
+&Process in_field = "V_10M" /
+
+&Process in_field = "T",levlist=60,59,58,57,56,55,54,53,52,51,50,49,48,47,46,44,42,40,38,36,34,32,30,28,26,24,22/
+&Process in_field = "QV",levlist=60,59,58,57,56,55,54,53,52,51,50,49,48,47,46,44,42,40,38,36,34,32,30,28,26,24,22/
+&Process in_field = "P",levlist=60,59,58,57,56,55,54,53,52,51,50,49,48,47,46,44,42,40,38,36,34,32,30,28,26,24,22/
+&Process in_field = "U",levlist=60,59,58,57,56,55,54,53,52,51,50,49,48,47,46,44,42,40,38,36,34,32,30,28,26,24,22,regrid=.t./
+&Process in_field = "V",levlist=60,59,58,57,56,55,54,53,52,51,50,49,48,47,46,44,42,40,38,36,34,32,30,28,26,24,22,regrid=.t./
+&Process in_field = "W",levlist=60,59,58,57,56,55,54,53,52,51,50,49,48,47,46,44,42,40,38,36,34,32,30,28,26,24,22/
+
+&Process out_field = "HSURF" /
+&Process out_field = "HFL" /
+&Process out_field = "PMSL" /
+&Process out_field = "PS" /
+&Process out_field = "T_G" /
+&Process out_field = "T_2M" /
+&Process out_field = "TD_2M" /
+&Process out_field = "CLCL" /
+&Process out_field = "CLCM" /
+&Process out_field = "CLCH" /
+&Process out_field = "TOT_PREC" /
+&Process out_field = "RAIN_GSP"/
+&Process out_field = "SNOW_GSP"/
+&Process out_field = "U_10M" /
+&Process out_field = "V_10M" /
+
+&Process out_field = "T" /
+&Process out_field = "RELHUM" /
+&Process out_field = "P" /
+&Process out_field = "U" /
+&Process out_field = "V" /
+&Process out_field = "W" /
+
+&Process
+  in_file  = "lfff<DDHH>0000",
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",
+  out_file = "cosmo2_inca_mch_$LM_YYYY$LM_MM$LM_DD${LM_ZZ}_<HH>"
+  out_type = "GRIB1"
+  imin = 20,
+  imax = 370,
+  jmin = 70,
+  jmax = 290,
+  tstart=0, tstop=9, tincr=1, tlag= -1, out_tstart = 1 /
+&Process in_field = "PMSL" /
+&Process in_field = "PS" /
+&Process in_field = "T_G" /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M" /
+&Process in_field = "CLCL" /
+&Process in_field = "CLCM" /
+&Process in_field = "CLCH" /
+&Process in_field = "TOT_PREC" /
+&Process in_field = "RAIN_GSP"/
+&Process in_field = "SNOW_GSP"/
+&Process in_field = "U_10M" /
+&Process in_field = "V_10M" /
+&Process in_field = "ALB_RAD",scale=0.01/ 
+&Process in_field = "ASOB_S",ignore_tri=.true.,toper="tdelta,1,hour"/ 
+
+&Process in_field = "T",levlist=60,59,58,57,56,55,54,53,52,51,50,49,48,47,46,44,42,40,38,36,34,32,30,28,26,24,22/
+&Process in_field = "QV",levlist=60,59,58,57,56,55,54,53,52,51,50,49,48,47,46,44,42,40,38,36,34,32,30,28,26,24,22/
+&Process in_field = "P",levlist=60,59,58,57,56,55,54,53,52,51,50,49,48,47,46,44,42,40,38,36,34,32,30,28,26,24,22/
+&Process in_field = "U",levlist=60,59,58,57,56,55,54,53,52,51,50,49,48,47,46,44,42,40,38,36,34,32,30,28,26,24,22,regrid=.t./
+&Process in_field = "V",levlist=60,59,58,57,56,55,54,53,52,51,50,49,48,47,46,44,42,40,38,36,34,32,30,28,26,24,22,regrid=.t./
+&Process in_field = "W",levlist=60,59,58,57,56,55,54,53,52,51,50,49,48,47,46,44,42,40,38,36,34,32,30,28,26,24,22/
+
+&Process out_field = "PMSL" /
+&Process out_field = "PS" /
+&Process out_field = "T_G" /
+&Process out_field = "T_2M" /
+&Process out_field = "TD_2M" /
+&Process out_field = "CLCL" /
+&Process out_field = "CLCM" /
+&Process out_field = "CLCH" /
+&Process out_field = "TOT_PREC" /
+&Process out_field = "RAIN_GSP"/
+&Process out_field = "SNOW_GSP"/
+&Process out_field = "U_10M" /
+&Process out_field = "V_10M" /
+&Process out_field = "GLOB"/
+
+&Process out_field = "T" /
+&Process out_field = "RELHUM" /
+&Process out_field = "P" /
+&Process out_field = "U" /
+&Process out_field = "V" /
+&Process out_field = "W" /
+
+
+# Extraction for Rad4Alp (MCH, A. Hering)
+#----------------------------------------
+&Process
+  in_file  = "lfff<DDHH>0000"
+  tstart = 0,tstop=6,tincr=1
+  out_file = "cosmo2_rasa_hzerocl_$LM_YYYY$LM_MM$LM_DD${LM_ZZ}_<HH>.txt", out_type="BLK_TABLE"
+  out_grid = "swiss,255.5,-159.5,1.,1.,710,640", 
+  out_grid_intpl = "linear_fit,square,1.5,1."/
+&Process in_field = "HZEROCL", poper='mask,=-999.0' /
+&Process tmp1_field = "HZEROCL", hoper='fill_undef,50' /
+&Process out_field = "HZEROCL" /
+
+
+# Extraction of HPBL for BAFU at NABEL stations
+#----------------------------------------------
+&Process
+  in_file  = "lfff<DDHH>0000"
+  out_file = "cosmo2_bafu_hpbl.csv"
+  out_type = "XLS_TABLE", out_type_separator = ";", out_type_cheader = "gp+fd"
+  tstart = 0, tstop = 3, tincr = 1
+  loclist = "N_BAS", "N_BER", "N_DUE", "N_HAE", "N_LAE", "N_LAU", "N_LUG", 
+            "N_MAG", "N_PAY", "N_TAE", "N_ZUE"
+/
+&Process in_field = "HPBL" /
+
+
+
+#==============================================================================
+# Old NTC part
+#==============================================================================
+
+# Input for verification of surface fields
+#------------------------------------------
+&Process
+  in_type  = "INCORE"
+  out_file = "CHverS_f.pri", out_type = "BLK_TABLE", out_type_depreciated=.true., out_type_fmt  = "15F8.2", 
+  imin =  138, imax = 311, jmin = 132, jmax = 251 /
+&Process in_field = "HSURF" /
+
+&Process
+  in_file  =  "lfff<DDHH>0000"
+  out_file = "CHverS_f.pri", out_type = "BLK_TABLE", out_type_depreciated=.true., out_type_fmt  = "15F8.2", 
+  tstart   = 0, tstop    = $LM_NL_HENDE_CL_F, tincr    = 1
+  imin =  138, imax = 311, jmin = 132, jmax = 251 /
+&Process in_field = "T_2M" , offset = -273.15 /
+&Process in_field = "TD_2M" , offset = -273.15 /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "VMAX_10M"/
+&Process in_field = "CLCT" , scale = 0.01 /
+&Process in_field = "RAIN_GSP"  /
+&Process in_field = "RAIN_CON"  /
+&Process in_field = "SNOW_GSP"  /
+&Process in_field = "SNOW_CON"  /
+
+
+# Extraction for ANETZ verification
+#-----------------------------------
+&Process
+  in_file    = "lfff<DDHH>0000"
+  out_file   = "_SINP_listLM.bias_f.txt" ,
+  out_type   = "FLD_TABLE" ,
+  out_type_fmt = "12F9.1"
+  tstart     = 0 ,
+  tstop      = $LM_NL_HENDE_F ,
+  tincr      = 1,
+  out_tstart = 0 ,
+  out_tincr  = 1
+  loclist    = "GVE","DOL","FRE","NEU","CDF","CHA","CGI","PUY","PAY","MLS","AIG","PLF",
+               "FAH","BAS","RUE","SHA","BER","WYN","BUS","LAE","REH","KLO","SMA","TAE",
+               "GUT","HOE","ABO","INT","NAP","PIL","LUZ","ENG","ALT","WAE","GLA","STG",
+               "SAE","VAD","SIO","VIS","MVE","ULR","ZER","GSB","EVO","FEY","GRH","JUN",
+               "GUE","DIS","CHU","WFJ","DAV","SCU","SAM","COV","AND","SBE","ROB","COM",
+               "ROE","OTL","MAG","CIM","PIO","LUG","SBO","GOE","BEZ","MUB","LEI","PSI" /
+&Process in_field     = "T_2M" /
+&Process in_field     = "TD_2M"  /
+
+
+# Input for verification archive 
+#--------------------------------
+&Process
+  in_type  = "INCORE"
+  out_file = "verif_f00", out_type = "GRIB1", in_grid = "HSURF"
+  out_file_replace  = .true. /
+&Process in_field = "HSURF" /
+&Process in_field = "FR_LAND" /
+&Process in_field = "SOILTYP" /
+
+
+&Process
+  in_file  =  "lfff<DDHH>0000"
+  out_file = "verif_f<HH>", out_type = "GRIB1", in_grid = "HSURF"
+  tstart   = 0, tstop    = $LM_NL_HENDE_F, tincr    = 1 /
+&Process in_field = "PS" /
+&Process in_field = "Z0" /
+&Process in_field = "PMSL"   /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "VMAX_10M" /
+&Process in_field = "U" , levlist = $LM_NL_KELM_F,$LM_NL_KEM1_F,$LM_NL_KEM2_F /
+&Process in_field = "V" , levlist = $LM_NL_KELM_F,$LM_NL_KEM1_F,$LM_NL_KEM2_F /
+&Process in_field = "T" , levlist = $LM_NL_KELM_F,$LM_NL_KEM1_F,$LM_NL_KEM2_F /
+&Process in_field = "QV" , levlist = $LM_NL_KELM_F,$LM_NL_KEM1_F,$LM_NL_KEM2_F /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M" /
+&Process in_field = "T_SNOW" /
+&Process in_field = "T_SO"  /
+&Process in_field = "W_SO"  /
+&Process in_field = "QV_S" /
+&Process in_field = "W_I" /
+&Process in_field = "W_SNOW" /
+&Process in_field = "CLCT" /
+&Process in_field = "CLCH" /
+&Process in_field = "CLCM" /
+&Process in_field = "CLCL" /
+&Process in_field = "RAIN_GSP" /
+&Process in_field = "SNOW_GSP" /
+&Process in_field = "RAIN_CON" /
+&Process in_field = "SNOW_CON" /
+&Process in_field = "GRAU_GSP" /
+&Process in_field = "TOT_PREC" /
+&Process in_field = "RUNOFF"  /
+&Process in_field = "ALB_RAD" /
+&Process in_field = "ASOB_S", ignore_tri=.true. /
+&Process in_field = "ATHB_S", ignore_tri=.true. /
+&Process in_field = "AUMFL_S" /
+&Process in_field = "AVMFL_S" /
+&Process in_field = "ASHFL_S" /
+&Process in_field = "ALHFL_S" /
+&Process in_field = "TQV" /
+&Process in_field = "ZWD" /
+&Process in_field = "ZTD" /
+&Process in_field = "ZHD" /
+&Process in_field = "VGUST_DYN" /
+&Process in_field = "VGUST_CON" /
+&Process in_field = "SWDIR_COR",  ignore_tri=.true./
+&Process in_field = "ASWDIR_S",  ignore_tri=.true. /
+&Process in_field = "ASWDIFD_S",  ignore_tri=.true./
+&Process in_field = "ASWDIFU_S",  ignore_tri=.true./
+&Process in_field = "ALWD_S",  ignore_tri=.true.   /
+&Process in_field = "SKYVIEW",  ignore_tri=.true.  /
+&Process in_field = "HPBL" /
+&Process in_field = "SDI_1" /
+&Process in_field = "SDI_2" /
+&Process in_field = "AUSTRSSO", ignore_tri=.true. /
+&Process in_field = "AVSTRSSO", ignore_tri=.true. /
+&Process in_field = "AVDISSSO", ignore_tri=.true. /
+&Process in_field = "SNOWLMT" /
+&Process in_field = "HZEROCL" /
+
+
+&Process
+  in_file  =  "lfff<DDHH>0000p"
+  out_file = "verifp_f<HH>", out_type = "GRIB1", 
+  tstart   = 0, tstop = $LM_NL_HENDE_F, tincr = 6
+/
+&Process in_field = "FI",
+ levlist = 1000,950,925,900,850,800,750,700,650,600,
+           550,500,450,400,350,300,250,200,150,100
+/
+&Process in_field = "T",
+ levlist = 1000,950,925,900,850,800,750,700,650,600,
+           550,500,450,400,350,300,250,200,150,100
+/
+&Process in_field = "RELHUM",
+ levlist = 1000,950,925,900,850,800,750,700,650,600,
+           550,500,450,400,350,300,250,200,150,100
+/
+&Process in_field = "U",
+ levlist = 1000,950,925,900,850,800,750,700,650,600,
+           550,500,450,400,350,300,250,200,150,100
+/
+&Process in_field = "V",
+ levlist = 1000,950,925,900,850,800,750,700,650,600,
+           550,500,450,400,350,300,250,200,150,100
+/
+
+
+# Input for synop verif (online) 
+#-------------------------------
+&Process
+  in_type  = "INCORE"
+  out_file = "synop_f${LM_INI}_000", out_type = "GRIB1" /
+&Process in_field = "HSURF" /
+&Process in_field = "FR_LAND" /
+&Process in_field = "SOILTYP" /
+
+&Process
+  in_file  = "lfff<DDHH>0000"
+  out_file = "synop_f${LM_INI}_<HHH>", out_type = "GRIB1"
+  tstart   = 0, tstop = $LM_NL_HENDE_F, tincr = 1 /
+&Process in_field = "PS" /
+&Process in_field = "PMSL"   /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "VMAX_10M" /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M" /
+&Process in_field = "CLCT" /
+&Process in_field = "TOT_PREC" /
+&Process in_field = "VGUST_DYN" /
+&Process in_field = "VGUST_CON" /
+&Process in_field = "ALB_RAD" /
+&Process in_field = "ASOB_S", ignore_tri=.true. /
+
+&Process
+  in_file  = "laf<YYYYMMDDHH:$LM_INI_PREASSML>"
+  out_file = "synop_f<YYYYMMDDHH:$LM_INI_PREASSML>", out_type = "GRIB1"
+  tstart   = 0, tstop = $LM_NL_HENDE_PREASSML, tincr = 1 /
+&Process in_field = "HSURF" /
+&Process in_field = "FR_LAND" /
+&Process in_field = "SOILTYP" /
+&Process in_field = "PS" /
+&Process in_field = "PMSL"   /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "VMAX_10M" /
+&Process in_field = "T_2M" / 
+&Process in_field = "TD_2M" / 
+&Process in_field = "CLCT" /
+&Process in_field = "TOT_PREC" /
+&Process in_field = "ALB_RAD" /
+&Process in_field = "ASOB_S", ignore_tri=.true. /
+
+# Extraction for D-PHASE IACETH
+#------------------------------
+&Process
+  in_file  = "lfff<DDHH>0000"
+  out_file = "iaceth2_<DDHH>0000"
+  out_type = "GRIB1"
+  tstart   = 0   
+  tstop    = $LM_NL_HENDE_CL_F
+  tincr    = 1
+  out_file_replace  = .true.
+  imin    =  137, imax   =  320, jmin   =  81, jmax   =  348 /   
+&Process in_field = "TOT_PREC" /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  / 
+&Process in_field = "T_2M" / 
+&Process in_field = "TD_2M" /
+&Process in_field = "ASOB_S", ignore_tri=.true. /
+&Process in_field = "RUNOFF" /
+&Process in_field = "ALB_RAD"  /
+&Process in_field = "CLCT" /
+
+
+# Extraction for INCA blending
+#-----------------------------
+&Process
+  in_type  = "INCORE" 
+  out_file = "cosmo2_inca00", out_type = "GRIB1",
+  imin = 121,
+  imax = 313,
+  jmin = 126,
+  jmax = 252 /
+&Process in_field = "HSURF" /
+&Process in_field = "FR_LAND" /
+
+&Process
+  in_file  =  "lfff<DDHH>0000"
+  out_file = "cosmo2_inca<HH>", out_type = "GRIB1",
+  imin = 121,
+  imax = 313,
+  jmin = 126,
+  jmax = 252,
+  tstart   = 0,
+  tstop    = $LM_NL_HENDE_CL_F,
+  tincr    = 1 /
+&Process in_field = "PMSL"   /
+&Process in_field = "PS" /
+&Process in_field = "T_G" /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M" /
+&Process in_field = "CLCT" /
+&Process in_field = "TOT_PREC" /
+&Process in_field = "U_10M" /
+&Process in_field = "V_10M" /
+
+&Process
+  in_file  =  "lfff<DDHH>0000p"
+  out_file = "cosmo2_inca<HH>", out_type = "GRIB1",
+  imin = 121,
+  imax = 313,
+  jmin = 126,
+  jmax = 252,
+  tstart   = 0,
+  tstop    = $LM_NL_HENDE_CL_F,
+  tincr    = 1 /
+&Process in_field = "T"   /
+&Process in_field = "RELHUM" /
+&Process in_field = "U" /
+&Process in_field = "V" /
+&Process in_field = "OMEGA" /
+&Process in_field = "FI" /
+
+
+# Extraction for INCA verification
+#---------------------------------
+&Process
+  in_type  = "INCORE" 
+  out_file = "inca2_verif00", out_type = "GRIB1",
+  imin = 121,
+  imax = 520,
+  jmin = 126,
+  jmax = 310 /
+&Process in_field = "HSURF" /
+&Process in_field = "FR_LAND" /
+
+&Process
+  in_file  =  "lfff<DDHH>0000"
+  out_file = "inca2_verif<HH>", out_type = "GRIB1",
+  imin = 121,
+  imax = 520,
+  jmin = 126,
+  jmax = 310,
+  tstart   = 0,
+  tstop    = $LM_NL_HENDE_CL_F,
+  tincr    = 1 /
+&Process in_field = "PMSL"   /
+&Process in_field = "PS" /
+&Process in_field = "T_G" /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M" /
+&Process in_field = "TMIN_2M" /
+&Process in_field = "TMAX_2M" /
+&Process in_field = "VMAX_10M" /
+&Process in_field = "CLCL" /
+&Process in_field = "CLCM" /
+&Process in_field = "CLCH" /
+&Process in_field = "CLCT" /
+&Process in_field = "RAIN_CON" /
+&Process in_field = "RAIN_GSP" /
+&Process in_field = "SNOW_CON" /
+&Process in_field = "SNOW_GSP" /
+&Process in_field = "U_10M" /
+&Process in_field = "V_10M" /
+
+
+# Extraction for EPFL - MINERVE
+#------------------------------
+&Process
+  in_file    = "lfff<DDHH>0000p"
+  tstart     = 0
+  tstop      = $LM_NL_HENDE_CL_F
+  tincr      = 1
+  out_file   = "minerve2.pri", out_type   = "BLK_TABLE", 
+  out_type_noundef=.true.,out_type_undefcode=-999.0, 
+  out_type_verbosity=2, out_type_epsminfo='yes'
+  out_type_fmt    = "15F8.2"  
+  imin = 163
+  imax = 244
+  jmin = 135 
+  jmax = 192 /
+&Process in_field= "T" , levlist = 850,700,500/
+&Process in_field="U" , poper='n2geog', levlist =  700,500/
+&Process in_field="V" , poper='n2geog', levlist =  700,500/
+&Process in_field="FI" , levlist = 850,700,500, scale=0.101972/
+
+&Process
+  in_file    = "lfff<DDHH>0000z"
+  tstart     = 0
+  tstop      = $LM_NL_HENDE_CL_F
+  tincr      = 1
+  out_file   = "minerve2.pri", out_type   = "BLK_TABLE",
+  out_type_noundef=.true.,out_type_undefcode=-999.0, 
+  out_type_verbosity=2, out_type_epsminfo='yes'
+  out_type_fmt    = "15F8.2"
+  imin = 163
+  imax = 244
+  jmin = 135 
+  jmax = 192 /
+&Process in_field = "T" , levlist = 1000,2000,3000,4000,5000/
+
+&Process
+  in_file    = "lfff<DDHH>0000"
+  tstart     = 0
+  tstop      = $LM_NL_HENDE_CL_F
+  tincr      = 1
+  out_file   = "minerve2.pri", out_type   = "BLK_TABLE", 
+  out_type_noundef=.true.,out_type_undefcode=-999.0, 
+  out_type_verbosity=2, out_type_epsminfo='yes'
+  out_type_fmt    = "15F8.2"
+  imin = 163
+  imax = 244 
+  jmin = 135 
+  jmax = 192 /
+&Process in_field = "RAIN_GSP" /
+&Process in_field = "SNOW_GSP" /
+&Process in_field = "GRAU_GSP" /
+&Process in_field = "SNOWLMT"  /
+&Process in_field = "T_2M"  /
+&Process in_field = "TD_2M"  /
+&Process in_field = "T", levlist = $LM_NL_KELM_C /
+&Process in_field = "W_SNOW"  /
+
+&Process
+  in_file    = "lfff<DDHH>0000"
+  tstart     = 0
+  tstop      = $LM_NL_HENDE_CL_F
+  tincr      = 1
+  out_file   = "minerve2.pri", out_type   = "BLK_TABLE", 
+  out_type_noundef=.true.,out_type_undefcode=-999.0, 
+  out_type_verbosity=2, out_type_epsminfo='yes'
+  out_type_fmt    = "15F8.2"
+  imin = 163
+  imax = 244 
+  jmin = 135 
+  jmax = 192 /
+&Process out_field = "T",levclass='k',levlist=$LM_NL_KELM_C/
+&Process out_field = "T",levclass='p',levlist=850,700,500/
+&Process out_field = "T",levclass='z',levlist=1000,2000,3000,4000,5000/
+&Process out_field = "U",levclass='p',levlist=700,500/
+&Process out_field = "V",levclass='p',levlist=700,500/
+&Process out_field = "FI",levclass='p',levlist=850,700,500/
+&Process out_field = "TOT_GSP"/
+&Process out_field = "SNOWLMT"/
+&Process out_field = "T_2M"/
+&Process out_field = "RELHUM_2M"/
+&Process out_field = "W_SNOW"/
+
+&Process
+  in_file    = "lfff<DDHH>0000"
+  tstart     = 0
+  tstop      = $LM_NL_HENDE_CL_F
+  tincr      = 1
+  out_file   = "minerve2_STA.pri", out_type   = "FLD_TABLE"
+  out_tstart = 0
+  out_tincr  = 1
+  out_type_fmt    = "12F9.1"
+  loclist = "MLS","AIG","PLF","ABO","INT","PIL","ENG",
+            "ALT","SIO","VIS","MVE","ULR","ZER","GSB",
+            "EVO","FEY","GRH","JUN","GUE","DIS","PIO"/
+&Process in_field = "T_2M"                   /
+&Process in_field = "TD_2M" /
+&Process in_field = "ASOB_S", ignore_tri=.true., toper='tdelta_g' /
+&Process in_field = "ALB_RAD", scale=0.01 /
+&Process out_field = "T_2M" , poper="hcor,-.006", offset=-273.15/
+&Process out_field = "T_2M_K" , offset=-273.15/
+&Process out_field = "RELHUM_2M"  /
+&Process out_field = "RH_2M_K"  /
+&Process out_field = "GLOB"     /
+
+
+# Extraction for Ch. Lienert (ETHZ)
+#----------------------------------
+&Process
+ in_file  = "lfff<DDHH>0000" 
+ out_file = "lienert_cosmo2.pri",
+ tstart = 0, tstop = $LM_NL_HENDE_CL_F, tincr = 1
+ out_type = "BLK_TABLE", out_type_noundef=.true.,  
+ out_type_fmt = "15F7.1",
+ imin = 135,
+ imax = 319,
+ jmin = 135,
+ jmax = 247 / 
+&Process in_field    = "TOT_PREC" /
+&Process in_field    = "T_2M" /
+&Process in_field    = "ASOB_S", ignore_tri=.true., toper="tdelta_g" /
+&Process in_field    = "ALB_RAD", scale =0.01 /
+&Process in_field    = "U_10M", poper='n2geog' /
+&Process in_field    = "V_10M", poper='n2geog' /
+&Process in_field    = "TD_2M" /
+&Process out_field = "TOT_PREC", toper="delta,1,hour" /
+&Process out_field = "T_2M", offset = -273.15  /
+&Process out_field = "GLOB" /
+&Process out_field = "U_10M" /
+&Process out_field = "V_10M" /
+&Process out_field = "TD_2M", offset = -273.15  /
+
+
+# Extraction for groupe-e 
+#------------------------
+#&Process
+# in_file  = "lfff<DDHH>0000"  tstart = 0,  tstop = $LM_NL_HENDE_F,
+# tincr = 1,  out_tstart = 0,  out_tincr  = 1
+# out_file = "groupe-e_COSMO-2.pri",
+# out_type = "BLK_TABLE", out_type_noundef=.true.,  out_type_verbosity=2, out_type_epsminfo='yes',  out_type_fmt = "15F8.2",
+# imin = 139,
+# imax = 310,
+# jmin = 132,
+# jmax = 252
+# levlist   = -1 /
+#&Process in_field = "T_2M" /
+#&Process in_field = "TOT_PREC", toper="delta,1,hour"  /
+#&Process in_field = "ASOB_S", ignore_tri=.true., toper="tdelta_g" /
+#&Process in_field = "ALB_RAD" , scale = 0.01 /
+#&Process out_field = "TOT_PREC" /
+#&Process out_field = "T_2M", offset=-273.15 /
+#&Process out_field = "GLOB"  /
+
+#&Process
+# in_file    = "lfff<DDHH>0000"
+# tstart     = 0
+# tstop      = $LM_NL_HENDE_F
+# tincr      = 1
+# out_file   = "groupe-e_COSMO-2_sta.pri"
+# out_type   = "FLD_TABLE"
+# out_tstart = 0
+# out_tincr  = 1
+# out_type_fmt    = "12F9.1"
+# loclist    = "PLF","MLS","PAY","NEU","CDF","BER","ABO","FRE","MVE" /
+#&Process in_field = "T_2M" /
+#&Process in_field = "TOT_PREC", toper="delta,1,hour" /
+#&Process in_field = "ASOB_S", ignore_tri=.true., toper='tdelta_g' /
+#&Process in_field = "ALB_RAD", scale=0.01 /
+#&Process in_field = "TD_2M" /
+#&Process out_field = "TOT_PREC"  /
+#&Process out_field = "T_2M" , poper="hcor,-.006", offset=-273.15/
+#&Process out_field = "T_2M_K" , offset=-273.15/
+#&Process out_field = "RELHUM_2M" /
+#&Process out_field = "RH_2M_K" /
+#&Process out_field = "GLOB"     /
+
+
+# Extraction for e-dric 
+#----------------------
+&Process
+ in_file  = "lfff<DDHH>0000"  
+ tstart = 0,  tstop = $LM_NL_HENDE_CL_F,
+ tincr = 1,  out_tstart = 0,  out_tincr  = 1
+ out_file = "e-dric_COSMO-2.pri",
+ out_type = "BLK_TABLE", out_type_noundef=.true.,  
+ out_type_verbosity=2, out_type_epsminfo='yes', out_type_fmt = "15F8.2",
+ imin = 70,
+ imax = 370,
+ jmin = 30,
+ jmax = 330 /
+&Process in_field = "T_2M" /
+&Process in_field = "TOT_PREC", toper="delta"  /
+&Process out_field = "TOT_PREC" /
+&Process out_field = "T_2M", offset=-273.15 /
+
+
+# Extraction for postprocessing
+#------------------------------
+&Process
+  in_type  = "INCORE"
+  out_file = "postproc_f00", out_type = "GRIB1", in_grid = "HSURF"
+  imin     =  135, imax =  320, jmin = 128, jmax = 254 /
+&Process in_field = "HSURF" /
+&Process in_field = "FR_LAND" /
+&Process in_field = "SOILTYP" /
+
+&Process
+  in_file  = "lfff<DDHH>0000"
+  out_file = "postproc_f<HH>", out_type = "GRIB1", in_grid = "HSURF"
+  tstart   =  0, tstop = $LM_NL_HENDE_F, tincr = 1
+  imin     =  135, imax =  320, jmin = 128, jmax = 254 / 
+&Process in_field = "U" ,   levmin = 1, levmax = $LM_NL_KELM_F / 
+&Process in_field = "V" ,   levmin = 1, levmax = $LM_NL_KELM_F /
+&Process in_field = "W" ,   levmin = 1, levmax = $LM_NL_KELM_F /
+&Process in_field = "T" ,   levmin = 1, levmax = $LM_NL_KELM_F /
+&Process in_field = "QV" ,  levmin = 1, levmax = $LM_NL_KELM_F /
+&Process in_field = "QC" ,  levmin = 1, levmax = $LM_NL_KELM_F /
+&Process in_field = "QR" ,  levmin = 1, levmax = $LM_NL_KELM_F /
+&Process in_field = "QS" ,  levmin = 1, levmax = $LM_NL_KELM_F /
+&Process in_field = "QG" ,  levmin = 1, levmax = $LM_NL_KELM_F /
+&Process in_field = "P" ,   levmin = 1, levmax = $LM_NL_KELM_F /
+&Process in_field = "QI" ,  levmin = 1, levmax = $LM_NL_KELM_F /
+&Process in_field = "CLC" , levmin = 1, levmax = $LM_NL_KELM_F /
+&Process in_field = "TKE" , levmin = 1, levmax = $LM_NL_KELM_F /
+&Process in_field = "PS"   /
+&Process in_field = "T_SNOW"   /
+&Process in_field = "T_SO" /
+&Process in_field = "W_SNOW" /
+&Process in_field = "W_SO" /
+&Process in_field = "QV_S" /
+&Process in_field = "W_I" /
+&Process in_field = "RAIN_GSP" /
+&Process in_field = "SNOW_GSP" /
+&Process in_field = "GRAU_GSP" /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M" /
+&Process in_field = "TMIN_2M" /
+&Process in_field = "TMAX_2M" /
+&Process in_field = "VMAX_10M" /
+&Process in_field = "TCM" /
+&Process in_field = "TCH" /
+&Process in_field = "T_G" /
+&Process in_field = "CLCT" /
+&Process in_field = "CLCH" /
+&Process in_field = "CLCM" /
+&Process in_field = "CLCL" /
+&Process in_field = "ALB_RAD" /
+&Process in_field = "ASOB_S", ignore_tri=.true. /
+&Process in_field = "ATHB_S", ignore_tri=.true. /
+&Process in_field = "ASOB_T", ignore_tri=.true. /
+&Process in_field = "ATHB_T", ignore_tri=.true. /
+&Process in_field = "APAB_S", ignore_tri=.true. /
+&Process in_field = "TOT_PREC" /
+&Process in_field = "Z0" /
+&Process in_field = "AUMFL_S" /
+&Process in_field = "AVMFL_S" /
+&Process in_field = "ASHFL_S" /
+&Process in_field = "ALHFL_S" /
+&Process in_field = "BAS_CON" /
+&Process in_field = "TOP_CON" /
+&Process in_field = "HTOP_DC" /
+&Process in_field = "RUNOFF" /
+&Process in_field = "PMSL"   /
+&Process in_field = "HBAS_CON"   /
+&Process in_field = "HTOP_CON"   /
+&Process in_field = "HZEROCL"   /
+&Process in_field = "DPSDT"   /
+&Process in_field = "SNOWLMT"   /
+&Process in_field = "MFLX_CON"   /
+&Process in_field = "ZTD" /
+&Process in_field = "ZHD" /
+&Process in_field = "ZWD" /
+&Process in_field = "TQC" /
+&Process in_field = "TQI" /
+&Process in_field = "TQV" /
+&Process in_field = "DURSUN" /
+
+
+# cosmorad
+#---------
+&Process
+  in_file    = "lfff<DDHH>0000"
+  tstart     = 0
+  tstop      = $LM_NL_HENDE_CL_F
+  tincr      = 1
+  out_tstart = 1
+  out_file   = "c2_fc_0060_$LM_YYYY$LM_MM$LM_DD${LM_ZZ}00.grib1"
+  out_type   = "GRIB1"
+/
+&Process in_field = "TOT_PREC", toper='delta_g'/
+
+
+# vprof Grenchen (for huc) 
+#-------------------------
+&Process
+  in_type="INCORE"
+  out_file = "Grenchen_f.l2e"
+  out_type = "L2E"
+  out_type_mminfo = 'yes'
+  in_grid="HSURF_cnmet", in_grid_intpl="average,square,0.9,0.",
+  ilist=69,70,71,69,70,71,69,70,71
+  jlist=83,83,83,84,84,84,85,85,85 /
+&Process in_field = "HSURF", regrid=.t. /
+&Process in_field = "HFL", levmin=1, levmax=$LM_NL_KELM_F, regrid=.t. /
+
+&Process
+  in_file  = "${LM_WDIR}/${LM_TAG}/lm_cnmet/lfsf<DDHHMMSS>"
+  out_file = "Grenchen_f.l2e"
+  out_type = "L2E"
+  out_type_mminfo = 'yes'
+  in_grid="HSURF_cnmet", in_grid_intpl="average,square,0.9,0.",
+  tstart = 0, tstop = 86400, tincr = 600
+  ilist=69,70,71,69,70,71,69,70,71
+  jlist=83,83,83,84,84,84,85,85,85 /
+&Process in_field = "PS" /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M"  /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "P", levlist = -1 /
+&Process in_field = "T", levlist = -1 /
+&Process in_field = "U",regrid=.t./
+&Process in_field = "V",regrid=.t./
+&Process in_field = "QV", levlist = -1 /
+&Process in_field = "QC", levlist = -1 /
+&Process out_field = "HSURF"/
+&Process out_field = "HFL"/
+&Process out_field = "PS", scale=0.1 /
+&Process out_field = "T_2M", offset=-273.15, scale=10. /
+&Process out_field = "D_TD_2M", scale=10. /
+&Process out_field = "DD_10M" /
+&Process out_field = "FF_10M" /
+&Process out_field = "P", levlist = -1, scale=0.1 /
+&Process out_field = "T", levlist = -1, offset=-273.15, scale=10. /
+&Process out_field = "D_TD", levlist = -1, scale=10. /
+&Process out_field = "DD", levlist = -1 /
+&Process out_field = "FF", levlist = -1 /
+&Process out_field = "QV", levlist = -1 /
+&Process out_field = "QC", levlist = -1 /
+&Process out_field = "RELHUM", levlist = -1 /
+
+# vprof Grenchen analyses (for huc)
+#----------------------------------
+&Process
+  in_type="INCORE"
+  out_file = "Grenchen_ana_f.l2e"
+  out_type = "L2E"
+  out_type_mminfo = 'yes'
+  in_grid="HSURF_cnmet", in_grid_intpl="average,square,0.9,0.",
+  ilist=69,70,71,69,70,71,69,70,71
+  jlist=83,83,83,84,84,84,85,85,85 /
+&Process in_field = "HSURF", regrid=.t. /
+&Process in_field = "HFL", levmin=1, levmax=$LM_NL_KELM_F, regrid=.t. /
+
+&Process
+  in_file  = "${LM_WDIR}/${LM_TAG}/lm_cnmet_ana/lfsf<DDHHMMSS>"
+  out_file = "Grenchen_ana_f.l2e"
+  out_type = "L2E"
+  out_type_mminfo = 'yes'
+  in_grid="HSURF_cnmet", in_grid_intpl="average,square,0.9,0.",
+  tstart = 0, tstop = $LM_NL_HENDE_PREASSML_S, tincr = 600
+  ilist=69,70,71,69,70,71,69,70,71
+  jlist=83,83,83,84,84,84,85,85,85 /
+&Process in_field = "PS" /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M"  /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "P", levlist = -1 /
+&Process in_field = "T", levlist = -1 /
+&Process in_field = "U",regrid=.t./
+&Process in_field = "V",regrid=.t./
+&Process in_field = "QV", levlist = -1 /
+&Process in_field = "QC", levlist = -1 /
+&Process out_field = "HSURF"/
+&Process out_field = "HFL"/
+&Process out_field = "PS", scale=0.1 /
+&Process out_field = "T_2M", offset=-273.15, scale=10. /
+&Process out_field = "D_TD_2M", scale=10. /
+&Process out_field = "DD_10M" /
+&Process out_field = "FF_10M" /
+&Process out_field = "P", levlist = -1, scale=0.1 /
+&Process out_field = "T", levlist = -1, offset=-273.15, scale=10. /
+&Process out_field = "D_TD", levlist = -1, scale=10. /
+&Process out_field = "DD", levlist = -1 /
+&Process out_field = "FF", levlist = -1 /
+&Process out_field = "QV", levlist = -1 /
+&Process out_field = "QC", levlist = -1 /
+&Process out_field = "RELHUM", levlist = -1 /
+
+
+# vprof Payerne (for huc) 
+#-----------------------
+&Process
+  in_type  = "INCORE"
+  out_file = "Payerne_f.l2e"
+  out_type = "L2E"
+  out_type_mminfo = 'yes'
+  in_grid="HSURF_cnmet", in_grid_intpl="average,square,0.9,0.",
+  ilist = 52,53,54,52,53,54,52,53,54
+  jlist = 66,66,66,67,67,67,68,68,68 /
+&Process in_field = "HSURF", regrid=.t. /
+&Process in_field = "HFL", levmin=1, levmax=$LM_NL_KELM_F, regrid=.t. /
+
+&Process
+  in_file  = "${LM_WDIR}/${LM_TAG}/lm_cnmet/lfsf<DDHHMMSS>"
+  out_file = "Payerne_f.l2e"
+  out_type = "L2E"
+  out_type_mminfo = 'yes'
+  in_grid="HSURF_cnmet", in_grid_intpl="average,square,0.9,0.",
+  tstart = 0, tstop = 86400, tincr = 600
+  ilist = 52,53,54,52,53,54,52,53,54
+  jlist = 66,66,66,67,67,67,68,68,68 /
+&Process in_field = "PS" /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M"  /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "P", levlist = -1 /
+&Process in_field = "T", levlist = -1 /
+&Process in_field = "U",regrid=.t./
+&Process in_field = "V",regrid=.t./
+&Process in_field = "QV", levlist = -1 /
+&Process in_field = "QC", levlist = -1 /
+&Process out_field = "HSURF"/
+&Process out_field = "HFL"/
+&Process out_field = "PS", scale=0.1 /
+&Process out_field = "T_2M", offset=-273.15, scale=10. /
+&Process out_field = "D_TD_2M", scale=10. /
+&Process out_field = "DD_10M" /
+&Process out_field = "FF_10M" /
+&Process out_field = "P", levlist = -1, scale=0.1 /
+&Process out_field = "T", levlist = -1, offset=-273.15, scale=10. /
+&Process out_field = "D_TD", levlist = -1, scale=10. /
+&Process out_field = "DD", levlist = -1 /
+&Process out_field = "FF", levlist = -1 /
+&Process out_field = "QV", levlist = -1 /
+&Process out_field = "QC", levlist = -1 /
+&Process out_field = "RELHUM", levlist = -1 /
+
+# vprof Payerne analyses (for huc)
+#--------------------------------
+&Process
+  in_type  = "INCORE"
+  out_file = "Payerne_ana_f.l2e"
+  out_type = "L2E"
+  out_type_mminfo = 'yes'
+  in_grid="HSURF_cnmet", in_grid_intpl="average,square,0.9,0.",
+  ilist = 52,53,54,52,53,54,52,53,54
+  jlist = 66,66,66,67,67,67,68,68,68 /
+&Process in_field = "HSURF", regrid=.t. /
+&Process in_field = "HFL", levmin=1, levmax=$LM_NL_KELM_F, regrid=.t. /
+
+&Process
+  in_file  = "${LM_WDIR}/${LM_TAG}/lm_cnmet_ana/lfsf<DDHHMMSS>"
+  out_file = "Payerne_ana_f.l2e"
+  out_type = "L2E"
+  out_type_mminfo = 'yes'
+  in_grid="HSURF_cnmet", in_grid_intpl="average,square,0.9,0.",
+  tstart = 0, tstop = $LM_NL_HENDE_PREASSML_S, tincr = 600
+  ilist = 52,53,54,52,53,54,52,53,54
+  jlist = 66,66,66,67,67,67,68,68,68 /
+&Process in_field = "PS" /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M"  /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "P", levlist = -1 /
+&Process in_field = "T", levlist = -1 /
+&Process in_field = "U",regrid=.t./
+&Process in_field = "V",regrid=.t./
+&Process in_field = "QV", levlist = -1 /
+&Process in_field = "QC", levlist = -1 /
+&Process out_field = "HSURF"/
+&Process out_field = "HFL"/
+&Process out_field = "PS", scale=0.1 /
+&Process out_field = "T_2M", offset=-273.15, scale=10. /
+&Process out_field = "D_TD_2M", scale=10. /
+&Process out_field = "DD_10M" /
+&Process out_field = "FF_10M" /
+&Process out_field = "P", levlist = -1, scale=0.1 /
+&Process out_field = "T", levlist = -1, offset=-273.15, scale=10. /
+&Process out_field = "D_TD", levlist = -1, scale=10. /
+&Process out_field = "DD", levlist = -1 /
+&Process out_field = "FF", levlist = -1 /
+&Process out_field = "QV", levlist = -1 /
+&Process out_field = "QC", levlist = -1 /
+&Process out_field = "RELHUM", levlist = -1 /
+
+# vprof Schaffhausen (for huc)
+#--------------------------------
+&Process
+  in_type  = "INCORE"
+  out_file = "Schaffhausen_f.l2e"
+  out_type = "L2E"
+  out_type_mminfo = 'yes'
+  in_grid="HSURF_cnmet", in_grid_intpl="average,square,0.9,0.",
+  ilist = 111,112,113,111,112,113,111,112,113
+  jlist = 108,108,108,109,109,109,110,110,110 /
+&Process in_field = "HSURF", regrid=.t. /
+&Process in_field = "HFL", levmin=1, levmax=$LM_NL_KELM_F, regrid=.t. /
+
+&Process
+  in_file  = "${LM_WDIR}/${LM_TAG}/lm_cnmet/lfsf<DDHHMMSS>"
+  out_file = "Schaffhausen_f.l2e"
+  out_type = "L2E"
+  out_type_mminfo = 'yes'
+  in_grid="HSURF_cnmet", in_grid_intpl="average,square,0.9,0.",
+  tstart = 0, tstop = 86400, tincr = 600
+  ilist = 111,112,113,111,112,113,111,112,113
+  jlist = 108,108,108,109,109,109,110,110,110 /
+&Process in_field = "PS" /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M"  /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "P", levlist = -1 /
+&Process in_field = "T", levlist = -1 /
+&Process in_field = "U",regrid=.t./
+&Process in_field = "V",regrid=.t./
+&Process in_field = "QV", levlist = -1 /
+&Process in_field = "QC", levlist = -1 /
+&Process out_field = "HSURF"/
+&Process out_field = "HFL"/
+&Process out_field = "PS", scale=0.1 /
+&Process out_field = "T_2M", offset=-273.15, scale=10. /
+&Process out_field = "D_TD_2M", scale=10. /
+&Process out_field = "DD_10M" /
+&Process out_field = "FF_10M" /
+&Process out_field = "P", levlist = -1, scale=0.1 /
+&Process out_field = "T", levlist = -1, offset=-273.15, scale=10. /
+&Process out_field = "D_TD", levlist = -1, scale=10. /
+&Process out_field = "DD", levlist = -1 /
+&Process out_field = "FF", levlist = -1 /
+&Process out_field = "QV", levlist = -1 /
+&Process out_field = "QC", levlist = -1 /
+&Process out_field = "RELHUM", levlist = -1 /
+
+# vprof Schaffhausen analyses (for huc)
+#--------------------------------------
+&Process
+  in_type  = "INCORE"
+  out_file = "Schaffhausen_ana_f.l2e"
+  out_type = "L2E"
+  out_type_mminfo = 'yes'
+  in_grid="HSURF_cnmet", in_grid_intpl="average,square,0.9,0.",
+  ilist = 111,112,113,111,112,113,111,112,113
+  jlist = 108,108,108,109,109,109,110,110,110 /
+&Process in_field = "HSURF", regrid=.t. /
+&Process in_field = "HFL", levmin=1, levmax=$LM_NL_KELM_F, regrid=.t. /
+
+&Process
+  in_file  = "${LM_WDIR}/${LM_TAG}/lm_cnmet_ana/lfsf<DDHHMMSS>"
+  out_file = "Schaffhausen_ana_f.l2e"
+  out_type = "L2E"
+  out_type_mminfo = 'yes'
+  in_grid="HSURF_cnmet", in_grid_intpl="average,square,0.9,0.",
+  tstart = 0, tstop = $LM_NL_HENDE_PREASSML_S, tincr = 600
+  ilist = 111,112,113,111,112,113,111,112,113
+  jlist = 108,108,108,109,109,109,110,110,110 /
+&Process in_field = "PS" /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M"  /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "P", levlist = -1 /
+&Process in_field = "T", levlist = -1 /
+&Process in_field = "U",regrid=.t./
+&Process in_field = "V",regrid=.t./
+&Process in_field = "QV", levlist = -1 /
+&Process in_field = "QC", levlist = -1 /
+&Process out_field = "HSURF"/
+&Process out_field = "HFL"/
+&Process out_field = "PS", scale=0.1 /
+&Process out_field = "T_2M", offset=-273.15, scale=10. /
+&Process out_field = "D_TD_2M", scale=10. /
+&Process out_field = "DD_10M" /
+&Process out_field = "FF_10M" /
+&Process out_field = "P", levlist = -1, scale=0.1 /
+&Process out_field = "T", levlist = -1, offset=-273.15, scale=10. /
+&Process out_field = "D_TD", levlist = -1, scale=10. /
+&Process out_field = "DD", levlist = -1 /
+&Process out_field = "FF", levlist = -1 /
+&Process out_field = "QV", levlist = -1 /
+&Process out_field = "QC", levlist = -1 /
+&Process out_field = "RELHUM", levlist = -1 /
+
+# vprof Albis (for huc)
+#--------------------------------
+&Process
+  in_type  = "INCORE"
+  out_file = "Albis_f.l2e"
+  out_type = "L2E"
+  out_type_mminfo = 'yes'
+  in_grid="HSURF_cnmet", in_grid_intpl="average,square,0.9,0.",
+  ilist = 106,107,108,106,107,108,106,107,108
+  jlist = 88,88,88,89,89,89,90,90,90 /
+&Process in_field = "HSURF", regrid=.t. /
+&Process in_field = "HFL", levmin=1, levmax=$LM_NL_KELM_F, regrid=.t. /
+
+&Process
+  in_file  = "${LM_WDIR}/${LM_TAG}/lm_cnmet/lfsf<DDHHMMSS>"
+  out_file = "Albis_f.l2e"
+  out_type = "L2E"
+  out_type_mminfo = 'yes'
+  in_grid="HSURF_cnmet", in_grid_intpl="average,square,0.9,0.",
+  tstart = 0, tstop = 86400, tincr = 600
+  ilist = 106,107,108,106,107,108,106,107,108
+  jlist = 88,88,88,89,89,89,90,90,90 /
+&Process in_field = "PS" /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M"  /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "P", levlist = -1 /
+&Process in_field = "T", levlist = -1 /
+&Process in_field = "U",regrid=.t./
+&Process in_field = "V",regrid=.t./
+&Process in_field = "QV", levlist = -1 /
+&Process in_field = "QC", levlist = -1 /
+&Process out_field = "HSURF"/
+&Process out_field = "HFL"/
+&Process out_field = "PS", scale=0.1 /
+&Process out_field = "T_2M", offset=-273.15, scale=10. /
+&Process out_field = "D_TD_2M", scale=10. /
+&Process out_field = "DD_10M" /
+&Process out_field = "FF_10M" /
+&Process out_field = "P", levlist = -1, scale=0.1 /
+&Process out_field = "T", levlist = -1, offset=-273.15, scale=10. /
+&Process out_field = "D_TD", levlist = -1, scale=10. /
+&Process out_field = "DD", levlist = -1 /
+&Process out_field = "FF", levlist = -1 /
+&Process out_field = "QV", levlist = -1 /
+&Process out_field = "QC", levlist = -1 /
+&Process out_field = "RELHUM", levlist = -1 /
+
+# vprof Albis analyses (for huc)
+#--------------------------------------
+&Process
+  in_type  = "INCORE"
+  out_file = "Albis_ana_f.l2e"
+  out_type = "L2E"
+  out_type_mminfo = 'yes'
+  in_grid="HSURF_cnmet", in_grid_intpl="average,square,0.9,0.",
+  ilist = 106,107,108,106,107,108,106,107,108
+  jlist = 88,88,88,89,89,89,90,90,90 /
+&Process in_field = "HSURF", regrid=.t. /
+&Process in_field = "HFL", levmin=1, levmax=$LM_NL_KELM_F, regrid=.t. /
+
+&Process
+  in_file  = "${LM_WDIR}/${LM_TAG}/lm_cnmet_ana/lfsf<DDHHMMSS>"
+  out_file = "Albis_ana_f.l2e"
+  out_type = "L2E"
+  out_type_mminfo = 'yes'
+  in_grid="HSURF_cnmet", in_grid_intpl="average,square,0.9,0.",
+  tstart = 0, tstop = $LM_NL_HENDE_PREASSML_S, tincr = 600
+  ilist = 106,107,108,106,107,108,106,107,108
+  jlist = 88,88,88,89,89,89,90,90,90 /
+&Process in_field = "PS" /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M"  /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "P", levlist = -1 /
+&Process in_field = "T", levlist = -1 /
+&Process in_field = "U",regrid=.t./
+&Process in_field = "V",regrid=.t./
+&Process in_field = "QV", levlist = -1 /
+&Process in_field = "QC", levlist = -1 /
+&Process out_field = "HSURF"/
+&Process out_field = "HFL"/
+&Process out_field = "PS", scale=0.1 /
+&Process out_field = "T_2M", offset=-273.15, scale=10. /
+&Process out_field = "D_TD_2M", scale=10. /
+&Process out_field = "DD_10M" /
+&Process out_field = "FF_10M" /
+&Process out_field = "P", levlist = -1, scale=0.1 /
+&Process out_field = "T", levlist = -1, offset=-273.15, scale=10. /
+&Process out_field = "D_TD", levlist = -1, scale=10. /
+&Process out_field = "DD", levlist = -1 /
+&Process out_field = "FF", levlist = -1 /
+&Process out_field = "QV", levlist = -1 /
+&Process out_field = "QC", levlist = -1 /
+&Process out_field = "RELHUM", levlist = -1 /
+
+# vprof Muehleberg (for huc)
+#--------------------------------
+&Process
+  in_type  = "INCORE"
+  out_file = "Muehleberg_f.l2e"
+  out_type = "L2E"
+  out_type_mminfo = 'yes'
+  in_grid="HSURF_cnmet", in_grid_intpl="average,square,0.9,0.",
+  ilist = 62,63,64,62,63,64,62,63,64
+  jlist = 73,73,73,74,74,74,75,75,75 /
+&Process in_field = "HSURF", regrid=.t. /
+&Process in_field = "HFL", levmin=1, levmax=$LM_NL_KELM_F, regrid=.t. /
+
+&Process
+  in_file  = "${LM_WDIR}/${LM_TAG}/lm_cnmet/lfsf<DDHHMMSS>"
+  out_file = "Muehleberg_f.l2e"
+  out_type = "L2E"
+  out_type_mminfo = 'yes'
+  in_grid="HSURF_cnmet", in_grid_intpl="average,square,0.9,0.",
+  tstart = 0, tstop = 86400, tincr = 600
+  ilist = 62,63,64,62,63,64,62,63,64
+  jlist = 73,73,73,74,74,74,75,75,75 /
+&Process in_field = "PS" /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M"  /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "P", levlist = -1 /
+&Process in_field = "T", levlist = -1 /
+&Process in_field = "U",regrid=.t./
+&Process in_field = "V",regrid=.t./
+&Process in_field = "QV", levlist = -1 /
+&Process in_field = "QC", levlist = -1 /
+&Process out_field = "HSURF"/
+&Process out_field = "HFL"/
+&Process out_field = "PS", scale=0.1 /
+&Process out_field = "T_2M", offset=-273.15, scale=10. /
+&Process out_field = "D_TD_2M", scale=10. /
+&Process out_field = "DD_10M" /
+&Process out_field = "FF_10M" /
+&Process out_field = "P", levlist = -1, scale=0.1 /
+&Process out_field = "T", levlist = -1, offset=-273.15, scale=10. /
+&Process out_field = "D_TD", levlist = -1, scale=10. /
+&Process out_field = "DD", levlist = -1 /
+&Process out_field = "FF", levlist = -1 /
+&Process out_field = "QV", levlist = -1 /
+&Process out_field = "QC", levlist = -1 /
+&Process out_field = "RELHUM", levlist = -1 /
+
+# vprof Muehleberg analyses (for huc)
+#--------------------------------------
+&Process
+  in_type  = "INCORE"
+  out_file = "Muehleberg_ana_f.l2e"
+  out_type = "L2E"
+  out_type_mminfo = 'yes'
+  in_grid="HSURF_cnmet", in_grid_intpl="average,square,0.9,0.",
+  ilist = 62,63,64,62,63,64,62,63,64
+  jlist = 73,73,73,74,74,74,75,75,75 /
+&Process in_field = "HSURF", regrid=.t. /
+&Process in_field = "HFL", levmin=1, levmax=$LM_NL_KELM_F, regrid=.t. /
+
+&Process
+  in_file  = "${LM_WDIR}/${LM_TAG}/lm_cnmet_ana/lfsf<DDHHMMSS>"
+  out_file = "Muehleberg_ana_f.l2e"
+  out_type = "L2E"
+  out_type_mminfo = 'yes'
+  in_grid="HSURF_cnmet", in_grid_intpl="average,square,0.9,0.",
+  tstart = 0, tstop = $LM_NL_HENDE_PREASSML_S, tincr = 600
+  ilist = 62,63,64,62,63,64,62,63,64
+  jlist = 73,73,73,74,74,74,75,75,75 /
+&Process in_field = "PS" /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M"  /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "P", levlist = -1 /
+&Process in_field = "T", levlist = -1 /
+&Process in_field = "U",regrid=.t./
+&Process in_field = "V",regrid=.t./
+&Process in_field = "QV", levlist = -1 /
+&Process in_field = "QC", levlist = -1 /
+&Process out_field = "HSURF"/
+&Process out_field = "HFL"/
+&Process out_field = "PS", scale=0.1 /
+&Process out_field = "T_2M", offset=-273.15, scale=10. /
+&Process out_field = "D_TD_2M", scale=10. /
+&Process out_field = "DD_10M" /
+&Process out_field = "FF_10M" /
+&Process out_field = "P", levlist = -1, scale=0.1 /
+&Process out_field = "T", levlist = -1, offset=-273.15, scale=10. /
+&Process out_field = "D_TD", levlist = -1, scale=10. /
+&Process out_field = "DD", levlist = -1 /
+&Process out_field = "FF", levlist = -1 /
+&Process out_field = "QV", levlist = -1 /
+&Process out_field = "QC", levlist = -1 /
+&Process out_field = "RELHUM", levlist = -1 /
+
+# vprof LaDole (for huc)
+#--------------------------------
+&Process
+  in_type  = "INCORE"
+  out_file = "LaDole_f.l2e"
+  out_type = "L2E"
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",
+  ilist = 151,152,153,151,152,153,151,152,153
+  jlist = 175,175,175,176,176,176,177,177,177 /
+&Process in_field = "HSURF"/
+&Process in_field = "HFL", levmin=1, levmax=$LM_NL_KELM_F /
+
+&Process
+  in_file  = "lfff<DDHH>0000"
+  out_file = "LaDole_f.l2e"
+  out_type = "L2E"
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",
+  tstart = 0, tstop = $LM_NL_HENDE_F, tincr = 1
+  ilist = 151,152,153,151,152,153,151,152,153
+  jlist = 175,175,175,176,176,176,177,177,177 /
+&Process in_field = "PS" /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M"  /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "P", levlist = -1 /
+&Process in_field = "T", levlist = -1 /
+&Process in_field = "U",regrid=.t./
+&Process in_field = "V",regrid=.t./
+&Process in_field = "QV", levlist = -1 /
+&Process in_field = "QC", levlist = -1 /
+&Process out_field = "HSURF"/
+&Process out_field = "HFL"/
+&Process out_field = "PS", scale=0.1 /
+&Process out_field = "T_2M", offset=-273.15, scale=10. /
+&Process out_field = "D_TD_2M", scale=10. /
+&Process out_field = "DD_10M" /
+&Process out_field = "FF_10M" /
+&Process out_field = "P", levlist = -1, scale=0.1 /
+&Process out_field = "T", levlist = -1, offset=-273.15, scale=10. /
+&Process out_field = "D_TD", levlist = -1, scale=10. /
+&Process out_field = "DD", levlist = -1 /
+&Process out_field = "FF", levlist = -1 /
+&Process out_field = "QV", levlist = -1 /
+&Process out_field = "QC", levlist = -1 /
+&Process out_field = "RELHUM", levlist = -1 /
+
+# vprof LaDole analyses (for huc)
+#--------------------------------------
+&Process
+  in_type  = "INCORE"
+  out_file = "LaDole_ana_f.l2e"
+  out_type = "L2E"
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",
+  ilist = 151,152,153,151,152,153,151,152,153
+  jlist = 175,175,175,176,176,176,177,177,177 /
+&Process in_field = "HSURF" /
+&Process in_field = "HFL", levmin=1, levmax=$LM_NL_KELM_F /
+
+&Process
+  in_file  = "laf<YYYYMMDDHH:$LM_INI_PREASSML>"
+  out_file = "LaDole_ana_f.l2e"
+  out_type = "L2E"
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",
+  tstart = 0, tstop = $LM_NL_HENDE_PREASSML, tincr = 1
+  ilist = 151,152,153,151,152,153,151,152,153
+  jlist = 175,175,175,176,176,176,177,177,177 /
+&Process in_field = "PS" /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M"  /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "P", levlist = -1 /
+&Process in_field = "T", levlist = -1 /
+&Process in_field = "U",regrid=.t./
+&Process in_field = "V",regrid=.t./
+&Process in_field = "QV", levlist = -1 /
+&Process in_field = "QC", levlist = -1 /
+&Process out_field = "HSURF"/
+&Process out_field = "HFL"/
+&Process out_field = "PS", scale=0.1 /
+&Process out_field = "T_2M", offset=-273.15, scale=10. /
+&Process out_field = "D_TD_2M", scale=10. /
+&Process out_field = "DD_10M" /
+&Process out_field = "FF_10M" /
+&Process out_field = "P", levlist = -1, scale=0.1 /
+&Process out_field = "T", levlist = -1, offset=-273.15, scale=10. /
+&Process out_field = "D_TD", levlist = -1, scale=10. /
+&Process out_field = "DD", levlist = -1 /
+&Process out_field = "FF", levlist = -1 /
+&Process out_field = "QV", levlist = -1 /
+&Process out_field = "QC", levlist = -1 /
+&Process out_field = "RELHUM", levlist = -1 /
+
+# vprof MonteLema (for huc)
+#--------------------------------
+&Process
+  in_type  = "INCORE"
+  out_file = "MonteLema_f.l2e"
+  out_type = "L2E"
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",
+  ilist = 244,245,246,244,245,246,244,245,246
+  jlist = 152,152,152,153,153,153,154,154,154 /
+&Process in_field = "HSURF"/
+&Process in_field = "HFL", levmin=1, levmax=$LM_NL_KELM_F /
+
+&Process
+  in_file  = "lfff<DDHH>0000"
+  out_file = "MonteLema_f.l2e"
+  out_type = "L2E"
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",
+  tstart = 0, tstop = $LM_NL_HENDE_F, tincr = 1
+  ilist = 244,245,246,244,245,246,244,245,246
+  jlist = 152,152,152,153,153,153,154,154,154 /
+&Process in_field = "PS" /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M"  /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "P", levlist = -1 /
+&Process in_field = "T", levlist = -1 /
+&Process in_field = "U",regrid=.t./
+&Process in_field = "V",regrid=.t./
+&Process in_field = "QV", levlist = -1 /
+&Process in_field = "QC", levlist = -1 /
+&Process out_field = "HSURF"/
+&Process out_field = "HFL"/
+&Process out_field = "PS", scale=0.1 /
+&Process out_field = "T_2M", offset=-273.15, scale=10. /
+&Process out_field = "D_TD_2M", scale=10. /
+&Process out_field = "DD_10M" /
+&Process out_field = "FF_10M" /
+&Process out_field = "P", levlist = -1, scale=0.1 /
+&Process out_field = "T", levlist = -1, offset=-273.15, scale=10. /
+&Process out_field = "D_TD", levlist = -1, scale=10. /
+&Process out_field = "DD", levlist = -1 /
+&Process out_field = "FF", levlist = -1 /
+&Process out_field = "QV", levlist = -1 /
+&Process out_field = "QC", levlist = -1 /
+&Process out_field = "RELHUM", levlist = -1 /
+
+# vprof MonteLema analyses (for huc)
+#--------------------------------------
+&Process
+  in_type  = "INCORE"
+  out_file = "MonteLema_ana_f.l2e"
+  out_type = "L2E"
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",
+  ilist = 244,245,246,244,245,246,244,245,246
+  jlist = 152,152,152,153,153,153,154,154,154 /
+&Process in_field = "HSURF"/
+&Process in_field = "HFL", levmin=1, levmax=$LM_NL_KELM_F /
+
+&Process
+  in_file  = "laf<YYYYMMDDHH:$LM_INI_PREASSML>"
+  out_file = "MonteLema_ana_f.l2e"
+  out_type = "L2E"
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",
+  tstart = 0, tstop = $LM_NL_HENDE_PREASSML, tincr = 1
+  ilist = 244,245,246,244,245,246,244,245,246
+  jlist = 152,152,152,153,153,153,154,154,154 /
+&Process in_field = "PS" /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M"  /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "P", levlist = -1 /
+&Process in_field = "T", levlist = -1 /
+&Process in_field = "U",regrid=.t./
+&Process in_field = "V",regrid=.t./
+&Process in_field = "QV", levlist = -1 /
+&Process in_field = "QC", levlist = -1 /
+&Process out_field = "HSURF"/
+&Process out_field = "HFL"/
+&Process out_field = "PS", scale=0.1 /
+&Process out_field = "T_2M", offset=-273.15, scale=10. /
+&Process out_field = "D_TD_2M", scale=10. /
+&Process out_field = "DD_10M" /
+&Process out_field = "FF_10M" /
+&Process out_field = "P", levlist = -1, scale=0.1 /
+&Process out_field = "T", levlist = -1, offset=-273.15, scale=10. /
+&Process out_field = "D_TD", levlist = -1, scale=10. /
+&Process out_field = "DD", levlist = -1 /
+&Process out_field = "FF", levlist = -1 /
+&Process out_field = "QV", levlist = -1 /
+&Process out_field = "QC", levlist = -1 /
+&Process out_field = "RELHUM", levlist = -1 /
+
+
+# Extraction for Boschung-Mecatronic SA
+#--------------------------------------
+#.. for Muensingen
+#&Process                                                                         
+#  in_file="lfff<DDHH>0000"
+#  out_file="${LM_YYYYp01}${LM_MMp01}${LM_DDp01}_${LM_ZZp01}00-U0-MUN_01-30_1.csv", 
+#  out_type="SWIS"
+#  tstart = 0, tstop = $LM_NL_HENDE_CL_F, tincr = 1, out_tstart = 1
+#  loclist = "BE01" /
+#&Process in_field = "T_2M" /
+#&Process in_field = "TD_2M" /
+#&Process in_field = "T_G" /
+#&Process in_field = "ASOB_S", ignore_tri=.true., toper="tdelta_g" /
+#&Process in_field = "ALB_RAD", scale=0.01 /
+#&Process in_field = "RAIN_GSP", hoper='s9' /
+#&Process in_field = "SNOW_GSP", hoper='s9' /
+#&Process in_field = "GRAU_GSP", hoper='s9' /
+#&Process in_field = "TOT_PREC", hoper='s9' /
+#&Process in_field = "U_10M" /
+#&Process in_field = "V_10M" /
+#&Process in_field = "VMAX_10M" /
+#&Process in_field = "PMSL" /
+#&Process in_field = "SNOWLMT" /
+#&Process in_field = "CLCL", scale=0.08, hoper="c13" /
+#&Process in_field = "CLCM", scale=0.08, hoper="c13" /
+#&Process out_field = "TOT_PREC" /
+#&Process out_field = "T_2M", offset = -273.15 /
+#&Process out_field = "TD_2M", offset = -273.15 /
+#&Process out_field = "T_G", offset = -273.15 /
+#&Process out_field = "GLOB" /
+#&Process out_field = "TOT_RAIN", toper="delta,1,hour" /
+#&Process out_field = "TOT_SNOW", toper="delta,1,hour" /
+#&Process out_field = "RELHUM_2M" /
+#&Process out_field = "FF_10M" /
+#&Process out_field = "DD_10M" /
+#&Process out_field = "VMAX_10M" /
+#&Process out_field = "PMSL", scale = 0.01 /
+#&Process out_field = "SNOWLMT" /
+#&Process out_field = "CLCL" /
+#&Process out_field = "CLCM" /
+
+#.. for Daerlingen 2 
+#&Process                                                                         
+#  in_file="lfff<DDHH>0000"
+#  out_file="${LM_YYYYp01}${LM_MMp01}${LM_DDp01}_${LM_ZZp01}00-U0-DAE_02-30_1.csv", 
+#  out_type="SWIS"
+#  tstart = 0, tstop = $LM_NL_HENDE_CL_F, tincr = 1, out_tstart = 1
+#  loclist = "BE07" /
+#&Process in_field = "T_2M" /
+#&Process in_field = "TD_2M" /
+#&Process in_field = "T_G" /
+#&Process in_field = "ASOB_S", ignore_tri=.true., toper="tdelta_g" /
+#&Process in_field = "ALB_RAD", scale=0.01 /
+#&Process in_field = "RAIN_GSP", hoper='s9' /
+#&Process in_field = "SNOW_GSP", hoper='s9' /
+#&Process in_field = "GRAU_GSP", hoper='s9' /
+#&Process in_field = "TOT_PREC", hoper='s9' /
+#&Process in_field = "U_10M" /
+#&Process in_field = "V_10M" /
+#&Process in_field = "VMAX_10M" /
+#&Process in_field = "PMSL" /
+#&Process in_field = "SNOWLMT" /
+#&Process in_field = "CLCL", scale=0.08, hoper="c13" /
+#&Process in_field = "CLCM", scale=0.08, hoper="c13" /
+#&Process out_field = "TOT_PREC" /
+#&Process out_field = "T_2M", offset = -273.15 /
+#&Process out_field = "TD_2M", offset = -273.15 /
+#&Process out_field = "T_G", offset = -273.15 /
+#&Process out_field = "GLOB" /
+#&Process out_field = "TOT_RAIN", toper="delta,1,hour" /
+#&Process out_field = "TOT_SNOW", toper="delta,1,hour" /
+#&Process out_field = "RELHUM_2M" /
+#&Process out_field = "FF_10M" /
+#&Process out_field = "DD_10M" /
+#&Process out_field = "VMAX_10M" /
+#&Process out_field = "PMSL", scale = 0.01 /
+#&Process out_field = "SNOWLMT" /
+#&Process out_field = "CLCL" /
+#&Process out_field = "CLCM" /
+
+# Extraction for Boschung-Mecatronic SA 3h fcst
+#----------------------------------------------
+#.. for Muensingen
+#&Process                                                                         
+#  in_file="lfff<DDHH>0000"
+#  out_file="${LM_YYYYp01}${LM_MMp01}${LM_DDp01}_${LM_ZZp01}00-U0-MUN_01-3_1.csv", 
+#  out_type="SWIS"
+#  tstart = 0, tstop = 4, tincr = 1, out_tstart = 1 
+#  loclist = "BE01" /
+#&Process in_field = "T_2M" /
+#&Process in_field = "TD_2M" /
+#&Process in_field = "T_G" /
+#&Process in_field = "ASOB_S", ignore_tri=.true., toper="tdelta_g" /
+#&Process in_field = "ALB_RAD", scale=0.01 /
+#&Process in_field = "RAIN_GSP", hoper='s9' /
+#&Process in_field = "SNOW_GSP", hoper='s9' /
+#&Process in_field = "GRAU_GSP", hoper='s9' /
+#&Process in_field = "TOT_PREC", hoper='s9' /
+#&Process in_field = "U_10M" /
+#&Process in_field = "V_10M" /
+#&Process in_field = "VMAX_10M" /
+#&Process in_field = "PMSL" /
+#&Process in_field = "SNOWLMT" /
+#&Process in_field = "CLCL", scale=0.08, hoper="c13" /
+#&Process in_field = "CLCM", scale=0.08, hoper="c13" /
+#&Process out_field = "TOT_PREC" /
+#&Process out_field = "T_2M", offset = -273.15 /
+#&Process out_field = "TD_2M", offset = -273.15 /
+#&Process out_field = "T_G", offset = -273.15 /
+#&Process out_field = "GLOB" /
+#&Process out_field = "TOT_RAIN", toper="delta,1,hour" /
+#&Process out_field = "TOT_SNOW", toper="delta,1,hour" /
+#&Process out_field = "RELHUM_2M" /
+#&Process out_field = "FF_10M" /
+#&Process out_field = "DD_10M" /
+#&Process out_field = "VMAX_10M" /
+#&Process out_field = "PMSL", scale = 0.01 /
+#&Process out_field = "SNOWLMT" /
+#&Process out_field = "CLCL" /
+#&Process out_field = "CLCM" /
+
+#.. for Daerlingen 2 
+#&Process                                                                         
+#  in_file="lfff<DDHH>0000"
+#  out_file="${LM_YYYYp01}${LM_MMp01}${LM_DDp01}_${LM_ZZp01}00-U0-DAE_02-3_1.csv", 
+#  out_type="SWIS"
+#  tstart = 0, tstop = 4, tincr = 1, out_tstart = 1 
+#  loclist = "BE07" /
+#&Process in_field = "T_2M" /
+#&Process in_field = "TD_2M" /
+#&Process in_field = "T_G" /
+#&Process in_field = "ASOB_S", ignore_tri=.true., toper="tdelta_g" /
+#&Process in_field = "ALB_RAD", scale=0.01 /
+#&Process in_field = "RAIN_GSP", hoper='s9' /
+#&Process in_field = "SNOW_GSP", hoper='s9' /
+#&Process in_field = "GRAU_GSP", hoper='s9' /
+#&Process in_field = "TOT_PREC", hoper='s9' /
+#&Process in_field = "U_10M" /
+#&Process in_field = "V_10M" /
+#&Process in_field = "VMAX_10M" /
+#&Process in_field = "PMSL" /
+#&Process in_field = "SNOWLMT" /
+#&Process in_field = "CLCL", scale=0.08, hoper="c13" /
+#&Process in_field = "CLCM", scale=0.08, hoper="c13" /
+#&Process out_field = "TOT_PREC" /
+#&Process out_field = "T_2M", offset = -273.15 /
+#&Process out_field = "TD_2M", offset = -273.15 /
+#&Process out_field = "T_G", offset = -273.15 /
+#&Process out_field = "GLOB" /
+#&Process out_field = "TOT_RAIN", toper="delta,1,hour" /
+#&Process out_field = "TOT_SNOW", toper="delta,1,hour" /
+#&Process out_field = "RELHUM_2M" /
+#&Process out_field = "FF_10M" /
+#&Process out_field = "DD_10M" /
+#&Process out_field = "VMAX_10M" /
+#&Process out_field = "PMSL", scale = 0.01 /
+#&Process out_field = "SNOWLMT" /
+#&Process out_field = "CLCL" /
+#&Process out_field = "CLCM" /
+
+# Extractions for ETHZ/IDSC(former IMRT) (Pascal Kiwitz, Samuel Fux)
+#-------------------------------------------------------------------
+&Process                                                                         
+  in_file="lfff<DDHH>0000"
+  out_file="IDSC_cosmo2.xml", out_type="XML",
+  out_type_template="$LM_LDIR/templates_xml/IDSC_cosmo2_template.xml",
+  out_type_fmt    = "F0.1",
+  tstart = 0, tstop = $LM_NL_HENDE_CL_F, tincr = 1,
+  out_tstart = 1,
+  loclist = "P_MRP" /
+&Process in_field = "T_2M", poper="hcor,-.006" /
+&Process in_field = "TD_2M", poper="hcor,-.006" /
+&Process in_field = "ASOB_S", ignore_tri=.true., toper="tdelta_g" /
+&Process in_field = "ALB_RAD", scale=0.01 /
+&Process in_field = "TOT_PREC", hoper='s9' /
+&Process in_field = "U_10M" /
+&Process in_field = "V_10M" /
+&Process in_field = "VMAX_10M" /
+&Process in_field = "PS", poper="hcor,-9.5" /
+&Process out_field = "T_2M", offset=-273.15 /
+&Process out_field = "TD_2M", offset=-273.15 /
+&Process out_field = "RELHUM_2M" /
+&Process out_field = "GLOB" /
+&Process out_field = "TOT_PREC", toper="delta_g" /
+&Process out_field = "FF_10M" /
+&Process out_field = "VMAX_10M" /
+&Process out_field = "DD_10M" /
+&Process out_field = "PS", scale=0.01 /
+
+# Extractions for verification of warnings for the lakes of Suisse Romande (P. Eckert)
+#-------------------------------------------------------------------------------------
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_type = "XLS_TABLE"
+  out_type_separator = ";"
+  out_file = "MG_cosmo2_indices.csv"
+  tstart = 0, tstop = $LM_NL_HENDE_CL_F, tincr = 1
+            ! Ouest
+  loclist = "DOL","GVE","CHE","CGI","BIE","PRE","MAH","FRE","BRL","PUY","CDF","ORO",
+            "AIG","NEU","PAY","MLS","CRM","CHA","DIA","PLF",
+            ! Valais
+            "EVI","GSB","ATT","FEY","SIO","MVE","EVO","ZER","GOR","VIS","EGH","ULR"
+/
+&Process in_field = "CAPE_ML", hoper = "c13" /
+&Process in_field = "CAPE_MU", hoper = "c13" /
+&Process in_field = "CIN_ML", hoper = "c13" /
+&Process in_field = "CIN_MU", hoper = "c13" /
+&Process in_field = "SI", hoper = "c13" /
+&Process in_field = "SLI", hoper = "c13" /
+&Process in_field = "SDI_1", hoper = "c13" /
+&Process in_field = "SDI_2", hoper = "c13" /
+&Process in_field = "SWISS00", hoper = "c13" /
+&Process in_field = "SWISS12", hoper = "c13" /
+
+&Process
+  in_type  = "INCORE"
+  out_type = "BLK_TABLE"
+  out_file = "MG_cosmo2_wind_leman.txt"
+  out_type_fmt    = "15F8.2"
+  imin = 151, imax = 181, jmin = 163, jmax = 180
+/
+&Process in_field = "RLAT" /
+&Process in_field = "RLON" /
+
+&Process
+  in_file  = "lfff<DDHH>0000"
+  out_type = "BLK_TABLE"
+  out_file = "MG_cosmo2_wind_leman.txt"
+  out_type_fmt = "15F8.2"
+  tstart = 0, tstop = $LM_NL_HENDE_CL_F, tincr = 1
+  imin = 151, imax = 181, jmin = 163, jmax = 180
+/
+&Process in_field = "U_10M" /
+&Process in_field = "V_10M" /
+&Process out_field = "RLAT" /
+&Process out_field = "RLON" /
+&Process out_field = "FF_10M" /
+&Process out_field = "DD_10M" /
+
+# Geographisches Institut UNI Bern
+#---------------------------------
+&Process
+  in_file  = "lfff<DDHH>0000"
+  out_type = "GRIB1"
+  out_file = "giub_cosmo2.grb1"
+  tstart = 3, tstop = 3, tincr = 3 /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M" /
+&Process in_field = "T_G" /
+&Process in_field = "T_SNOW" /
+&Process in_field = "T_SO", levlist=0 /
+&Process in_field = "HZEROCL" /
+&Process in_field = "PMSL" /
+&Process in_field = "HPBL" /
+&Process in_field = "HMO3" / 
+&Process in_field = "TQV" / 
+
+&Process
+  in_file  = "lfff<DDHH>0000p"
+  out_type = "GRIB1"
+  out_file = "giub_cosmo2.grb1"
+  tstart = 3, tstop = 3, tincr = 3 /
+&Process in_field = "RELHUM", levlist = 700,800,900,925,950 /
+
+# Gerd Vogel, DWD
+#----------------
+&Process
+  in_file  = "lfff<DDHH>0000"
+  out_file = "gerd_cosmo2_PAY_$LM_YY$LM_MM$LM_DD${LM_ZZ}.txt",
+  out_type = "DAT_TABLE"
+  out_type_fmt = "F9.1"
+  tstart   =  0, tstop = 24, tincr = 1
+  loclist  = "PAY" /
+&Process in_field = "T_2M", poper="hcor,-.006" /
+&Process in_field = "TD_2M", poper="hcor,-.006"  /
+&Process in_field = "T", levlist = 60 /  
+&Process in_field = "QV", scale = 1000000.0, levlist = 60 /
+&Process in_field = "U_10M" /
+&Process in_field = "V_10M" /
+&Process in_field = "TOT_PREC", toper="delta_g"  /
+&Process in_field = "T_SO" /
+&Process in_field = "W_SO" /
+&Process in_field = "ALHFL_S", ignore_tri=.true. /
+&Process in_field = "ASHFL_S", ignore_tri=.true. /
+&Process in_field = "ASOB_S", ignore_tri=.true. /
+&Process in_field = "ATHB_S", ignore_tri=.true. /
+
+# Extraction for Transitgas AG (Guttannen)
+# ----------------------------------------
+&Process
+  in_file = "lfff<DDHH>0000"
+  out_file = "transitgas_cosmo2.csv"
+  out_type = "XLS_TABLE"
+  out_type_cheader = "gp+fd", out_type_separator = ";", out_type_fusedt=.true.
+  out_type_fmt="F9.1"
+  loclist = "P_SPL"
+  tstart = 0, tstop = 24, tincr = 1
+/
+&Process in_field = "T_2M" /
+&Process in_field = "TOT_PREC", hoper="s9", toper="delta,1,hour" /
+&Process in_field = "SNOWLMT", poper="mask,=-999.0" /
+
+&Process tmp1_field = "T_2M" /
+&Process tmp1_field = "TOT_PREC", tag = "TOT_PREC_TRUE" /
+&Process tmp1_field = "SNOWLMT", hoper="fill_undef,12", tag = "SNOWLMT_AREA" /
+&Process tmp1_field = "SNOWLMT", hoper="fill_undef,12", poper = "replace_undef,0.", tag = "SNOWLMT_AREA_WELL_DEF" /
+&Process tmp1_field = "TOT_PREC", tag = "TOT_RAIN_2000" /
+
+&Process tmp2_field = "T_2M" /
+&Process tmp2_field = "TOT_PREC_TRUE" /
+&Process tmp2_field = "SNOWLMT_AREA" /
+&Process tmp2_field = "SNOWLMT_AREA_WELL_DEF" /
+&Process tmp2_field = "TOT_RAIN_2000", poper="mask,SNOWLMT_AREA_WELL_DEF < 2000.0" /
+
+&Process out_field = "T_2M", poper="hcor,-.006", offset = -273.15 /
+&Process out_field = "TOT_PREC_TRUE", poper="replace_undef,0.", tag = "TOT_PREC" /
+&Process out_field = "SNOWLMT_AREA", tag = "SNOWLMT" /
+&Process out_field = "TOT_RAIN_2000", poper="replace_undef,0.", tag = "TOT_RAIN" /
+
+! Extraction for ARPA Veneto (boundary layer profiles)
+!-----------------------------------------------------
+&Process
+  in_file  = "lfff<DDHH>0000"
+  out_file = "cosmo2_ARPAV_${LM_YYYY}${LM_MM}${LM_DD}${LM_ZZ}_HPBL.txt"
+  in_grid = "HSURF", in_grid_intpl="average,square,0.9,0."
+  out_type = "DAT_TABLE"
+  out_type_dupcst = .false.
+  out_type_fmt = "E10.4"
+  out_type_undefcode = -99.0
+  tstart = 0, tstop = 24, tincr = 1
+  loclist = "AV003","AV009","AV017","AV019","AV021","AV025","AV037","AV041","AV047",
+            "AV050","AV053","AV056","AV058","AV059","AV067","AV080","AV091","AV092",
+            "AV093","AV132","AV136","AV199","AV200","AV203","AV216","AV217","AV223",
+            "AV224","AV237","AV238","AV245","AV247","AV264","AV266","AV268","AV106",
+            "AV111","AV122","AV142","AV151","AV152","AV169","AV170","AV175","AV177",
+            "AV179","AV180","AV182","AV206","AV234","AV265","AV096","AV098","AV099",
+            "AV101","AV112","AV113","AV114","AV115","AV121","AV221","AV231","AV028",
+            "AV100","AV102","AV156","AV183","AV185","AV186","AV187","AV189","AV195",
+            "AV197","AV204","AV220","AV227","AV240","AV159","AV160","AV164","AV165",
+            "AV166","AV168","AV178","AV230","AV252","AV375","AV425","AV087","AV104",
+            "AV108","AV117","AV118","AV119","AV120","AV123","AV124","AV126","AV127",
+            "AV128","AV129","AV131","AV251","AV253","AV068","AV072","AV074","AV077",
+            "AV079","AV082","AV083","AV088","AV105","AV134","AV135","AV137","AV139",
+            "AV140","AV144","AV145","AV147","AV148","AV149","AV153","AV192","AV218",
+            "AV225","AV232","AV248","AV409","AV410"
+/
+&Process in_field = "CLCT" /
+&Process in_field = "T_2M" /
+&Process in_field = "ASHFL_S", toper='tdelta', scale=-1.0 / 
+&Process in_field = "ALHFL_S", toper='tdelta', scale=-1.0 /
+&Process in_field = "AUMFL_S", toper='tdelta', regrid = .true. /
+&Process in_field = "AVMFL_S", toper='tdelta', regrid = .true. /
+
+&Process
+  in_type  = "INCORE"
+  out_file = "cosmo2_ARPAV_${LM_YYYY}${LM_MM}${LM_DD}${LM_ZZ}_HPBL.txt"
+  in_grid = "HSURF", in_grid_intpl="average,square,0.9,0."
+  out_type = "DAT_TABLE"
+  out_type_dupcst = .false.
+  out_type_fmt = "E10.4"
+  out_type_undefcode = -99.0
+  loclist = "AV003","AV009","AV017","AV019","AV021","AV025","AV037","AV041","AV047",
+            "AV050","AV053","AV056","AV058","AV059","AV067","AV080","AV091","AV092",
+            "AV093","AV132","AV136","AV199","AV200","AV203","AV216","AV217","AV223",
+            "AV224","AV237","AV238","AV245","AV247","AV264","AV266","AV268","AV106",
+            "AV111","AV122","AV142","AV151","AV152","AV169","AV170","AV175","AV177",
+            "AV179","AV180","AV182","AV206","AV234","AV265","AV096","AV098","AV099",
+            "AV101","AV112","AV113","AV114","AV115","AV121","AV221","AV231","AV028",
+            "AV100","AV102","AV156","AV183","AV185","AV186","AV187","AV189","AV195",
+            "AV197","AV204","AV220","AV227","AV240","AV159","AV160","AV164","AV165",
+            "AV166","AV168","AV178","AV230","AV252","AV375","AV425","AV087","AV104",
+            "AV108","AV117","AV118","AV119","AV120","AV123","AV124","AV126","AV127",
+            "AV128","AV129","AV131","AV251","AV253","AV068","AV072","AV074","AV077",
+            "AV079","AV082","AV083","AV088","AV105","AV134","AV135","AV137","AV139",
+            "AV140","AV144","AV145","AV147","AV148","AV149","AV153","AV192","AV218",
+            "AV225","AV232","AV248","AV409","AV410"
+/
+&Process in_field = "HSURF" /
+&Process in_field = "HFL", levmin = 20, levmax = 60 /
+
+&Process
+  in_file  = "lfff<DDHH>0000"
+  out_file = "cosmo2_ARPAV_${LM_YYYY}${LM_MM}${LM_DD}${LM_ZZ}_HPBL.txt"
+  in_grid = "HSURF", in_grid_intpl="average,square,0.9,0."
+  out_type = "DAT_TABLE"
+  out_type_dupcst = .false.
+  out_type_fmt = "E10.4"
+  out_type_undefcode = -99.0
+  tstart = 0, tstop = 24, tincr = 1
+  loclist = "AV003","AV009","AV017","AV019","AV021","AV025","AV037","AV041","AV047",
+            "AV050","AV053","AV056","AV058","AV059","AV067","AV080","AV091","AV092",
+            "AV093","AV132","AV136","AV199","AV200","AV203","AV216","AV217","AV223",
+            "AV224","AV237","AV238","AV245","AV247","AV264","AV266","AV268","AV106",
+            "AV111","AV122","AV142","AV151","AV152","AV169","AV170","AV175","AV177",
+            "AV179","AV180","AV182","AV206","AV234","AV265","AV096","AV098","AV099",
+            "AV101","AV112","AV113","AV114","AV115","AV121","AV221","AV231","AV028",
+            "AV100","AV102","AV156","AV183","AV185","AV186","AV187","AV189","AV195",
+            "AV197","AV204","AV220","AV227","AV240","AV159","AV160","AV164","AV165",
+            "AV166","AV168","AV178","AV230","AV252","AV375","AV425","AV087","AV104",
+            "AV108","AV117","AV118","AV119","AV120","AV123","AV124","AV126","AV127",
+            "AV128","AV129","AV131","AV251","AV253","AV068","AV072","AV074","AV077",
+            "AV079","AV082","AV083","AV088","AV105","AV134","AV135","AV137","AV139",
+            "AV140","AV144","AV145","AV147","AV148","AV149","AV153","AV192","AV218",
+            "AV225","AV232","AV248","AV409","AV410"
+/
+&Process in_field = "P", levmin = 20, levmax = 60  /
+&Process in_field = "QV", levmin = 20, levmax = 60  /
+&Process in_field = "T", levmin = 20, levmax = 60  /
+&Process in_field = "U", levmin = 20, levmax = 60, regrid = .true./
+&Process in_field = "V", levmin = 20, levmax = 60, regrid = .true./
+
+&Process tmp1_field = "BRN", levmin = 20, levmax = 60 /
+&Process tmp1_field = "HSURF" /
+&Process tmp1_field = "HFL", levmin = 20, levmax = 60 /
+
+&Process out_field = "HPBL" /
+&Process out_field = "BRN" /
+
+! Profiles
+!---------
+&Process
+  in_type  = "INCORE"
+  out_file = "cosmo2_ARPAV_${LM_YYYY}${LM_MM}${LM_DD}${LM_ZZ}_PROFILES.txt"
+  out_type = "DAT_TABLE"
+  in_grid = "HSURF", in_grid_intpl="average,square,0.9,0."
+  out_type_dupcst = .false.
+  out_type_fmt = "F9.1"
+  loclist = "AVFE1","AVROV","AVPA1","AVLEG","AVLNN","AVPA2"
+/
+&Process in_field = "HFL"/
+&Process in_field = "HSURF"/
+
+
+&Process
+  in_file  = "lfff<DDHH>0000"
+  out_file = "cosmo2_ARPAV_${LM_YYYY}${LM_MM}${LM_DD}${LM_ZZ}_PROFILES.txt"
+  out_type = "DAT_TABLE"
+  in_grid = "HSURF", in_grid_intpl="average,square,0.9,0."
+  out_type_dupcst = .false.
+  out_type_fmt = "F9.1"
+  tstart = 0, tstop = 24, tincr = 1
+  loclist = "AVFE1","AVROV","AVPA1","AVLEG","AVLNN","AVPA2"
+/
+&Process in_field = "P"/
+&Process in_field = "U", regrid = .true. /
+&Process in_field = "V", regrid = .true. /
+&Process in_field = "T"/
+&Process in_field = "QV"/
+
+&Process out_field = "HFL" /
+&Process out_field = "P" /
+&Process out_field = "FF" /
+&Process out_field = "DD" /
+&Process out_field = "T" /
+&Process out_field = "QV", scale=1000. /
+&Process out_field = "BRN" /
+
+
+# Extractions for meteoradar (Willi Schmid)
+#------------------------------------------
+&Process
+  in_file  = "lfff<DDHH>0000"
+  tstart = 0,tstop = 12,tincr = 1,tlag = -1,0, out_tstart = 1
+  imin= 40, imax = 360, jmin = 40, jmax = 320
+  out_file = "cosmo2_meteoradar_<DDHH>0000.txt", out_type="XLS_TABLE"
+/
+&Process in_field  = "TOT_PREC", toper="delta,1,hour"/
+&Process in_field  = "T_G"/
+&Process in_field  = "T_2M"/
+
+
+EOFTC
+
+#==============================================================================
+# Non time critical extractions:
+# This extractions are performed after the module lm_lm
+# from 0h to $LM_NL_HENDE_F_CL (without slicing).
+#==============================================================================
+cat << EOFNTC >! $permntDir/nl.NTC
+
+
+EOFNTC

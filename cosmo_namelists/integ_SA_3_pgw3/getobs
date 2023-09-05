@@ -1,0 +1,69 @@
+###############################################################################
+#
+# File: getaof
+# Category: LM package - namelist file for task "integ"
+#
+# Host: SUN
+# Location: $LM_NDIR/<set name>    (e.g.: <set name> = integ)
+# Permission: 440
+# Associated files: $LM_SDIR/lm_getaof, makeaof
+#
+# Description: in this file you define the list of different observations
+#              that will be extracted from the lmdb on LM_RHOST. In the 
+#              first part the environment for Empress and Mars has to be
+#              defined. 
+#              In the second part it is possible to define the observations
+#              that have to be retrieved.
+#
+#              The supported observation subtypes are (ECMWF nomenclature):
+#
+#                land surface data:       S/SA
+#                sea surface data:        SS/SAS/SH/SAB/DSU
+#                vertical sounding:       T/TS/TM/P/PS
+#                single level upper air:  AIR/AM/AC
+#
+#                where
+#
+#                S      Synop landt
+#                SA     Synop auto land
+#                SS     Synop ship
+#                SAS    Synop auto ship
+#                SH     Shred (Synop ship reduced)
+#                SAB    Synop abbreviated ship
+#                DSU    Dribu surface
+#                T      Temp land
+#                TS     Temp ship
+#                TM     Temp mobile
+#                P      Pilot land
+#                PS     Pilot ship
+#                AIR    Airep
+#                AM     Amdar
+#                AC     Acars
+#
+#              Unsupported observations are skipped by the program.
+#              The observations are converted automatically to "aof" format
+#              and stored in $LM_WDIR/$LM_TAG/aof.
+#
+#############################################################
+
+
+set LM_FDB_VARS = "vad windprofiler_cnmet"
+set LM_OBS_DATE = ${LM_YYYY}${LM_MM}${LM_DD}
+set LM_OBS_TIME = ${LM_ZZ}00
+set LM_OBS_RANGE = 240
+
+# Retrieve namelist
+#------------------
+cat >! $workingDir/retrieve.nl << EOF
+retrieve,
+ type      =  OB,
+ obstype   =  S/SA/DSU/SS/SAS/SH/SAB/T/TS/TM/P/PS/AM/AC/AIR, 
+ date      =  $LM_OBS_DATE ,
+ time      =  $LM_OBS_TIME ,
+ range     =  $LM_OBS_RANGE ,
+ area      =  60/-15/35/25, 
+ database  =  $LM_LMDB,
+ target    =  "mars.data"
+.
+EOF
+

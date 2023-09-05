@@ -1,0 +1,111 @@
+###############################################################################
+#
+# File: gme2lm
+# Category: LM package - namelist file for task "integ"
+#
+# Host: SUN
+# Location: $LM_NDIR/<set name>    (e.g.: <set name> = integ)
+# Permission: 440
+# Associated files: $LM_SDIR/lm_gme2lm
+#
+#
+# Description: environment and NAMELIST for the program int2lm with
+#              gme2lm = .TRUE.
+#              This file is read by the script lm_gme2lm which 
+#              interpolates GME analysis and forecast fields.
+#              Any lines beginning with # are ignored. 'Predefined variables'
+#              (as defined below) can be used.
+#
+#
+# Predefined variables:
+#  1)  $LM_YY     year of the experiment (last 2 digits)
+#      $LM_YYYY   year of the experiment (4 digits) 
+#      $LM_MM     month of the experiment
+#      $LM_DD     day of the experiment
+#      $LM_ZZ     time of the experiment
+#      $LM_DATE   shortcut for $LM_YY$LM_MM$LM_DD$LM_ZZ
+#      $LM_YYm12  year of the experiment minus 12 hours
+#      $LM_MMm12  month of the experiment minus 12 hours
+#      $LM_DDm12  day of the experiment minus 12 hours
+#      $LM_ZZm12  time of the experiment minus 12 hours
+#      $LM_DATEm12 shortcut for $LM_YY$LM_MM$LM_DD$LM_ZZ minus 12 hours
+#      $LM_YYp12  year of the experiment plus 12 hours
+#      $LM_MMp12  month of the experiment plus 12 hours
+#      $LM_DDp12  day of the experiment plus 12 hours
+#      $LM_ZZp12  time of the experiment plus 12 hours
+#      $LM_DATEp12 shortcut for $LM_YY$LM_MM$LM_DD$LM_ZZ plus 12 hours
+#      $LM_TAG    shortcut for ${LM_DATE}_${LM_NL_TEXPN}
+#      $LM_WDIR  input and ouput files are collected in $LM_WDIR/$LM_TAG
+#      $LM_LDIR  boden data are in this directory
+#  2) All variables defined in file 'GLOBAL' in the same directory:
+#      $LM_NL_YEMEXPN
+#      $LM_NL_HENDE
+#          ....
+# 
+# GME2LM Note:
+# ============
+# For dates between 1999.11.16.12 and 2000.05.30.12 you can't 
+# interpolate on the whole operational domain (385x325), because
+# the initial and lateral boundary fields are too small.
+# The max. horizontal domain (with 0.0625 degrees resolution)
+# is: 
+# 
+# ielm_tot = 325
+# jelm_tot = 325
+# dlon = 0.0625
+# dlat = 0.0625 
+# startlat_tot = -19.7
+# startlon_tot = -12.7
+#
+###############################################################################
+
+
+cat >! $workingDir/INPUT << EONL
+
+  &CONTRL
+  ydate_ini='${LM_INI_PREASSML}', hstart=0.0,
+  hstop=${LM_NL_HENDE_PREASSML}.0, hincbound=${LM_NL_INCR}.0,
+  linitial=.TRUE.,  lboundaries=.TRUE.,   lgme2lm=.TRUE.,
+  ltime_mean=.TRUE., ltime_proc=.TRUE., lanalysis=.TRUE.,
+  luvcor=.TRUE.,ldebug=.true.,
+  nprocx=$NQS_NXGME2LM, nprocy=$NQS_NYGME2LM, nprocio=0,
+  lasync_io=.FALSE,lprog_qi=.FALSE., lfilter=.FALSE.,
+  nincwait=30, nmaxwait=300,
+ /
+ &GMEGRID
+  ni_gme = $LM_NL_RESGME, i3e_gme = $LM_NL_KEGME, kcontrol_fi =15,
+ /
+ &LMGRID
+  ielm_tot=$LM_NL_IELM, jelm_tot=$LM_NL_JELM, kelm_tot=$LM_NL_KELM,
+  vcoord_d=.020, .036, .057, .082, .110, .140, .170, .200,
+           .230, .260, .295, .330, .370, .410, .450, .490,
+           .530, .570, .610, .645, .674, .698, .718, .736,
+           .752, .766, .778, .790, .802, .814, .826, .838,
+           .850, .862, .874, .886, .898, .910, .922, .934,
+           .946, .958, .970, .982, .992,1.000,
+  pollat =$LM_NL_POLLATLM  , pollon =$LM_NL_POLLONLM ,
+  dlon=$LM_NL_DLONLM , dlat=$LM_NL_DLATLM,
+  startlat_tot  = $LM_NL_STARTLAT_TOT,
+  startlon_tot  = $LM_NL_STARTLON_TOT,
+ /
+ &DATABASE
+ /
+ &DATA
+  ie_ext=$LM_NL_EXT_IE, je_ext=$LM_NL_EXT_JE,
+  ylmext_lfn='lmExtPara.grb1',
+  ylmext_cat='$LM_LDIR',
+  ygmext_lfn='gmeExtPara.grb1',
+  ygmext_cat='$LM_LDIR',
+  ybitmap_lfn='bitmp906',
+  ybitmap_cat='$LM_LDIR',
+  ygme_cat='$NQS_WDIR/$LM_TAG/',
+  ylm_cat= '$NQS_WDIR/$LM_TAG/',
+  nl_soil_gme=2, nl_soil_lm=2,
+ /
+ &PRICTR
+  igp_tot = 36, 40, 48, 44, 48, 85, 77,
+  jgp_tot = 30, 94, 38, 26, 26, 96, 12,
+  lchkin=.TRUE, lchkout=.TRUE,
+ /
+
+EONL

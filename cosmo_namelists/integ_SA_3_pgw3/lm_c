@@ -1,0 +1,628 @@
+###############################################################################
+#
+# File: lm
+# Category: LM package - namelist file for task "integ"
+#
+# Host: SUN
+# Location: $LM_NDIR/<set name>    (e.g.: <set name> = integ)
+# Permission: 440
+# Associated files: $LM_SDIR/lm_lm
+#
+#
+# Description: environment and NAMELIST for the program 'lm'.
+#              This file is read by the script lm_lm. Any lines
+#              beginning with # are ignored. 'Predefined variables'
+#              (as defined below) can be used.
+#
+#
+# Predefined variables:
+#  1)  $LM_YY     year of the experiment
+#      $LM_MM     month of the experiment
+#      $LM_DD     day of the experiment
+#      $LM_ZZ     time of the experiment
+#      $LM_DATE   shortcut for $LM_YY$LM_MM$LM_DD$LM_ZZ
+#      $LM_YYm12  year of the experiment minus 12 hours
+#      $LM_MMm12  month of the experiment minus 12 hours
+#      $LM_DDm12  day of the experiment minus 12 hours
+#      $LM_ZZm12  time of the experiment minus 12 hours
+#      $LM_DATEm12 shortcut for $LM_YY$LM_MM$LM_DD$LM_ZZ minus 12 hours
+#      $LM_YYp12  year of the experiment plus 12 hours
+#      $LM_MMp12  month of the experiment plus 12 hours
+#      $LM_DDp12  day of the experiment plus 12 hours
+#      $LM_ZZp12  time of the experiment plus 12 hours
+#      $LM_DATEp12 shortcut for $LM_YY$LM_MM$LM_DD$LM_ZZ plus 12 hours
+#      $LM_TAG    shortcut for ${LM_DATE}_${LM_NL_TEXPN}
+#      $LM_WDIR  input and ouput files are collected in $LM_WDIR/$LM_TAG
+#  2) All variables defined in file 'GLOBAL' in the same directory:
+#      $LM_NL_YEMEXPN
+#      $LM_NL_HENDE
+#          ....
+#
+###############################################################################
+# 1) FORTRAN NAMELIST block
+#--------------------------
+#    The text contained between the line  "cat >! ..." and the line
+#    "EONL", modulo the substitution of all variables by their values,
+#    defines the FORTRAN NAMELISTS block used by the program lm:
+#    INPUT_ORG INPUT_ASS INPUT_DIA INPUT_DYN INPUT_INI INPUT_IO INPUT_PHY
+#
+#=====================================================================
+# 2) GRIBOUT block 2
+#-------------------
+# It includes:
+#
+# 1) Maximum domain for the Swiss-Domain price with Switzerland centered:
+#    imin=130, jmin=128, imax=319, jmax=257
+# 
+# 2) The "CN-MET" domain: 
+#    imin=168, jmin=178, imax=252, jmax=262
+#
+# => imin=130, jmin=128, imax=319, jmax=262
+#
+#=====================================================================
+
+cat >! $workingDir/INPUT_ORG << EONL 
+ &LMGRID
+  startlat_tot= $LM_NL_STARTLAT_TOT_C, startlon_tot= $LM_NL_STARTLON_TOT_C,
+  pollat=$LM_NL_POLLATLM_C, pollon=$LM_NL_POLLONLM_C,
+  dlon=$LM_NL_DLONLM_C, dlat=$LM_NL_DLATLM_C,
+  ie_tot= $LM_NL_IELM_C, je_tot= $LM_NL_JELM_C, ke_tot=$LM_NL_KELM_C,
+ /END
+ &RUNCTL
+  dt= 25.0,
+  hstart=$LM_NL_HSTART, hstop=$LM_NL_HSTOP,
+  !ydate_ini='${LM_YYYY_INI}${LM_MM_INI}${LM_DD_INI}${LM_ZZ_INI}',
+  ydate_ini='${LM_YYYY_INI}${LM_MM_INI}${LM_DD_INI}${LM_ZZ_INI}0000',
+  hincmxt=24.0, hincmxu=24.0,
+  itype_timing=4,
+  lreproduce=.TRUE.,
+  luseobs =.FALSE.,
+  lphys   =.TRUE.,
+  ldiagnos=.FALSE.,
+  luse_rttov=.false.,
+  ldfi=.FALSE.,
+  nprocx= $NQS_NXLM_C, nprocy= $NQS_NYLM_C, nprocio=0,
+  num_asynio_comm=$NQS_NIOLM_C,
+  num_iope_percomm=1,
+  nboundlines=3,
+  ldump_ascii = .FALSE.
+  itype_calendar = 0,
+  idbg_level = 4,
+  l_t_check = .FALSE.,
+  nproma=-1,
+ /END
+ &TUNING
+   tkhmin = 0.25,	!0.35,
+   tkmmin = 0.25,	!1.0,
+   mu_rain = 0.5,
+   v0snow = 20.0,
+   rlam_mom=0.0,
+   rlam_heat = 0.5249, !0.45
+   entr_sc = 0.000186,
+   rat_sea=20.0,
+   rat_lam=1.0,
+   rat_can=1.0,
+   wichfakt=0.0,
+   c_lnd=2.0,
+   c_sea=1.5,
+   c_soil=1.0,
+   pat_len=500.0,
+   z0m_dia=0.2,
+   crsmin=150.0,
+   clc_diag=1.0,
+   q_crit=1.6,
+   qc0=0.0002
+   qi0=1E-7 !5E-6
+   uc1 = 0.0626,	!0.25,	!0.0626,
+   radfac = 0.5,
+   fac_rootdp2 = 1.0, !0.55
+   soilhyd = 1.62,
+   tur_len = 200.0,
+   cloud_num = 2E+7,
+ /END
+EONL
+
+cat >! $workingDir/INPUT_ASS << EONL
+ &NUDGING
+ /END
+EONL
+
+cat >! $workingDir/INPUT_DIA << EONL
+ &DIACTL
+  n0meanval=0, nincmeanval=1,
+  itype_diag_t2m=1,
+  itype_diag_gusts=1,
+  lgplong =.TRUE.,   n0gp=0,      hincgp=1.,
+  stationlist_tot= 0, 0, 46.817,  6.935, 'Payerne'
+ /END
+EONL
+
+cat >! $workingDir/INPUT_DYN << EONL
+ &DYNCTL
+    lcpp_dycore=.TRUE.,
+    lspubc=.true.,
+    itype_spubc=3,
+      rdheight=13500.0
+      nrdtau=3,
+    lexpl_lbc=.true.,
+      rlwidth=50000.0,
+    ldyn_bbc=.false.,
+    itype_bbc_w=114,
+    betasw=0.4,
+    xkd=0.1,
+    epsass=0.15,
+    lcond=.true.,
+    l_diff_smag = .TRUE.,
+    lhordiff=.true.,
+      itype_hdiff=2,
+      hd_corr_u_bd=0.75,
+      hd_corr_t_bd=0.75,
+      hd_corr_trcr_bd=0.0,
+      hd_corr_p_bd=0.75,
+      hd_corr_u_in=0.0,
+      hd_corr_t_in=0.0,
+      hd_corr_trcr_in=0.0,
+      hd_corr_p_in=0.0,
+      hd_dhmax=250.,
+    l2tls=.true.,
+      irunge_kutta=1,
+        irk_order=3,
+        iadv_order=5,
+        itheta_adv=0,
+        ltadv_limiter=.false.,
+    itype_fast_waves=2,
+      y_scalar_advect = 'BOTT2_STRANG',
+      y_vert_adv_dyn='impl2',
+        ieva_order=3,
+    itype_outflow_qrsg=2,
+    itype_lbc_qrsg=1,
+ /END
+EONL
+
+cat >! $workingDir/INPUT_INI << EONL
+ &INICTL
+  ndfi=2,
+  tspan= 1840.0, taus= 1840.0,
+  dtbak=40.0, dtfwd=40.0,
+ /END
+EONL
+
+cat >! $workingDir/INPUT_SAT << EONL
+ &SATCTL
+   num_sensors=1,
+   sat_input_01='MSG',1,'SEVIRI',8, .TRUE., .TRUE.,.TRUE., .TRUE.,
+   nchan_input_01=1,2,3,4,5,6,7,8,
+   lcon_clw=.FALSE.,
+ /END
+EONL
+
+cat >! $workingDir/INPUT_PHY << EONL
+ &PHYCTL
+  lseaice =.false.
+  llake=.false.
+  lgsp    =.true.,
+      itype_gscp=4,
+      ldiniprec=.FALSE., 
+  lrad=.TRUE.,
+      hincrad = 0.25,
+      lradtopo=.False.,
+  lforest=.TRUE.,
+  ltur=.TRUE.,
+      ninctura=1,
+      lexpcor=.false.,
+      ltmpcor=.false.,
+      lprfcor=.false.,
+      lnonloc=.false.,
+      lcpfluc=.false.,
+      itype_turb=3,
+      imode_turb=1,
+      itype_tran=2,
+      imode_tran=1,
+      limpltkediff=.TRUE.,
+    itype_wcld=2,
+      icldm_rad=4,
+      icldm_turb=2,
+      icldm_tran=0,
+      itype_synd=2,
+  lsoil=.TRUE.,
+      lmelt=.TRUE.,
+      lmelt_var=.TRUE.,
+      lmulti_layer=.TRUE.,
+      itype_trvg=2,
+      ke_soil=9,
+      czml_soil=0.005, 0.025, 0.07, 0.16, 0.34, 0.70, 1.47, 2.86, 5.74,  11.50,
+      czbot_w_so=8.0,
+      itype_root = 2
+      itype_heatcond=2
+      itype_evsl=4,
+!      itype_hydmod=0,
+      itype_hydmod=1,
+      itype_hydcond=1,
+      !lsoil_init_fill=.TRUE.,  !!!!!!!!! Saturate low soil levels; Use only in first month of simualtion !!!!!!!!
+      lsoil_init_fill=.FALSE.,  !!!!!!!! Saturate low soil levels; Use only in first month of simualtion !!!!!!!!
+    lconv=.FALSE.,
+      itype_conv=3,
+      nincconv=5,
+    lcape=.false.,
+      lconf_avg=.true.,
+    lsso=.FALSE.,
+      ltkesso=.False.,
+    itype_albedo = 3,
+    itype_aerosol = 2
+  !lmlo=.false.,
+  !  depth_mlo=4.0,
+  !  tau_mlo=10800.,
+ /END
+EONL
+
+cat >! $workingDir/INPUT_IO << EONL
+ &IOCTL
+  ldwd_grib_use=.false.,
+  yform_read='ncdf',
+  l_ke_in_gds=.TRUE.,
+  lasync_io=.TRUE.,
+  ymode_read = 'r  ',
+  ymode_write = 'w b',
+  nincwait=10,
+  nmaxwait=200,
+  nhour_restart=$LM_NL_HSTOP,$LM_NL_HSTOP,1
+  !nhour_restart=$LM_NL_HSTART,$LM_NL_HSTOP,24
+  ngribout=7,
+  itype_gather=2,
+  ydir_restart_in='$LM_IDIR/$LM_SIMNAME/lm_c/restart',
+  ydir_restart_out='$LM_IDIR/$LM_SIMNAME/lm_c/restart',
+  ytunit_restart='d',
+  lbdclim=.TRUE.,
+  yncglob_title = "CLM driven by ERAINT",
+  yncglob_source = "COSMO_5.X_pompa",
+  yncglob_experiment_id ="Evaluation",
+  ncglob_realization = 1,
+ /END
+ &DATABASE
+ /END
+ &GRIBIN
+  lbdana=.FALSE.,
+  ydirini='$NQS_WDIR/$LM_TAG/$LM_LM_COARSE_IN',
+  lchkini=.TRUE.,
+  hincbound=3.0,
+  ydirbd='$NQS_WDIR/$LM_TAG/$LM_LM_COARSE_IN',
+  lchkbd =.TRUE.,
+  lana_qi = .FALSE.,
+  llb_qi  = .TRUE.,
+  lana_qg = .FALSE.,
+  llb_qg  = .FALSE.,
+  lana_qr_qs = .FALSE.,
+  llb_qr_qs  = .FALSE.,
+  lana_rho_snow = .FALSE.,
+  lan_lai = .TRUE., lan_rootdp = .TRUE., lan_vio3 = .TRUE., lan_plcov = .TRUE.,
+  lan_t_cl = .TRUE.,  lan_w_cl = .TRUE., lan_hmo3 = .TRUE., lan_t_so0 = .TRUE.,
+  lan_t_snow = .TRUE., lan_w_snow = .TRUE., lan_w_i = .TRUE., lan_rho_snow = .TRUE.,
+  lan_t_s = .FALSE.,
+  ytunitbd='d',
+ /END
+
+ !! Constant fields and fields required for lm2lm
+ !&GRIBOUT
+ ! yform_write='ncdf',
+ ! hcomb=$LM_NL_HSTART,$LM_NL_HSTOP ,1,
+ ! yvarml='U','V','W','T','PP',
+ !    'QV','QC', 'QS','QR','QI','QG',
+ !    'VIO3','HMO3',
+ !    'T_SNOW','QV_S','W_SNOW','W_I','T_S',
+ !    'T_SO','W_SO','RHO_SNOW','FRESHSNW',
+ ! yvarpl=' ',
+ ! yvarzl=' ',
+ ! lcheck=.FALSE.,
+ ! luvmasspoint=.FALSE.,
+ ! lwrite_const=.True.,
+ ! ydir='$NQS_WDIR/$LM_TAG/$LM_LM_COARSE_OUT',
+ ! l_z_filter=.FALSE., l_p_filter=.FALSE., 
+ ! l_fi_pmsl_smooth = .FALSE.,
+ ! ytunit='d',
+ !/END
+
+ ! Only constant fields
+ &GRIBOUT
+  yform_write='ncdf',
+  hcomb=$LM_NL_HSTART,$LM_NL_HSTOP ,1,
+  yvarml=' '
+  yvarpl=' ',
+  yvarzl=' ',
+  lcheck=.FALSE.,
+  luvmasspoint=.FALSE.,
+  lwrite_const=.True.,
+  ydir='$NQS_WDIR/$LM_TAG/$LM_LM_COARSE_OUT',
+  l_z_filter=.FALSE., l_p_filter=.FALSE., 
+  l_fi_pmsl_smooth = .FALSE.,
+  ytunit='d',
+ /END
+
+ ! high-frequency vertically integrated water quantities
+ &GRIBOUT
+  yform_write='ncdf',
+  hcomb=$LM_NL_HSTART,$LM_NL_HSTOP,0.5,
+  yvarml='TOT_PREC','TQC', 'TQI',
+  yvarpl=' ',
+  yvarzl=' ',
+  lcheck=.FALSE.,
+  luvmasspoint=.TRUE.,
+  lwrite_const=.FALSE.,
+  ydir='$NQS_WDIR/$LM_TAG/$LM_LM_COARSE_OUT/30min_water',
+  l_z_filter=.FALSE., l_p_filter=.FALSE., 
+  l_fi_pmsl_smooth = .FALSE.,
+  ytunit='d',
+ /END
+
+ ! 1-hourly 2d output (no coarse-grain)
+ &GRIBOUT
+  yform_write='ncdf',
+  hcomb=$LM_NL_HSTART,$LM_NL_HSTOP,1
+  yvarml=! vertically integrated water
+         'TQV','TQR','TQS','TQG',
+         ! clouds
+         'CLCL','CLCM','CLCH','CLCT',
+  yvarpl=' ',
+  yvarzl=' ',
+  lcheck=.TRUE.,
+  luvmasspoint=.TRUE.,
+  lwrite_const=.FALSE.,
+  ydir='$NQS_WDIR/$LM_TAG/$LM_LM_COARSE_OUT/1h_2D',
+  l_z_filter=.FALSE.,l_p_filter=.FALSE.,
+  l_fi_pmsl_smooth = .FALSE.,
+  ytunit='d',
+ /END
+
+ ! 1-hourly 2d output (coarse grain)
+ &GRIBOUT
+  yform_write='ncdf',
+  hcomb=$LM_NL_HSTART,$LM_NL_HSTOP,1
+  yvarml='T_S','ALHFL_S','ASHFL_S',
+         'U_10M','V_10M','T_2M','QV_2M','PS',
+         'CAPE_ML','CIN_ML',
+         ! radiation
+         'ASOB_T', 'ASOD_T','ATHB_T',
+         'ASOBC_T',         'ATHBC_T',
+         'ASOBC_S',         'ATHBC_S',
+         'ASOB_S', 'ASWDIFD_S','ASWDIR_S',
+         'ATHB_S', 'ATHD_S',
+  yvarpl=' ',
+  yvarzl=' ',
+  lcheck=.TRUE.,
+  luvmasspoint=.TRUE.,
+  lwrite_const=.FALSE.,
+  ydir='$NQS_WDIR/$LM_TAG/$LM_LM_COARSE_OUT/1h_2D_cg',
+  l_z_filter=.FALSE.,l_p_filter=.FALSE.,
+  l_fi_pmsl_smooth = .FALSE.,
+  ytunit='d',
+ /END
+
+ ! 3-hourly 3D fields on zlevels (coarse grain)
+ &GRIBOUT
+  yform_write='ncdf',
+  hcomb=$LM_NL_HSTART,$LM_NL_HSTOP,3,
+  yvarml=' ',
+  yvarpl=' ',
+  yvarzl='U','V','W','T','P','QV',
+  zlev=20,100,
+       200,400,600,800,1000,1200,1400,1600,1800,2000,
+       2300,2600,3000,4000,5000,
+       6000,7000,8000,10000,
+       12000,14000,16000,18000
+  lcheck=.FALSE.,
+  luvmasspoint=.TRUE.,
+  lwrite_const=.FALSE.,
+  ydir='$NQS_WDIR/$LM_TAG/$LM_LM_COARSE_OUT/3h_3D',
+  l_z_filter=.FALSE.,l_p_filter=.FALSE.,
+  l_fi_pmsl_smooth = .FALSE.,
+  ytunit='d',
+ /END
+
+ ! 3-hourly 3D fields on zlevels (no coarse grain)
+ &GRIBOUT
+  yform_write='ncdf',
+  hcomb=$LM_NL_HSTART,$LM_NL_HSTOP,3,
+  yvarml=' ',
+  yvarpl=' ',
+  yvarzl='QC','QI'
+  zlev=20,100,
+       200,400,600,800,1000,1200,1400,1600,1800,2000,
+       2300,2600,3000,3500,4000,4500,5000,5500,
+       6000,7000,8000,9000,10000,
+       11000,12000,13000,14000,15000,16000,17000,18000
+  lcheck=.FALSE.,
+  luvmasspoint=.TRUE.,
+  lwrite_const=.FALSE.,
+  ydir='$NQS_WDIR/$LM_TAG/$LM_LM_COARSE_OUT/3h_3D_cloud',
+  l_z_filter=.FALSE.,l_p_filter=.FALSE.,
+  l_fi_pmsl_smooth = .FALSE.,
+  ytunit='d',
+ /END
+
+
+ ! Some 24h output
+ &GRIBOUT
+  yform_write='ncdf',
+  hcomb=$LM_NL_HSTART,$LM_NL_HSTOP,24,
+  yvarml='T_SO','W_SO','RUNOFF_S','RUNOFF_G',
+         'TMIN_2M','TMAX_2M','VMAX_10M',
+         'TWATER','TWATFLXU','TWATFLXV',
+         'ALB_RAD',
+  yvarpl=' ',
+  yvarzl=' ',
+  lcheck=.FALSE.,
+  luvmasspoint=.TRUE.,
+  lwrite_const=.FALSE.,
+  ydir='$NQS_WDIR/$LM_TAG/$LM_LM_COARSE_OUT/24h',
+  l_z_filter=.FALSE.,l_p_filter=.FALSE.,
+  l_fi_pmsl_smooth = .FALSE.,
+  ytunit='d',
+ /END
+
+
+
+
+
+
+
+
+
+
+
+
+ !! low-frequency vertically integrated water quantities
+ !&GRIBOUT
+ ! yform_write='ncdf',
+ ! hcomb=$LM_NL_HSTART,$LM_NL_HSTOP,1,
+ ! !yvarml='TQI','TQR','TQS','TQG',
+ ! !       'TQV','TOT_PREC',
+ ! yvarml='TQI','TQR','TQV','TOT_PREC',
+ ! yvarpl=' ',
+ ! yvarzl=' ',
+ ! lcheck=.FALSE.,
+ ! luvmasspoint=.FALSE.,
+ ! lwrite_const=.FALSE.,
+ ! ydir='$NQS_WDIR/$LM_TAG/$LM_LM_COARSE_OUT/1h_water',
+ ! l_z_filter=.FALSE., l_p_filter=.FALSE., 
+ ! l_fi_pmsl_smooth = .FALSE.,
+ ! ytunit='d',
+ !/END
+
+ !! 1-hourly radiation output
+ !&GRIBOUT
+ ! yform_write='ncdf',
+ ! hcomb=$LM_NL_HSTART,$LM_NL_HSTOP,1,
+ ! yvarml='ASOB_S', 'ASOB_T', 'ASWD_S', 'ASOD_T',
+ !        'ATHB_S', 'ATHB_T', 'ATHD_S',
+ ! yvarpl=' ',
+ ! yvarzl=' ',
+ ! lcheck=.FALSE.,
+ ! luvmasspoint=.FALSE.,
+ ! lwrite_const=.FALSE.,
+ ! ydir='$NQS_WDIR/$LM_TAG/$LM_LM_COARSE_OUT/1h_rad',
+ ! l_z_filter=.FALSE.,l_p_filter=.FALSE.,
+ ! l_fi_pmsl_smooth = .FALSE.,
+ ! ytunit='d',
+ !/END
+
+ !! 1-hourly clear-sky and secondary radiation output
+ !&GRIBOUT
+ ! yform_write='ncdf',
+ ! hcomb=$LM_NL_HSTART,$LM_NL_HSTOP,1,
+ ! !yvarml='ALB_RAD', 'ASWDIFU_S','ASWDIR_S', 'ASWDIFD_S',
+ ! !       'ASOBC_S', 'ASOBC_T', 'ATHBC_S', 'ATHBC_T',
+ ! yvarml='ASWDIFU_S','ASWDIR_S', 'ASWDIFD_S',
+ !        'ASOBC_S', 'ASOBC_T', 'ATHBC_S', 'ATHBC_T',
+ ! yvarpl=' ',
+ ! yvarzl=' ',
+ ! lcheck=.FALSE.,
+ ! luvmasspoint=.FALSE.,
+ ! lwrite_const=.FALSE.,
+ ! ydir='$NQS_WDIR/$LM_TAG/$LM_LM_COARSE_OUT/1h_clsky',
+ ! l_z_filter=.FALSE.,l_p_filter=.FALSE.,
+ ! l_fi_pmsl_smooth = .FALSE.,
+ ! ytunit='d',
+ !/END
+
+ !! 3-hourly vertically integrated water vapor fields
+ !&GRIBOUT
+ ! yform_write='ncdf',
+ ! hcomb=$LM_NL_HSTART,$LM_NL_HSTOP,3,
+ ! yvarml= 'TWATER', 'TWATFLXU', 'TWATFLXV',
+ ! yvarpl=' ',
+ ! yvarzl=' ',
+ ! lcheck=.FALSE.,
+ ! luvmasspoint=.FALSE.,
+ ! lwrite_const=.FALSE.,
+ ! ydir='$NQS_WDIR/$LM_TAG/$LM_LM_COARSE_OUT/3h_totwat',
+ ! l_z_filter=.FALSE.,l_p_filter=.FALSE.,
+ ! l_fi_pmsl_smooth = .FALSE.,
+ ! ytunit='d',
+ !/END
+
+ !! 3-hourly 3D fields
+ !&GRIBOUT
+ ! yform_write='ncdf',
+ ! hcomb=$LM_NL_HSTART,$LM_NL_HSTOP,3,
+ ! yvarml='U', 'V', 'W', 'T', 'P', 'QV', 'QC', 'QI',
+ ! yvarpl=' ',
+ ! yvarzl=' ',
+ ! lcheck=.FALSE.,
+ ! luvmasspoint=.FALSE.,
+ ! lwrite_const=.FALSE.,
+ ! ydir='$NQS_WDIR/$LM_TAG/$LM_LM_COARSE_OUT/3h_3D',
+ ! l_z_filter=.FALSE.,l_p_filter=.FALSE.,
+ ! l_fi_pmsl_smooth = .FALSE.,
+ ! ytunit='d',
+ !/END
+
+ !! pressure level output
+ !&GRIBOUT
+ ! yform_write='ncdf',
+ ! hcomb=$LM_NL_HSTART,$LM_NL_HSTOP,1,
+ ! yvarml=' ',
+ ! yvarpl='OMEGA','RELHUM'
+ ! plev = 500,700,850,
+ ! yvarzl=' ',
+ ! lcheck=.FALSE.,
+ ! luvmasspoint=.FALSE.,
+ ! lwrite_const=.FALSE.,
+ ! ydir='$NQS_WDIR/$LM_TAG/$LM_LM_COARSE_OUT/1h_plev',
+ ! l_fi_pmsl_smooth = .FALSE.,
+ ! ytunit='d',
+ !/END
+
+
+
+
+EONL
+
+
+#=====================================================================
+
+
+# 2) Name of diagnostic files
+#----------------------------
+#    Diagnostic files are produced by program 'lm' according to the 
+#    NAMELIST block defined above and to any modification you make
+#    to program 'lm' .
+#      All diagnostic files whose name does not begin with 'YU' will be
+#    disgarded; other diagnostic files will be concatenated into the 
+#    file  lm.???pri (this latter file is found in the subdirectory
+#    'output'). 
+#      To create a diagnostic file with whatever name, you have to 
+#    define in the block below the relation between the name of the
+#    file as produced by the program 'lm' and its new name. For
+#    ASCII files (resp. binary files) the extension '.pri' (resp.
+#    '.dat') will be appended to this new name, and the file will be
+#    moved in the subdirectory 'output'.
+#      In this way it is possible to write problem specific output
+#    to a new individually declared file.
+#
+#    E.g.:
+#             YUPRGK CHregion
+#             YUPRMIT lm_mit
+#    will produce the two files 'CHregion.pri' and 'lm_mit.pri'
+#    in the subdirectory 'output' (as long as YUPRGK and YUPRMIT
+#    are effectively produced by lm).
+#=====================================================================
+cat >! $workingDir/NAMES << EONL 
+
+YUPRGRPT lm_grdpts
+YUPRMEAN lm_mean
+YUPRDIAG lm_dia
+
+EONL
+#=====================================================================
+
+# 3) Thresholds for number of observations used by the assimilation
+#-------------------------------------------------------------------
+cat >! $workingDir/THRESHOLDS << EONL
+
+synop   0
+airep   0
+dribu   0
+temp    0
+pilot   0
+
+EONL
+#=====================================================================

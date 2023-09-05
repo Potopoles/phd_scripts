@@ -1,0 +1,150 @@
+###############################################################################
+#
+# File: archive
+# Category: LM package - namelist file for task "integ"
+#
+# Host: SUN
+# Location: $LM_NDIR/<set name>    (e.g.: <set name> = integ)
+# Permission: 440
+# Associated files: $LM_SDIR/lm_integ
+#
+#
+# Description: in this file you define the set of files and directories
+#              to get from the archive(s) at the beginning of the job, and
+#              the set of files and directories to put in the archive(s) at
+#              the end of the job.
+#              Any lines beginning with # are ignored. 'Predefined variables'
+#              (as defined below) can be used.
+#              
+#
+# Predefined variables:
+#  1)  $LM_YY     year of the experiment
+#      $LM_YYYY   year of the experiment
+#      $LM_MM     month of the experiment
+#      $LM_DD     day of the experiment
+#      $LM_ZZ     time of the experiment
+#      $LM_DATE   shortcut for $LM_YY$LM_MM$LM_DD$LM_ZZ
+#      $LM_YYm12  year of the experiment minus 12 hours
+#      $LM_MMm12  month of the experiment minus 12 hours
+#      $LM_DDm12  day of the experiment minus 12 hours
+#      $LM_ZZm12  time of the experiment minus 12 hours
+#      $LM_DATEm12 shortcut for $LM_YY$LM_MM$LM_DD$LM_ZZ minus 12 hours
+#      $LM_YYp12  year of the experiment plus 12 hours
+#      $LM_MMp12  month of the experiment plus 12 hours
+#      $LM_DDp12  day of the experiment plus 12 hours
+#      $LM_ZZp12  time of the experiment plus 12 hours
+#      $LM_DATEp12 shortcut for $LM_YY$LM_MM$LM_DD$LM_ZZ plus 12 hours
+#      $LM_TAG    shortcut for ${LM_DATE}_${LM_NL_TEXPN}
+#  2) All variables defined in file 'GLOBAL' in the same directory:
+#      $LM_NL_YEMEXPN
+#      $LM_NL_HENDE
+#          ....
+#  3) All variables defined in files ~/.lm_env or ~/.lm_tst_env
+#
+###############################################################################
+
+
+
+
+
+# 1) Preferences
+#---------------
+# secureMode:   if this variable is set, archived files can not be
+#               overwritten.
+# autoExtract:  if this variable is set and if no complete set of
+#               input files ('gme/ed' files) is found in the LM package
+#               working directory after execution of block 2
+#               below, the package will try to get input files
+#               from GME/EM archives.
+#
+# To set (resp. unset) the following variables, you must uncomment 
+# (resp. comment) the corresponding line.
+#
+#=====================================================================
+# set secureMode
+# set autoExtract
+#=====================================================================
+
+
+
+
+
+# 2) Files to get from archive(s)
+#--------------------------------
+# In this block you define the set of files to copy from one or more
+# archives into the LM package working directory at the very
+# beginning of the job.
+#
+# This block is composed of one or more lines of the type:
+#
+#   <User> <Directory> <file> [<file> ...] [NEW={...}]
+#
+# The set of files or directories defined by 
+#     $LM_ARFISY/<User>/<Directory>/<file>
+# will be extracted from the archive <User>/<Directory> and copied into
+# the directory $LM_WDIR/$LM_TAG; wildcards and pre-defined variables
+# can be used in the definition of <Directory> and <file>.
+# If the keyword NEW is present, files will be renamed before being
+# copied in $LM_WDIR/$LM_TAG . The new file name will be produced
+# from the original file name with the help of the command
+#          nawk -v f=<file name> 'BEGIN {...}'  
+# Note that the original file name must be referenced by the variable f
+# in {...} .
+#
+#
+#
+# E.g.:  
+#  
+#  osm LM_RING/94040600_A29/output *
+#  osm LM_RING/$LM_TAG hr* NEW={print substr(f,1,5) substr(f,6,2)+12}
+#  zala 94030312_T01 laf* lbff*
+#
+#=====================================================================
+
+cat >! $LM_NLDIR/arget << EOD
+
+EOD
+#=====================================================================
+
+
+# 3) Files to archive
+#--------------------
+# In this block you define the set of files to copy from the LM
+# package working directory into one or more archives at the
+# end of the job.
+#
+# This block is composed of one or more lines of the type:
+#
+#   <User> <Directory> <file> [<file> ...]
+#
+# The set of files defined by $LM_WDIR/$LM_TAG/<file> will be
+# copied in the archive $LM_ARDIR/<User>/<Directory>;
+# pre-defined variables can be used in the definition of
+# <Directory> and <file> and wildcards can be used in the
+# definition of <file>.
+#
+#
+# E.g.: 
+#  osm LM_RING/$LM_TAG ha* hr* lm[0-z]* hd* $LM_OUTPUT
+#  osm LM$LM_YY/$LM_DATE verif* 
+#
+#=====================================================================
+cat >! $LM_NLDIR/arput << EOD            
+
+osm LA_RING/fine lm_fine/laf*[0-9] 
+osm LA_RING/coarse lm_coarse/laf*[0-9]
+osm LM_RING/$LM_TAG/lm_fine lm_fine/lfff*
+osm LM_RING/$LM_TAG aof[0-9]* 
+osm LM_RING/$LM_TAG/lm_coarse lm_coarse/laf${LM_YYYY}${LM_MM}${LM_DD}${LM_ZZ}
+osm LM_RING/$LM_TAG/lm_fine   lm_fine/laf${LM_YYYY}${LM_MM}${LM_DD}${LM_ZZ}
+osm LM$LM_YY/$LM_TAG plots.tar* 
+osm LM$LM_YY/$LM_TAG/$LM_OUTPUT  $LM_OUTPUT/*ver*.pri $LM_OUTPUT/PROG_lm*
+osm LM$LM_YY/$LM_TAG/$LM_GRIB    $LM_GRIB/verif*.tar.gz $LM_GRIB/postproc*.tar.gz
+osm LM$LM_YY/$LM_TAG/$LM_VPROF   $LM_VPROF/*
+osm LM$LM_YY/$LM_TAG/$LM_PSANETZ coefLM* $LM_RESOURCE/_SINP_listLM*
+osm LM$LM_YY/$LM_TAG LOGinteg.* 
+osm LM$LM_YY/$LM_TAG/$LM_DEBUG   $LM_DEBUG/outLocal.* $LM_DEBUG/stdeoJob_*.lm*
+osm ORDERS/DWD_VOGEL             $LM_OUTPUT/gerd_cosmo2_PAY*.txt
+
+EOD
+#=====================================================================

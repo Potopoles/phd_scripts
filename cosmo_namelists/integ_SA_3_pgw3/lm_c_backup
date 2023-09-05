@@ -1,0 +1,402 @@
+###############################################################################
+#
+# File: lm
+# Category: LM package - namelist file for task "integ"
+#
+# Host: SUN
+# Location: $LM_NDIR/<set name>    (e.g.: <set name> = integ)
+# Permission: 440
+# Associated files: $LM_SDIR/lm_lm
+#
+#
+# Description: environment and NAMELIST for the program 'lm'.
+#              This file is read by the script lm_lm. Any lines
+#              beginning with # are ignored. 'Predefined variables'
+#              (as defined below) can be used.
+#
+#
+# Predefined variables:
+#  1)  $LM_YY     year of the experiment
+#      $LM_MM     month of the experiment
+#      $LM_DD     day of the experiment
+#      $LM_ZZ     time of the experiment
+#      $LM_DATE   shortcut for $LM_YY$LM_MM$LM_DD$LM_ZZ
+#      $LM_YYm12  year of the experiment minus 12 hours
+#      $LM_MMm12  month of the experiment minus 12 hours
+#      $LM_DDm12  day of the experiment minus 12 hours
+#      $LM_ZZm12  time of the experiment minus 12 hours
+#      $LM_DATEm12 shortcut for $LM_YY$LM_MM$LM_DD$LM_ZZ minus 12 hours
+#      $LM_YYp12  year of the experiment plus 12 hours
+#      $LM_MMp12  month of the experiment plus 12 hours
+#      $LM_DDp12  day of the experiment plus 12 hours
+#      $LM_ZZp12  time of the experiment plus 12 hours
+#      $LM_DATEp12 shortcut for $LM_YY$LM_MM$LM_DD$LM_ZZ plus 12 hours
+#      $LM_TAG    shortcut for ${LM_DATE}_${LM_NL_TEXPN}
+#      $LM_WDIR  input and ouput files are collected in $LM_WDIR/$LM_TAG
+#  2) All variables defined in file 'GLOBAL' in the same directory:
+#      $LM_NL_YEMEXPN
+#      $LM_NL_HENDE
+#          ....
+#
+###############################################################################
+# 1) FORTRAN NAMELIST block
+#--------------------------
+#    The text contained between the line  "cat >! ..." and the line
+#    "EONL", modulo the substitution of all variables by their values,
+#    defines the FORTRAN NAMELISTS block used by the program lm:
+#    INPUT_ORG INPUT_ASS INPUT_DIA INPUT_DYN INPUT_INI INPUT_IO INPUT_PHY
+#
+#====================================================================
+
+cat >! $workingDir/INPUT_ORG << EONL 
+ &LMGRID
+  startlat_tot= $LM_NL_STARTLAT_TOT_C, startlon_tot= $LM_NL_STARTLON_TOT_C,
+  pollat=$LM_NL_POLLATLM_C, pollon=$LM_NL_POLLONLM_C,
+  dlon=$LM_NL_DLONLM_C, dlat=$LM_NL_DLATLM_C,
+  ie_tot= $LM_NL_IELM_C, je_tot= $LM_NL_JELM_C, ke_tot=$LM_NL_KELM_C,
+ /END
+ &RUNCTL
+  dt= 90.0,
+  hstart=$LM_NL_HSTART, hstop=$LM_NL_HSTOP,
+  ydate_ini='${LM_YYYY_INI}${LM_MM_INI}${LM_DD_INI}${LM_ZZ_INI}',
+  hincmxt=24.0,
+  hincmxu=24.0,
+  itype_timing=4,
+  lreproduce=.TRUE.,
+  luseobs =.FALSE.,
+  lphys   =.TRUE.,
+  ldiagnos=.FALSE.,
+  ldfi=.FALSE.,
+  nprocx= $NQS_NXLM_C, nprocy= $NQS_NYLM_C, nprocio=$NQS_NIOLM_C,
+  nboundlines=3,
+  ldump_ascii = .FALSE.,
+  luse_rttov = .FALSE.,
+  idbg_level = 2,
+ /END
+ &TUNING
+   rlam_mom=0.0,
+   rlam_heat=1.0,
+   rat_sea=20.0,
+   rat_lam=1.0,
+   rat_can=1.0,
+   wichfakt=0.0,
+   c_lnd=2.0,
+   c_sea=1.5,
+   c_soil=1.0,
+   pat_len=500.0,
+   z0m_dia=0.2,
+   crsmin=150.0,
+   qc0=0.0,
+   qi0=5E-6,
+   entr_sc=5E-4,
+   !uc1 = 0.0626,        !DL: Uncomment once implemented in pompa
+   !radfac = 0.5,        !DL: Uncomment once implemented in pompa
+   !fac_rootdp2 = 1.0,   !DL: Uncomment once implemented in pompa
+   !soilhyd = 1.62 ,     !DL: Uncomment once implemented in pompa
+ /END
+EONL
+
+cat >! $workingDir/INPUT_DIA << EONL
+ &DIACTL
+ /END
+EONL
+
+
+cat >! $workingDir/INPUT_DYN << EONL
+ &DYNCTL
+    lspubc=.true.,
+      rdheight=11000.0,
+      nrdtau=5,
+    lcpp_dycore=.TRUE.,
+    lexpl_lbc=.true.,
+      rlwidth=85000.0,
+    ldyn_bbc=.true.,
+    itype_bbc_w=2,
+    betasw=0.4,
+    xkd=0.1,
+    epsass=0.15,
+    lcond=.true.,
+    l_diff_Smag = .FALSE.,
+    lhordiff=.true.,
+      itype_hdiff=2,
+      hd_corr_u_bd=0.75,
+      hd_corr_t_bd=0.75,
+      hd_corr_trcr_bd=0.0,
+      hd_corr_p_bd=0.75,
+      hd_corr_u_in=0.25,
+      hd_corr_t_in=0.0,
+      hd_corr_trcr_in=0.0,
+      hd_corr_p_in=0.0,
+      hd_dhmax=250.,
+    l2tls=.true.,
+      irunge_kutta=1,
+        irk_order=3,
+        iadv_order=5,
+        itheta_adv=0,
+        ltadv_limiter=.false.,
+      itype_fast_waves=1, 
+      y_scalar_advect = 'BOTT2_STRANG',
+      y_vert_adv_dyn='impl2',
+        ieva_order=3,
+    itype_outflow_qrsg=2,
+    itype_lbc_qrsg=1,
+ /END
+EONL
+
+cat >! $workingDir/INPUT_INI << EONL
+ &INICTL
+ /END
+EONL
+
+cat >! $workingDir/INPUT_SAT << EONL
+ &SATCTL
+ /END
+EONL
+
+cat >! $workingDir/INPUT_PHY << EONL
+ &PHYCTL
+  lseaice =.false.
+  llake=.false.
+  lgsp    =.true.,
+      itype_gscp=4,
+      ldiniprec=.FALSE., 
+  lrad    =.true.,
+      hincrad = 1.0,
+      lradtopo=.False.,
+  lforest=.TRUE.,
+  ltur    =.true.,
+      ninctura=1,
+      lexpcor=.false.,
+      ltmpcor=.false.,
+      lprfcor=.false.,
+      lnonloc=.false.,
+      lcpfluc=.false.,
+      itype_turb=3,
+      imode_turb=1,
+      itype_tran=2,
+      imode_tran=1,
+      limpltkediff=.False.,
+    itype_wcld=2,
+      icldm_rad=4,
+      icldm_turb=2,
+      icldm_tran=0,
+      itype_synd=2,
+    lsoil=.TRUE.,
+      lmelt=.TRUE.,
+      lmelt_var=.TRUE.,
+      lmulti_layer=.TRUE.,
+      itype_evsl=2,
+      itype_trvg=2,
+      ke_soil=9,
+      czml_soil=0.005, 0.025, 0.07, 0.16, 0.34, 0.70, 1.47, 2.86, 5.74,  11.50,
+      czbot_w_so=4.0,
+      itype_root = 2
+      itype_heatcond=2
+      itype_evsl=3,
+    lconv=.true.,
+      itype_conv=0,
+      nincconv=5,
+    lcape=.false.,
+      lconf_avg=.true.,
+    lsso=.TRUE.,
+      ltkesso=.False.,
+    itype_albedo = 2,
+    itype_aerosol = 2,
+ /END
+EONL
+
+cat >! $workingDir/INPUT_IO << EONL
+ &IOCTL
+  l_ke_in_gds=.TRUE.,
+  ymode_read = 'r  ',
+  ymode_write = 'w b',
+  nincwait=90,
+  nmaxwait=3600,
+  ydir_restart='$LM_WDIR/$LM_TAG/int2lm_out/',
+  ytunit_restart='d',
+  yncglob_title = "CLM driven by ERAINT",
+  yncglob_source = "COSMO_5.x_POMPA",
+  yncglob_project_id = "",
+  yncglob_experiment_id ="Reference",
+  ncglob_realization = 1,
+  yform_read='ncdf',
+  ngribout = 6,
+  ytunit_restart = 'd',
+  ldwd_grib_use=.false.,
+  l_ke_in_gds=.TRUE.,
+  lasync_io=.FALSE.,
+  itype_gather=2,
+  lbdclim = .TRUE.,
+  nhour_restart=$LM_NL_HSTOP,$LM_NL_HSTOP,1,
+ /END
+ &DATABASE
+ /END
+ &GRIBIN
+  ydirini='$NQS_WDIR/$LM_TAG/$LM_LM_COARSE_IN/',
+  lchkini=.TRUE.,
+  hincbound=6.0,
+  ydirbd='$NQS_WDIR/$LM_TAG/$LM_LM_COARSE_IN/',
+  lchkbd =.TRUE.,
+  lana_qi = .FALSE.,
+  llb_qi  = .True.,
+  lana_qg = .FALSE.,
+  llb_qg  = .FALSE.,
+  lana_qr_qs = .FALSE.,
+  llb_qr_qs  = .FALSE.,
+  lana_rho_snow = .FALSE.,
+  lan_lai = .TRUE., lan_rootdp = .TRUE., lan_vio3 = .TRUE., lan_plcov = .TRUE.,
+  lan_t_cl = .TRUE.,  lan_w_cl = .TRUE., lan_hmo3 = .TRUE., lan_t_so0 = .TRUE.,
+  lan_t_snow = .TRUE., lan_w_snow = .TRUE., lan_w_i = .TRUE., lan_rho_snow = .TRUE.,
+  lan_t_s = .FALSE.,
+  newbc=0,
+  hnewbcdt=3.0,
+  ytunitbd='d',
+  /END
+ &GRIBOUT
+  yform_write='ncdf',
+  hcomb=$LM_NL_HSTART,$LM_NL_HSTOP ,1,
+  yvarml='U','V','W','T','PP',
+	 'QV','QC', 'QS','QR','QI','QG',
+	 'VIO3','HMO3',
+	 'T_SNOW','QV_S','W_SNOW','W_I','T_S',
+	 'T_SO','W_SO','RHO_SNOW','FRESHSNW',
+  yvarpl=' ',
+  yvarzl=' ',
+  lcheck=.TRUE.,
+  luvmasspoint=.FALSE.,
+  lwrite_const=.True.,
+  ydir='$NQS_WDIR/$LM_TAG/$LM_LM_COARSE_OUT',
+  l_z_filter=.FALSE., l_p_filter=.FALSE., 
+  l_fi_ps_smooth = .FALSE.,
+  ytunit='d',
+ /END
+ &GRIBOUT
+  yform_write='ncdf',
+  hcomb=$LM_NL_HSTART,$LM_NL_HSTOP,1,
+  yvarml='TOT_SNOW','CLCH','CLCM','CLCL','ASHFL_S','ALHFL_S','ASOB_S','ASOB_T','ATHB_T','ALWU_S','ASWDIFU_S','ALB_RAD',
+  yvarpl=' ',
+  yvarzl=' ',
+  lcheck=.TRUE.,
+  luvmasspoint=.FALSE.,
+  lwrite_const=.False.,
+  ydir='$NQS_WDIR/$LM_TAG/$LM_LM_COARSE_OUT/1h_second',
+  l_z_filter=.FALSE.,l_p_filter=.FALSE.,
+  l_fi_ps_smooth =.FALSE.,
+  ytunit='d',
+ /END
+ &GRIBOUT
+  yform_write='ncdf',
+  hcomb=$LM_NL_HSTART,$LM_NL_HSTOP,1,
+  yvarml='U_10M', 'V_10M', 'T_2M', 'T_G', 'RELHUM_2M', 'PS', 'TOT_PREC', 'CLCT','ATHB_S','ASWD_S',
+  yvarpl=' ',
+  yvarzl=' ',
+  lcheck=.TRUE.,
+  luvmasspoint=.FALSE.,
+  lwrite_const=.FALSE.,
+  ydir='$NQS_WDIR/$LM_TAG/$LM_LM_COARSE_OUT/1h',
+  l_z_filter=.FALSE.,l_p_filter=.FALSE.,
+  l_fi_ps_smooth =.FALSE.,
+  ytunit='d',
+ /END
+ &GRIBOUT
+  yform_write='ncdf',
+  hcomb=$LM_NL_HSTART,$LM_NL_HSTOP,3,
+  yvarml='VMAX_10M', 'PMSL', 'TQV', 'TWATER', 'TWATFLXU', 'TWATFLXV',
+  yvarpl=' ',
+  yvarzl=' ',
+  lcheck=.TRUE.,
+  luvmasspoint=.FALSE.,
+  lwrite_const=.FALSE.,
+  ydir='$NQS_WDIR/$LM_TAG/$LM_LM_COARSE_OUT/3h',
+  l_z_filter=.FALSE.,l_p_filter=.FALSE.,
+  l_fi_ps_smooth =.FALSE.,
+  ytunit='d',
+ /END
+ &GRIBOUT
+  yform_write='ncdf',
+  hcomb=$LM_NL_HSTART,$LM_NL_HSTOP,6,
+  yvarml=' ',
+  yvarpl='T','FI','RELHUM','U','V','W',
+  plev = 200,500,700,850,
+  yvarzl=' ',
+  lcheck=.TRUE.,
+  luvmasspoint=.FALSE.,
+  lwrite_const=.FALSE.,
+  ydir='$NQS_WDIR/$LM_TAG/$LM_LM_COARSE_OUT/6h',
+  l_z_filter=.FALSE.,l_p_filter=.FALSE.,
+  l_fi_ps_smooth =.FALSE.,
+  ytunit='d',
+ /END
+ &GRIBOUT
+  yform_write='ncdf',
+  hcomb=$LM_NL_HSTART,$LM_NL_HSTOP,24,
+  yvarml='T_SO','W_SO','W_SNOW','TMIN_2M','TMAX_2M', 'RUNOFF_S', 'RUNOFF_G', 
+  yvarpl=' ',
+  yvarzl=' ',
+  lcheck=.TRUE.,
+  luvmasspoint=.FALSE.,
+  lwrite_const=.FALSE.,
+  ydir='$NQS_WDIR/$LM_TAG/$LM_LM_COARSE_OUT/24h',
+  l_z_filter=.FALSE.,l_p_filter=.FALSE.,
+  l_fi_ps_smooth =.FALSE.,
+  ytunit='d',
+ /END
+EONL
+cat >! $workingDir/INPUT_ASS << EONL
+ &NUDGING
+ /END
+EONL
+
+
+#=====================================================================
+
+
+
+
+# 2) Name of diagnostic files
+#----------------------------
+#    Diagnostic files are produced by program 'lm' according to the 
+#    NAMELIST block defined above and to any modification you make
+#    to program 'lm' .
+#      All diagnostic files whose name does not begin with 'YU' will be
+#    disgarded; other diagnostic files will be concatenated into the 
+#    file  lm.???pri (this latter file is found in the subdirectory
+#    'output'). 
+#      To create a diagnostic file with whatever name, you have to 
+#    define in the block below the relation between the name of the
+#    file as produced by the program 'lm' and its new name. For
+#    ASCII files (resp. binary files) the extension '.pri' (resp.
+#    '.dat') will be appended to this new name, and the file will be
+#    moved in the subdirectory 'output'.
+#      In this way it is possible to write problem specific output
+#    to a new individually declared file.
+#
+#    E.g.:
+#             YUPRGK CHregion
+#             YUPRMIT lm_mit
+#    will produce the two files 'CHregion.pri' and 'lm_mit.pri'
+#    in the subdirectory 'output' (as long as YUPRGK and YUPRMIT
+#    are effectively produced by lm).
+#=====================================================================
+cat >! $workingDir/NAMES << EONL 
+
+M_Zurich-Kloten lm_grdpts
+M_Payerne lm_grdpts
+YUPRMEAN lm_mean
+YUPRDIAG lm_dia
+
+EONL
+#=====================================================================
+
+# 3) Thresholds for number of observations used by the assimilation
+#-------------------------------------------------------------------
+cat >! $workingDir/THRESHOLDS << EONL
+
+synop   0
+airep   0
+dribu   0
+temp    0
+pilot   0
+
+EONL
+#=====================================================================

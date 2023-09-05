@@ -1,0 +1,1270 @@
+#!/bin/csh -f
+
+#################################
+
+# Global settings
+#---------------
+set model = COSMO7
+
+################################################################
+
+# Macro header
+#-------------
+cat >! $nlDir/header << EOF
+
+load "$NCL_COSMOLIB/src/regrd2d.ncl"
+
+EOF
+
+################################################################
+
+set NAME = "PREC03h"
+@ START = 3 
+@ END   = $LM_NL_HENDE_C
+@ INCR  = 3
+
+while ( $START <= $END )
+  set start = $START; if ($start < 10) set start = "0$start"
+  cat >! $nlDir/${NAME}_$start << EOF
+
+begin
+
+  ; setup plot
+  name = "${model}_${NAME}_${start}.gin"
+  format = "png"
+  xsize = 500.0
+  ysize = 400.0
+  shift =392
+
+  ; set plot domain
+  xs = 400.0
+  xe = 900.0
+  ys = 0.0
+  ye = 400.0
+
+  ; open files
+  c = addfile("lfff00000000c.grb", "r")
+  f = addfile("_NCLINP_${start}_delta03h_c.grb", "r")
+
+  ; read data
+  d = jmb_getvar(f, "TOT_PREC", False)
+  
+  ; geo-reference
+  jmb_getgrid(f, c, d, False)
+
+  ; compute swissgrid coordinates
+  x = latlon2swissx(d@lat2d, d@lon2d)
+  y = latlon2swissy(d@lat2d, d@lon2d)
+
+  ; remove geo-referencing
+  jmb_rmgrid(d, False)
+
+  ; set plot size in inch
+  dpi = ceil(xsize/8.5/72.0)*72.0
+  xinch = xsize/dpi
+  yinch = ysize/dpi
+
+  ; open graphic port
+  r = "ps"
+  r@wkDeviceLowerX = 0.0
+  r@wkDeviceUpperX = xinch*72.0
+  r@wkDeviceLowerY = 0.0
+  r@wkDeviceUpperY = yinch*72.0
+  wks = gsn_open_wks(r, name)
+  delete(r)
+  rct = jmb_set_ct(wks,"rr_ninjo_21lev", False)
+
+  ; setup plot
+  r = rct
+  r@gsnMaximize = False
+  r@gsnTickMarksOn = False
+  r@vpWidthF = 1.0
+  r@vpHeightF = 1.0
+  r@vpXF = 0.0
+  r@vpYF = 1.0
+  r@vpKeepAspect = True
+  r@sfXArray = x
+  r@sfYArray = y
+  r@trGridType = "TriangularMesh"
+  r@trXMinF = xs
+  r@trYMinF = ys
+  r@trXMaxF = xe
+  r@trYMaxF = ye
+  r@cnFillOn = True
+  r@cnLinesOn = False
+  r@cnLineLabelsOn = False
+  r@cnInfoLabelOn = False
+
+  ; make plot
+  cn = gsn_contour(wks, d, r)
+  delete(r)
+
+  ; close graphic port
+  delete(wks)
+
+  ; convert to graphic with no white space
+  je = ysize + shift
+  cmd = "convert -transparent white -crop "+xsize+"x"+je+"+0+"+shift+" -depth 4 -density "+dpi+" "+name+".ps "+name+"."+format
+  system(cmd)
+  system("/bin/rm -f "+name+".ps")
+
+  ; write world file
+  world=1000.0*(/(xe-xs)/xsize,0.0,0.0,(ye-ys)/ysize,xs,ye/)
+  asciiwrite(name+".pgw",sprintf("%15.5f",world))
+  ; GIN prefers now the following information
+  geo=1000.0*(/xs,ye,xe,ys/)
+  asciiwrite(name+".geo",sprintf("%9.0f",geo))
+ 
+end
+
+EOF
+  @ START = $START + $INCR
+end
+
+################################################################
+
+set NAME = "PREC06h"
+@ START = 6 
+@ END   = $LM_NL_HENDE_C
+@ INCR  = 6
+
+while ( $START <= $END )
+  set start = $START; if ($start < 10) set start = "0$start"
+  cat >! $nlDir/${NAME}_$start << EOF
+
+begin
+
+  ; setup plot
+  name = "${model}_${NAME}_${start}.gin"
+  format = "png"
+  xsize = 500.0
+  ysize = 400.0
+  shift =392
+
+  ; set plot domain
+  xs = 400.0
+  xe = 900.0
+  ys = 0.0
+  ye = 400.0
+
+  ; open files
+  c = addfile("lfff00000000c.grb", "r")
+  f = addfile("_NCLINP_${start}_delta06h_c.grb", "r")
+
+  ; read data
+  d = jmb_getvar(f, "TOT_PREC", False)
+  
+  ; geo-reference
+  jmb_getgrid(f, c, d, False)
+
+  ; compute swissgrid coordinates
+  x = latlon2swissx(d@lat2d, d@lon2d)
+  y = latlon2swissy(d@lat2d, d@lon2d)
+
+  ; remove geo-referencing
+  jmb_rmgrid(d, False)
+
+  ; set plot size in inch
+  dpi = ceil(xsize/8.5/72.0)*72.0
+  xinch = xsize/dpi
+  yinch = ysize/dpi
+
+  ; open graphic port
+  r = "ps"
+  r@wkDeviceLowerX = 0.0
+  r@wkDeviceUpperX = xinch*72.0
+  r@wkDeviceLowerY = 0.0
+  r@wkDeviceUpperY = yinch*72.0
+  wks = gsn_open_wks(r, name)
+  delete(r)
+  rct = jmb_set_ct(wks,"rr_ninjo_21lev", False)
+
+  ; setup plot
+  r = rct
+  r@gsnMaximize = False
+  r@gsnTickMarksOn = False
+  r@vpWidthF = 1.0
+  r@vpHeightF = 1.0
+  r@vpXF = 0.0
+  r@vpYF = 1.0
+  r@vpKeepAspect = True
+  r@sfXArray = x
+  r@sfYArray = y
+  r@trGridType = "TriangularMesh"
+  r@trXMinF = xs
+  r@trYMinF = ys
+  r@trXMaxF = xe
+  r@trYMaxF = ye
+  r@cnFillOn = True
+  r@cnLinesOn = False
+  r@cnLineLabelsOn = False
+  r@cnInfoLabelOn = False
+
+  ; make plot
+  cn = gsn_contour(wks, d, r)
+  delete(r)
+
+  ; close graphic port
+  delete(wks)
+
+  ; convert to graphic with no white space
+  je = ysize + shift
+  cmd = "convert -transparent white -crop "+xsize+"x"+je+"+0+"+shift+" -depth 4 -density "+dpi+" "+name+".ps "+name+"."+format
+  system(cmd)
+  system("/bin/rm -f "+name+".ps")
+
+  ; write world file
+  world=1000.0*(/(xe-xs)/xsize,0.0,0.0,(ye-ys)/ysize,xs,ye/)
+  asciiwrite(name+".pgw",sprintf("%15.5f",world))
+  ; GIN prefers now the following information
+  geo=1000.0*(/xs,ye,xe,ys/)
+  asciiwrite(name+".geo",sprintf("%9.0f",geo))
+ 
+end
+
+EOF
+  @ START = $START + $INCR
+end
+
+########################################
+
+set NAME = "PREC12h"
+@ START = 12
+@ END   = $LM_NL_HENDE_C
+@ INCR  = 12
+
+while ( $START <= $END )
+  cat >! $nlDir/${NAME}_$START << EOF
+
+begin
+
+  ; setup plot
+  name = "${model}_${NAME}_$START.gin"
+  format = "png"
+  xsize = 500.0
+  ysize = 400.0
+  ; found emprically!!!
+  shift =392
+
+  ; set plot domain
+  xs = 400.0
+  xe = 900.0
+  ys = 0.0
+  ye = 400.0
+
+  ; open files
+  c = addfile("lfff00000000c.grb", "r")
+  f = addfile("_NCLINP_${START}_delta12h_c.grb", "r")
+
+  ; read data
+  d = jmb_getvar(f, "TOT_PREC", False)
+  
+  ; geo-reference
+  jmb_getgrid(f, c, d, False)
+
+  ; compute swissgrid coordinates
+  x = latlon2swissx(d@lat2d, d@lon2d)
+  y = latlon2swissy(d@lat2d, d@lon2d)
+
+  ; remove geo-referencing
+  jmb_rmgrid(d, False)
+
+  ; set plot size in inch
+  dpi = ceil(xsize/8.5/72.0)*72.0
+  xinch = xsize/dpi
+  yinch = ysize/dpi
+
+  ; open graphic port
+  r = "ps"
+  r@wkDeviceLowerX = 0.0
+  r@wkDeviceUpperX = xinch*72.0
+  r@wkDeviceLowerY = 0.0
+  r@wkDeviceUpperY = yinch*72.0
+  wks = gsn_open_wks(r, name)
+  delete(r)
+  rct = jmb_set_ct(wks,"rr_ninjo_21lev", False)
+
+  ; setup plot
+  r = rct
+  r@gsnMaximize = False
+  r@gsnTickMarksOn = False
+  r@vpWidthF = 1.0
+  r@vpHeightF = 1.0
+  r@vpXF = 0.0
+  r@vpYF = 1.0
+  r@vpKeepAspect = True
+  r@sfXArray = x
+  r@sfYArray = y
+  r@trGridType = "TriangularMesh"
+  r@trXMinF = xs
+  r@trYMinF = ys
+  r@trXMaxF = xe
+  r@trYMaxF = ye
+  r@cnFillOn = True
+  r@cnLinesOn = False
+  r@cnLineLabelsOn = False
+  r@cnInfoLabelOn = False
+
+  ; make plot
+  cn = gsn_contour(wks, d, r)
+  delete(r)
+
+  ; close graphic port
+  delete(wks)
+
+  ; convert to graphic with no white space
+  je = ysize + shift
+  cmd = "convert -transparent white -crop "+xsize+"x"+je+"+0+"+shift+" -depth 4 -density "+dpi+" "+name+".ps "+name+"."+format
+  system(cmd)
+  system("/bin/rm -f "+name+".ps")
+
+  ; write world file
+  world=1000.0*(/(xe-xs)/xsize,0.0,0.0,(ye-ys)/ysize,xs,ye/)
+  asciiwrite(name+".pgw",sprintf("%15.5f",world))
+  ; GIN prefers now the following information
+  geo=1000.0*(/xs,ye,xe,ys/)
+  asciiwrite(name+".geo",sprintf("%9.0f",geo))
+ 
+end
+
+EOF
+  @ START = $START + $INCR
+end
+
+############################################
+
+set NAME = "PREC24h"
+@ START = 24
+@ END   = $LM_NL_HENDE_C
+@ INCR  = 24
+
+while ( $START <= $END )
+  cat >! $nlDir/${NAME}_$START << EOF
+
+begin
+
+  ; setup plot
+  name = "${model}_${NAME}_${START}.gin"
+  format = "png"
+  xsize = 500.0
+  ysize = 400.0
+  shift =392
+
+  ; set plot domain
+  xs = 400.0
+  xe = 900.0
+  ys = 0.0
+  ye = 400.0
+
+  ; open files
+  c = addfile("lfff00000000c.grb", "r")
+  f = addfile("_NCLINP_${START}_delta24h_c.grb", "r")
+
+  ; read data
+  d = jmb_getvar(f, "TOT_PREC", False)
+  
+  ; geo-reference
+  jmb_getgrid(f, c, d, False)
+
+  ; compute swissgrid coordinates
+  x = latlon2swissx(d@lat2d, d@lon2d)
+  y = latlon2swissy(d@lat2d, d@lon2d)
+
+  ; remove geo-referencing
+  jmb_rmgrid(d, False)
+
+  ; set plot size in inch
+  dpi = ceil(xsize/8.5/72.0)*72.0
+  xinch = xsize/dpi
+  yinch = ysize/dpi
+
+  ; open graphic port
+  r = "ps"
+  r@wkDeviceLowerX = 0.0
+  r@wkDeviceUpperX = xinch*72.0
+  r@wkDeviceLowerY = 0.0
+  r@wkDeviceUpperY = yinch*72.0
+  wks = gsn_open_wks(r, name)
+  delete(r)
+  rct = jmb_set_ct(wks,"rr_ninjo_21lev", False)
+
+  ; setup plot
+  r = rct
+  r@gsnMaximize = False
+  r@gsnTickMarksOn = False
+  r@vpWidthF = 1.0
+  r@vpHeightF = 1.0
+  r@vpXF = 0.0
+  r@vpYF = 1.0
+  r@vpKeepAspect = True
+  r@sfXArray = x
+  r@sfYArray = y
+  r@trGridType = "TriangularMesh"
+  r@trXMinF = xs
+  r@trYMinF = ys
+  r@trXMaxF = xe
+  r@trYMaxF = ye
+  r@cnFillOn = True
+  r@cnLinesOn = False
+  r@cnLineLabelsOn = False
+  r@cnInfoLabelOn = False
+
+  ; make plot
+  cn = gsn_contour(wks, d, r)
+  delete(r)
+
+  ; close graphic port
+  delete(wks)
+
+  ; convert to graphic with no white space
+  je = ysize + shift
+  cmd = "convert -transparent white -crop "+xsize+"x"+je+"+0+"+shift+" -depth 4 -density "+dpi+" "+name+".ps "+name+"."+format
+  system(cmd)
+  system("/bin/rm -f "+name+".ps")
+
+  ; write world file
+  world=1000.0*(/(xe-xs)/xsize,0.0,0.0,(ye-ys)/ysize,xs,ye/)
+  asciiwrite(name+".pgw",sprintf("%15.5f",world))
+  ; GIN prefers now the following information
+  geo=1000.0*(/xs,ye,xe,ys/)
+  asciiwrite(name+".geo",sprintf("%9.0f",geo))
+   
+end
+
+EOF
+  @ START = $START + $INCR
+end
+
+
+############################################
+
+set NAME = "PREC48h"
+@ START = 48
+@ END   = $LM_NL_HENDE_C
+@ INCR  = 48
+
+while ( $START <= $END )
+  cat >! $nlDir/${NAME}_$START << EOF
+
+begin
+
+  ; setup plot
+  name = "${model}_${NAME}_$START.gin"
+  format = "png"
+  xsize = 500.0
+  ysize = 400.0
+  shift =392
+
+  ; set plot domain
+  xs = 400.0
+  xe = 900.0
+  ys = 0.0
+  ye = 400.0
+
+  ; open files
+  c = addfile("lfff00000000c.grb", "r")
+  f = addfile("_NCLINP_${START}_delta48h_c.grb", "r")
+
+  ; read data
+  d = jmb_getvar(f, "TOT_PREC", False)
+  
+  ; geo-reference
+  jmb_getgrid(f, c, d, False)
+
+  ; compute swissgrid coordinates
+  x = latlon2swissx(d@lat2d, d@lon2d)
+  y = latlon2swissy(d@lat2d, d@lon2d)
+
+  ; remove geo-referencing
+  jmb_rmgrid(d, False)
+
+  ; set plot size in inch
+  dpi = ceil(xsize/8.5/72.0)*72.0
+  xinch = xsize/dpi
+  yinch = ysize/dpi
+
+  ; open graphic port
+  r = "ps"
+  r@wkDeviceLowerX = 0.0
+  r@wkDeviceUpperX = xinch*72.0
+  r@wkDeviceLowerY = 0.0
+  r@wkDeviceUpperY = yinch*72.0
+  wks = gsn_open_wks(r, name)
+  delete(r)
+  rct = jmb_set_ct(wks,"rr_ninjo_21lev", False)
+
+  ; setup plot
+  r = rct
+  r@gsnMaximize = False
+  r@gsnTickMarksOn = False
+  r@vpWidthF = 1.0
+  r@vpHeightF = 1.0
+  r@vpXF = 0.0
+  r@vpYF = 1.0
+  r@vpKeepAspect = True
+  r@sfXArray = x
+  r@sfYArray = y
+  r@trGridType = "TriangularMesh"
+  r@trXMinF = xs
+  r@trYMinF = ys
+  r@trXMaxF = xe
+  r@trYMaxF = ye
+  r@cnFillOn = True
+  r@cnLinesOn = False
+  r@cnLineLabelsOn = False
+  r@cnInfoLabelOn = False
+
+  ; make plot
+  cn = gsn_contour(wks, d, r)
+  delete(r)
+
+  ; close graphic port
+  delete(wks)
+
+  ; convert to graphic with no white space
+  je = ysize + shift
+  cmd = "convert -transparent white -crop "+xsize+"x"+je+"+0+"+shift+" -depth 4 -density "+dpi+" "+name+".ps "+name+"."+format
+  system(cmd)
+  system("/bin/rm -f "+name+".ps")
+
+  ; write world file
+  world=1000.0*(/(xe-xs)/xsize,0.0,0.0,(ye-ys)/ysize,xs,ye/)
+  asciiwrite(name+".pgw",sprintf("%15.5f",world))
+  ; GIN prefers now the following information
+  geo=1000.0*(/xs,ye,xe,ys/)
+  asciiwrite(name+".geo",sprintf("%9.0f",geo))
+ 
+end
+
+EOF
+  @ START = $START + $INCR
+end
+
+##########################################################################################################
+
+set NAME = "PREC72h"
+@ START = 72 
+@ END   = $LM_NL_HENDE_C
+@ INCR  = 72
+
+while ( $START <= $END )  
+  cat >! $nlDir/${NAME}_$START << EOF
+
+begin
+
+  ; setup plot
+  name = "${model}_${NAME}_$START.gin"
+  format = "png"
+  xsize = 500.0
+  ysize = 400.0
+  shift =392
+
+  ; set plot domain
+  xs = 400.0
+  xe = 900.0
+  ys = 0.0
+  ye = 400.0
+
+  ; open files
+  c = addfile("lfff00000000c.grb", "r")
+  f = addfile("_NCLINP_${START}_delta72h_c.grb", "r")
+
+  ; read data
+  d = jmb_getvar(f, "TOT_PREC", False)
+  
+  ; geo-reference
+  jmb_getgrid(f, c, d, False)
+
+  ; compute swissgrid coordinates
+  x = latlon2swissx(d@lat2d, d@lon2d)
+  y = latlon2swissy(d@lat2d, d@lon2d)
+
+  ; remove geo-referencing
+  jmb_rmgrid(d, False)
+
+  ; set plot size in inch
+  dpi = ceil(xsize/8.5/72.0)*72.0
+  xinch = xsize/dpi
+  yinch = ysize/dpi
+
+  ; open graphic port
+  r = "ps"
+  r@wkDeviceLowerX = 0.0
+  r@wkDeviceUpperX = xinch*72.0
+  r@wkDeviceLowerY = 0.0
+  r@wkDeviceUpperY = yinch*72.0
+  wks = gsn_open_wks(r, name)
+  delete(r)
+  rct = jmb_set_ct(wks,"rr_ninjo_21lev", False)
+
+  ; setup plot
+  r = rct
+  r@gsnMaximize = False
+  r@gsnTickMarksOn = False
+  r@vpWidthF = 1.0
+  r@vpHeightF = 1.0
+  r@vpXF = 0.0
+  r@vpYF = 1.0
+  r@vpKeepAspect = True
+  r@sfXArray = x
+  r@sfYArray = y
+  r@trGridType = "TriangularMesh"
+  r@trXMinF = xs
+  r@trYMinF = ys
+  r@trXMaxF = xe
+  r@trYMaxF = ye
+  r@cnFillOn = True
+  r@cnLinesOn = False
+  r@cnLineLabelsOn = False
+  r@cnInfoLabelOn = False
+
+  ; make plot
+  cn = gsn_contour(wks, d, r)
+  delete(r)
+
+  ; close graphic port
+  delete(wks)
+
+  ; convert to graphic with no white space
+  je = ysize + shift
+  cmd = "convert -transparent white -crop "+xsize+"x"+je+"+0+"+shift+" -depth 4 -density "+dpi+" "+name+".ps "+name+"."+format
+  system(cmd)
+  system("/bin/rm -f "+name+".ps")
+
+  ; write world file
+  world=1000.0*(/(xe-xs)/xsize,0.0,0.0,(ye-ys)/ysize,xs,ye/)
+  asciiwrite(name+".pgw",sprintf("%15.5f",world))
+  ; GIN prefers now the following information
+  geo=1000.0*(/xs,ye,xe,ys/)
+  asciiwrite(name+".geo",sprintf("%9.0f",geo))
+ 
+end
+
+EOF
+  @ START = $START + $INCR
+end
+
+########################################
+
+set NAME = "TMAX_2M24h"
+@ START = 24 
+@ END   = $LM_NL_HENDE_C
+@ INCR  = 24
+
+while ( $START <= $END ) 
+  cat >! $nlDir/${NAME}_$START << EOF
+
+begin
+
+  ; setup plot
+  name = "${model}_${NAME}_$START.gin"
+  format = "png"
+  xsize = 500.0
+  ysize = 400.0
+  shift =392
+
+  ; set plot domain
+  xs = 400.0
+  xe = 900.0
+  ys = 0.0
+  ye = 400.0
+
+  ; open files
+  c = addfile("lfff00000000c.grb", "r")
+  f = addfile("_NCLINP_${START}_delta24h_c.grb", "r")
+
+  ; read data
+  d = jmb_getvar(f, "TMAX_2M", False)
+  d = d - 273.15
+  d@units = "degCel"   ;   or "~F34~0~F~C"
+  
+  ; geo-reference
+  jmb_getgrid(f, c, d, False)
+
+  ; compute swissgrid coordinates
+  x = latlon2swissx(d@lat2d, d@lon2d)
+  y = latlon2swissy(d@lat2d, d@lon2d)
+
+  ; remove geo-referencing
+  jmb_rmgrid(d, False)
+
+  ; set plot size in inch
+  dpi = ceil(xsize/8.5/72.0)*72.0
+  xinch = xsize/dpi
+  yinch = ysize/dpi
+
+  ; open graphic port
+  r = "ps"
+  r@wkDeviceLowerX = 0.0
+  r@wkDeviceUpperX = xinch*72.0
+  r@wkDeviceLowerY = 0.0
+  r@wkDeviceUpperY = yinch*72.0
+  wks = gsn_open_wks(r, name)
+  delete(r)
+  rct = jmb_set_ct(wks,"temp_ninjo_49lev", False)
+
+  ; setup plot
+  r = rct
+  r@gsnMaximize = False
+  r@gsnTickMarksOn = False
+  r@vpWidthF = 1.0
+  r@vpHeightF = 1.0
+  r@vpXF = 0.0
+  r@vpYF = 1.0
+  r@vpKeepAspect = True
+  r@sfXArray = x
+  r@sfYArray = y
+  r@trGridType = "TriangularMesh"
+  r@trXMinF = xs
+  r@trYMinF = ys
+  r@trXMaxF = xe
+  r@trYMaxF = ye
+  r@cnFillOn = True
+  r@cnLinesOn = False
+  r@cnLineLabelsOn = False
+  r@cnInfoLabelOn = False
+  r@cnLevelSelectionMode  = "ManualLevels"
+  r@cnMinLevelValF        = -50.0
+  r@cnMaxLevelValF        =  50.0
+  r@cnLevelSpacingF       = 2.0
+
+  ; make plot
+  cn = gsn_contour(wks, d, r)
+  delete(r)
+
+  ; close graphic port
+  delete(wks)
+
+  ; convert to graphic with no white space
+  je = ysize + shift
+  cmd = "convert -transparent white -crop "+xsize+"x"+je+"+0+"+shift+" -depth 4 -density "+dpi+" "+name+".ps "+name+"."+format
+  system(cmd)
+  system("/bin/rm -f "+name+".ps")
+
+  ; write world file
+  world=1000.0*(/(xe-xs)/xsize,0.0,0.0,(ye-ys)/ysize,xs,ye/)
+  asciiwrite(name+".pgw",sprintf("%15.5f",world))
+  ; GIN prefers now the following information
+  geo=1000.0*(/xs,ye,xe,ys/)
+  asciiwrite(name+".geo",sprintf("%9.0f",geo))
+ 
+end
+
+EOF
+  @ START = $START + $INCR
+end
+
+########################################
+
+set NAME = "TMIN_2M24h"
+@ START = 24 
+@ END   = $LM_NL_HENDE_C
+@ INCR  = 24
+
+while ( $START <= $END ) 
+  cat >! $nlDir/${NAME}_$START << EOF
+
+begin
+
+  ; setup plot
+  name = "${model}_${NAME}_$START.gin"
+  format = "png"
+  xsize = 500.0
+  ysize = 400.0
+  shift =392
+
+  ; set plot domain
+  xs = 400.0
+  xe = 900.0
+  ys = 0.0
+  ye = 400.0
+
+  ; open files
+  c = addfile("lfff00000000c.grb", "r")
+  f = addfile("_NCLINP_${START}_delta24h_c.grb", "r")
+
+  ; read data
+  d = jmb_getvar(f, "TMIN_2M", False)
+  d = d - 273.15
+  d@units = "degCel"   ;   or "~F34~0~F~C"
+  
+  ; geo-reference
+  jmb_getgrid(f, c, d, False)
+
+  ; compute swissgrid coordinates
+  x = latlon2swissx(d@lat2d, d@lon2d)
+  y = latlon2swissy(d@lat2d, d@lon2d)
+
+  ; remove geo-referencing
+  jmb_rmgrid(d, False)
+
+  ; set plot size in inch
+  dpi = ceil(xsize/8.5/72.0)*72.0
+  xinch = xsize/dpi
+  yinch = ysize/dpi
+
+  ; open graphic port
+  r = "ps"
+  r@wkDeviceLowerX = 0.0
+  r@wkDeviceUpperX = xinch*72.0
+  r@wkDeviceLowerY = 0.0
+  r@wkDeviceUpperY = yinch*72.0
+  wks = gsn_open_wks(r, name)
+  delete(r)
+  rct = jmb_set_ct(wks,"temp_ninjo_49lev", False)
+
+  ; setup plot
+  r = rct
+  r@gsnMaximize = False
+  r@gsnTickMarksOn = False
+  r@vpWidthF = 1.0
+  r@vpHeightF = 1.0
+  r@vpXF = 0.0
+  r@vpYF = 1.0
+  r@vpKeepAspect = True
+  r@sfXArray = x
+  r@sfYArray = y
+  r@trGridType = "TriangularMesh"
+  r@trXMinF = xs
+  r@trYMinF = ys
+  r@trXMaxF = xe
+  r@trYMaxF = ye
+  r@cnFillOn = True
+  r@cnLinesOn = False
+  r@cnLineLabelsOn = False
+  r@cnInfoLabelOn = False
+  r@cnLevelSelectionMode  = "ManualLevels"
+  r@cnMinLevelValF        = -50.0
+  r@cnMaxLevelValF        =  50.0
+  r@cnLevelSpacingF       = 2.0
+
+  ; make plot
+  cn = gsn_contour(wks, d, r)
+  delete(r)
+
+  ; close graphic port
+  delete(wks)
+
+  ; convert to graphic with no white space
+  je = ysize + shift
+  cmd = "convert -transparent white -crop "+xsize+"x"+je+"+0+"+shift+" -depth 4 -density "+dpi+" "+name+".ps "+name+"."+format
+  system(cmd)
+  system("/bin/rm -f "+name+".ps")
+
+  ; write world file
+  world=1000.0*(/(xe-xs)/xsize,0.0,0.0,(ye-ys)/ysize,xs,ye/)
+  asciiwrite(name+".pgw",sprintf("%15.5f",world))
+  ; GIN prefers now the following information
+  geo=1000.0*(/xs,ye,xe,ys/)
+  asciiwrite(name+".geo",sprintf("%9.0f",geo))
+ 
+end
+
+EOF
+  @ START = $START + $INCR
+end
+
+########################################
+
+set NAME = "SNOWLMT"
+@ START = 3 
+@ END   = $LM_NL_HENDE_C
+@ INCR  = 3
+
+while ( $START <= $END ) 
+  set start = $START; if ($start < 10) set start = "0$start"
+  cat >! $nlDir/${NAME}_$start << EOF
+begin
+
+  ; setup plot
+  name = "${model}_${NAME}_$start.gin"
+  format = "png"
+  xsize = 500.0
+  ysize = 400.0
+  shift =392
+
+  ; set plot domain
+  xs = 400.0
+  xe = 900.0
+  ys = 0.0
+  ye = 400.0
+
+  ; open files
+  c = addfile("lfff00000000c.grb", "r")
+  f = addfile("_NCLINP_${start}_c.grb", "r")
+
+  ; read data
+  d = jmb_getvar(f, "SNOWLMT", False)
+  
+  ; geo-reference
+  jmb_getgrid(f, c, d, False)
+
+  ; compute swissgrid coordinates
+  x = latlon2swissx(d@lat2d, d@lon2d)
+  y = latlon2swissy(d@lat2d, d@lon2d)
+
+  ; remove geo-referencing
+  jmb_rmgrid(d, False)
+
+  ; set plot size in inch
+  dpi = ceil(xsize/8.5/72.0)*72.0
+  xinch = xsize/dpi
+  yinch = ysize/dpi
+
+  ; open graphic port
+  r = "ps"
+  r@wkDeviceLowerX = 0.0
+  r@wkDeviceUpperX = xinch*72.0
+  r@wkDeviceLowerY = 0.0
+  r@wkDeviceUpperY = yinch*72.0
+  wks = gsn_open_wks(r, name)
+  delete(r)
+  rct = jmb_set_ct(wks,"snow_17lev", False)
+
+  ; setup plot
+  r = rct
+  r@gsnMaximize = False
+  r@gsnTickMarksOn = False
+  r@vpWidthF = 1.0
+  r@vpHeightF = 1.0
+  r@vpXF = 0.0
+  r@vpYF = 1.0
+  r@vpKeepAspect = True
+  r@sfXArray = x
+  r@sfYArray = y
+  r@trGridType = "TriangularMesh"
+  r@trXMinF = xs
+  r@trYMinF = ys
+  r@trXMaxF = xe
+  r@trYMaxF = ye
+  r@cnFillOn = True
+  r@cnLinesOn = False
+  r@cnLineLabelsOn = False
+  r@cnInfoLabelOn = False
+
+  ; make plot
+  cn = gsn_contour(wks, d, r)
+  delete(r)
+
+  ; close graphic port
+  delete(wks)
+
+  ; convert to graphic with no white space
+  je = ysize + shift
+  cmd = "convert -transparent white -crop "+xsize+"x"+je+"+0+"+shift+" -depth 4 -density "+dpi+" "+name+".ps "+name+"."+format
+  system(cmd)
+  system("/bin/rm -f "+name+".ps")
+
+  ; write world file
+  world=1000.0*(/(xe-xs)/xsize,0.0,0.0,(ye-ys)/ysize,xs,ye/)
+  asciiwrite(name+".pgw",sprintf("%15.5f",world))
+  ; GIN prefers now the following information
+  geo=1000.0*(/xs,ye,xe,ys/)
+  asciiwrite(name+".geo",sprintf("%9.0f",geo))
+ 
+end
+
+EOF
+  @ START = $START + $INCR
+end
+
+########################################
+
+set NAME = "HZEROCL"
+@ START = 3 
+@ END   = $LM_NL_HENDE_C
+@ INCR  = 3
+
+while ( $START <= $END ) 
+  set start = $START; if ($start < 10) set start = "0$start"
+  cat >! $nlDir/${NAME}_$start << EOF
+begin
+
+  ; setup plot
+  name = "${model}_${NAME}_$start.gin"
+  format = "png"
+  xsize = 500.0
+  ysize = 400.0
+  shift =392
+
+  ; set plot domain
+  xs = 400.0
+  xe = 900.0
+  ys = 0.0
+  ye = 400.0
+
+  ; open files
+  c = addfile("lfff00000000c.grb", "r")
+  f = addfile("_NCLINP_${start}_c.grb", "r")
+
+  ; read data
+  d = jmb_getvar(f, "HZEROCL", False)
+  
+  ; geo-reference
+  jmb_getgrid(f, c, d, False)
+
+  ; compute swissgrid coordinates
+  x = latlon2swissx(d@lat2d, d@lon2d)
+  y = latlon2swissy(d@lat2d, d@lon2d)
+
+  ; remove geo-referencing
+  jmb_rmgrid(d, False)
+
+  ; set plot size in inch
+  dpi = ceil(xsize/8.5/72.0)*72.0
+  xinch = xsize/dpi
+  yinch = ysize/dpi
+
+  ; open graphic port
+  r = "ps"
+  r@wkDeviceLowerX = 0.0
+  r@wkDeviceUpperX = xinch*72.0
+  r@wkDeviceLowerY = 0.0
+  r@wkDeviceUpperY = yinch*72.0
+  wks = gsn_open_wks(r, name)
+  delete(r)
+  rct = jmb_set_ct(wks,"hzero_17lev", False)
+
+  ; setup plot
+  r = rct
+  r@gsnMaximize = False
+  r@gsnTickMarksOn = False
+  r@vpWidthF = 1.0
+  r@vpHeightF = 1.0
+  r@vpXF = 0.0
+  r@vpYF = 1.0
+  r@vpKeepAspect = True
+  r@sfXArray = x
+  r@sfYArray = y
+  r@trGridType = "TriangularMesh"
+  r@trXMinF = xs
+  r@trYMinF = ys
+  r@trXMaxF = xe
+  r@trYMaxF = ye
+  r@cnFillOn = True
+  r@cnLinesOn = False
+  r@cnLineLabelsOn = False
+  r@cnInfoLabelOn = False
+
+  ; make plot
+  cn = gsn_contour(wks, d, r)
+  delete(r)
+
+  ; close graphic port
+  delete(wks)
+
+  ; convert to graphic with no white space
+  je = ysize + shift
+  cmd = "convert -transparent white -crop "+xsize+"x"+je+"+0+"+shift+" -depth 4 -density "+dpi+" "+name+".ps "+name+"."+format
+  system(cmd)
+  system("/bin/rm -f "+name+".ps")
+
+  ; write world file
+  world=1000.0*(/(xe-xs)/xsize,0.0,0.0,(ye-ys)/ysize,xs,ye/)
+  asciiwrite(name+".pgw",sprintf("%15.5f",world))
+  ; GIN prefers now the following information
+  geo=1000.0*(/xs,ye,xe,ys/)
+  asciiwrite(name+".geo",sprintf("%9.0f",geo))
+ 
+end
+
+EOF
+  @ START = $START + $INCR
+end
+
+########################################
+
+set NAME = "WIND_10M"
+@ START = 3 
+@ END   = $LM_NL_HENDE_C
+@ INCR  = 3
+
+while ( $START <= $END ) 
+  set start = $START; if ($start < 10) set start = "0$start"
+  cat >! $nlDir/${NAME}_$start << EOF
+
+; IMPORTANT: before using this script, be sure to switch to GNU
+;    libraries with the command "module switch PrgEnv-pgi PrgEnv-gnu"
+
+begin
+
+  ; setup plot
+  name = "${model}_${NAME}_$start.gin"
+  format = "png"
+  xsize = 500.0
+  ysize = 400.0
+  shift =392
+
+  ; set plot domain
+  dx = 6.6
+  xs = 400.0
+  xe = 900.0
+  dy = 6.6
+  ys = 0.0
+  ye = 400.0
+
+  ; make a vector plot of wind
+  nskip = 2
+
+  ; open files
+  c = addfile("lfff00000000c.grb", "r")
+  f = addfile("_NCLINP_${start}_c.grb", "r")
+
+  ; read data
+  us = jmb_getvar(f,"U_GDS10_HTGL", False)
+  vs = jmb_getvar(f,"V_GDS10_HTGL", False)
+  
+  ; geo-reference
+  jmb_getgrid(f,c,us, False)
+  jmb_getgrid(f,c,vs, False)
+
+  ; compute wind speed
+  ff = us
+  ff = (us^2+vs^2)^0.5*3.6
+  ff@units = "km/h"
+  ff@long_name = "wind speed"
+
+  ; compute swissgrid coordinates
+  x = latlon2swissx(us@lat2d, us@lon2d)
+  y = latlon2swissy(us@lat2d, us@lon2d)
+
+  ; remove geo-referencing
+  jmb_rmgrid(us, False)
+  jmb_rmgrid(vs, False)
+
+  ; compute regular swiss grid
+  border=4
+  nxx = round((xe-xs)/dx,3)+2*border+1
+  sx = fspan(xs-border*dx,xe+border*dx,nxx)
+  sx@long_name = "Swiss Grid x"
+  sx@units = "km"
+  nyy = round((ye-ys)/dy,3)+2*border+1
+  sy = fspan(ys-border*dx,ye+border*dx,nyy)
+  sy@long_name = "Swiss Grid y"
+  sy@units = "km"
+
+  ; regrid to the regular swiss grid
+  r = True
+  r@type_intpl = 1
+  r@type_neighbour = 2
+  r@size_neighbour = 2.0
+  sff = regrd2d(y,x,ff,sy,sx,r)
+  sus = regrd2d(y,x,us,sy,sx,r)
+  svs = regrd2d(y,x,vs,sy,sx,r)
+  delete(r)
+
+  ; delete old grid information
+  delete(us)
+  delete(vs)
+  delete(ff)
+  delete(x)
+  delete(y)
+
+  ; attach new grid information to fields
+  sff!0 = "y"
+  sff&y = sy
+  sff!1 = "x"
+  sff&x = sx
+  sus!0 = "y"
+  sus&y = sy
+  sus!1 = "x"
+  sus&x = sx
+  svs!0 = "y"
+  svs&y = sy
+  svs!1 = "x"
+  svs&x = sx
+
+  ; set plot size in inch
+  dpi = ceil(xsize/8.5/72.0)*72.0
+  xinch = xsize/dpi
+  yinch = ysize/dpi
+
+  ; open graphic port
+  r = "ps"
+  r@wkDeviceLowerX = 0.0
+  r@wkDeviceUpperX = xinch*72.0
+  r@wkDeviceLowerY = 0.0
+  r@wkDeviceUpperY = yinch*72.0
+  wks = gsn_open_wks(r, name)
+  delete(r)
+  rct = jmb_set_ct(wks,"wind_ninjo_13lev", False)
+
+  ; setup plot
+  r = rct
+  r@gsnMaximize = False
+  r@gsnFrame = False
+  r@gsnDraw = False
+  r@gsnTickMarksOn = False
+  r@vpWidthF = 1.0
+  r@vpHeightF = 1.0
+  r@vpXF = 0.0
+  r@vpYF = 1.0
+  r@vpKeepAspect = True
+  r@sfXArray = sx
+  r@sfYArray = sy
+  r@trXMinF = xs
+  r@trYMinF = ys
+  r@trXMaxF = xe
+  r@trYMaxF = ye
+  r@cnFillOn = True
+  r@cnLinesOn = False
+  r@cnLineLabelsOn = False
+  r@cnInfoLabelOn = False
+
+  ; make plot
+  cn = gsn_contour(wks, sff, r)
+  delete(r)
+
+  r = True
+  r@gsnMaximize = False
+  r@gsnFrame = False
+  r@gsnDraw = False
+  r@gsnTickMarksOn = False
+  r@vpWidthF = 1.0
+  r@vpHeightF = 1.0
+  r@vpXF = 0.0
+  r@vpYF = 1.0
+  r@vpKeepAspect = True
+  r@vfXArray = sx(nskip/2::nskip)
+  r@vfYArray = sy(nskip/2::nskip)
+  r@vcGlyphStyle     = "CurlyVector" ; vector style
+  r@vcMinFracLengthF = 0.0           ; length of 0-vector
+  r@vcRefAnnoOn      = False         ; draw reference vector
+  r@vcRefMagnitudeF  = 10.0          ; define vector ref mag
+  r@vcRefLengthF     = 0.045         ; define length of vec ref
+  r@vcPositionMode   = "ArrowCenter"
+  vc = gsn_vector(wks,sus(nskip/2::nskip,nskip/2::nskip),svs(nskip/2::nskip,nskip/2::nskip),r)
+  delete(r)
+
+  ; overlay plots
+  overlay(cn,vc)
+  draw(cn)
+  frame(wks)
+
+  ; close graphic port
+  delete(wks)
+
+  delete(sff)
+  delete(sus)
+  delete(svs)
+  delete(vc)
+  delete(cn)
+
+  ; convert to graphic with no white space
+  je = ysize + shift
+  cmd = "convert -transparent white -crop "+xsize+"x"+je+"+0+"+shift+" -depth 4 -density "+dpi+" "+name+".ps "+name+"."+format
+  system(cmd)
+  system("/bin/rm -f "+name+".ps")
+
+  ; write world file
+  world=1000.0*(/(xe-xs)/xsize,0.0,0.0,(ye-ys)/ysize,xs,ye/)
+  asciiwrite(name+".pgw",sprintf("%15.5f",world))
+  ; GIN prefers now the following information
+  geo=1000.0*(/xs,ye,xe,ys/)
+  asciiwrite(name+".geo",sprintf("%9.0f",geo))
+
+end
+
+EOF
+  @ START = $START + $INCR
+end

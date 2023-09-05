@@ -1,0 +1,37 @@
+###############################################################################
+#
+# File: print
+# Category: LM package - namelist file for task "integ"
+#
+# Host: SUN
+# Location: $LM_NDIR/<set name>    (e.g.: <set name> = integ)
+# Permission: 440
+# Associated files: $LM_SDIR/lm_print
+#
+#
+# Description: in this file you define the list of files to be printed 
+#              before the end of the task. The printer specified by the
+#              environment variable LM_PRINTER (defined in ~/.lm_env)
+#              will be used.
+#              Any lines beginning with # are ignored. 
+#
+#
+###############################################################################
+
+
+
+
+#     The first field of each line specifies the subdirectory to
+#     consider and the other fields are the names of the files to
+#     be printed, in this subdirectory.
+#     Entries must be separated by one or more blanks.
+#     Multi-lines input is allowed.
+#
+#     E.g.:       psANETZ T2M DDFF RR+RS VBM10M
+#                 plot00  lm_PSr.ps
+#                 plot12  lm_PSr.ps
+#                 plot24  lm_PSr.ps
+#                 plot36  lm_PSr.ps
+#=====================================================================
+psANETZ T2M_S TB DDFF RR+RS
+#=====================================================================

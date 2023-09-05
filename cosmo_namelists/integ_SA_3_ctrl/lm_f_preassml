@@ -1,0 +1,416 @@
+###############################################################################
+#
+# File: lm
+# Category: LM package - namelist file for task "integ"
+#
+# Host: SUN
+# Location: $LM_NDIR/<set name>    (e.g.: <set name> = integ)
+# Permission: 440
+# Associated files: $LM_SDIR/lm_lm
+#
+#
+# Description: environment and NAMELIST for the program 'lm'.
+#              This file is read by the script lm_lm. Any lines
+#              beginning with # are ignored. 'Predefined variables'
+#              (as defined below) can be used.
+#
+#
+# Predefined variables:
+#  1)  $LM_YY     year of the experiment
+#      $LM_MM     month of the experiment
+#      $LM_DD     day of the experiment
+#      $LM_ZZ     time of the experiment
+#      $LM_DATE   shortcut for $LM_YY$LM_MM$LM_DD$LM_ZZ
+#      $LM_YYm12  year of the experiment minus 12 hours
+#      $LM_MMm12  month of the experiment minus 12 hours
+#      $LM_DDm12  day of the experiment minus 12 hours
+#      $LM_ZZm12  time of the experiment minus 12 hours
+#      $LM_DATEm12 shortcut for $LM_YY$LM_MM$LM_DD$LM_ZZ minus 12 hours
+#      $LM_YYp12  year of the experiment plus 12 hours
+#      $LM_MMp12  month of the experiment plus 12 hours
+#      $LM_DDp12  day of the experiment plus 12 hours
+#      $LM_ZZp12  time of the experiment plus 12 hours
+#      $LM_DATEp12 shortcut for $LM_YY$LM_MM$LM_DD$LM_ZZ plus 12 hours
+#      $LM_TAG    shortcut for ${LM_DATE}_${LM_NL_TEXPN}
+#      $LM_WDIR  input and ouput files are collected in $LM_WDIR/$LM_TAG
+#  2) All variables defined in file 'GLOBAL' in the same directory:
+#      $LM_NL_YEMEXPN
+#      $LM_NL_HENDE
+#          ....
+#
+###############################################################################
+# 1) FORTRAN NAMELIST block
+#--------------------------
+#    The text contained between the line  "cat >! ..." and the line
+#    "EONL", modulo the substitution of all variables by their values,
+#    defines the FORTRAN NAMELISTS block used by the program lm:
+#    INPUT_ORG INPUT_ASS INPUT_DIA INPUT_DYN INPUT_INI INPUT_IO INPUT_PHY
+#
+#=====================================================================
+# 2) GRIBOUT block 2
+#-------------------
+# It includes:
+#
+# 1) Maximum domain for the Swiss-Domain price with Switzerland centered:
+#    imin=130, jmin=128, imax=319, jmax=257
+# 
+# 2) The "CN-MET" domain: 
+#    imin=168, jmin=178, imax=252, jmax=262
+#
+# => imin=130, jmin=128, imax=319, jmax=262
+#
+#=====================================================================
+
+cat >! $workingDir/INPUT_ORG << EONL 
+ &LMGRID
+  startlat_tot= $LM_NL_STARTLAT_TOT_F, startlon_tot= $LM_NL_STARTLON_TOT_F,
+  pollat=$LM_NL_POLLATLM_F, pollon=$LM_NL_POLLONLM_F,
+  dlon=$LM_NL_DLONLM_F, dlat=$LM_NL_DLATLM_F,
+  ie_tot= $LM_NL_IELM_F, je_tot= $LM_NL_JELM_F, ke_tot=$LM_NL_KELM_F,
+ /END
+ &RUNCTL
+  dt= 20.0,
+  hstart=0,   hstop=${LM_NL_HENDE_PREASSML},
+  ydate_ini='${LM_INI_PREASSML}',
+  hincmxt=1.0,
+  itype_timing=1,
+  lreproduce=.TRUE.,
+  luseobs =.TRUE.,
+  lphys   =.TRUE.,
+  ldiagnos=.TRUE.,
+  luse_rttov=.TRUE.,
+  ldfi=.FALSE.,
+  nprocx= $NQS_NXLM_F, nprocy= $NQS_NYLM_F, nprocio=$NQS_NIOLM_F,
+  nboundlines=3,
+  ldump_ascii = .FALSE.
+ /END
+ &TUNING
+   rlam_mom=0.0,
+   rlam_heat=1.0,
+   rat_sea=20.0,
+   rat_lam=1.0,
+   rat_can=1.0,
+   wichfakt=0.0,
+   c_lnd=2.0,
+   c_sea=1.5,
+   c_soil=1.0,
+   pat_len=500.0,
+   z0m_dia=0.2,
+   crsmin=150.0,
+   clc_diag=0.5,
+   tur_len=150.0,
+   q_crit=1.6,
+   qc0=0.0002
+ /END
+EONL
+
+cat >! $workingDir/INPUT_ASS << EONL
+ &NUDGING
+  lnudge=.true.,  lverif=.true., mruntyp=2,lverpas=.true.,
+  hnudgsta= 0.0,  hnudgend = ${LM_NL_HENDE_PREASSML}, tconbox = 240.0,
+  hversta = 0.001,  hverend  = ${LM_NL_HENDE_PREASSML}, khumbal = 100,
+  ntpscor = 1,  ptpstop=400.0,  luvgcor=.TRUE.,
+  ltipol  =.TRUE.,  tipolmx = 3.0,  wtukrsa = 3.0,  wtukrse = 1.0,
+  ltipsu  =.TRUE.,  tipmxsu = 1.0,  wtuksua = 1.5,  wtuksue = 0.5,
+                                    wtukara = 1.5,  wtukare = 0.5,
+  msprpar = 1,  msprpsu = 0,
+  gnudg   = .0006, .0006, .0006, .0006,
+  gnudgsu = .0006, .0006, .0000, .0006,
+  gnudgar = .0006, .0000, .0006, .0000,
+  vcorls  = .333 , .333 , .04  , .04   ,  vcutof  = 0.75, 0.75, 1.0 , 1.0 ,
+  vcorlsu = .013 , .013 , .002 , .00001,  vcutosu = 0.75, 0.75, 4.0 , 0.001 ,
+  vcsnisu = 2500., 2500., 9.   , 9.   ,
+                                         rhvfac  = 1.0 , 0.0 , 0.83, 0.83,
+  rhinfl  =    0.,   70.,    0.,    0.,  rhtfac  = 1.3 , 1.43 , 1.3 , 1.3 ,
+  rhiflsu =   70.,   70.,  100.,   70.,  rhtfsu  = 1.0 , 1.43 , 1.0 , 1.0 ,
+  fnondiv = 0.8  ,   cnondiv = 0.1    ,  cutofr  = 3.5 , 3.5 , 3.5 , 3.5 ,
+  tnondiv = 1.1  ,                       cutofsu = 2.0 , 3.5 , 2.0 , 2.0 ,
+  topobs  =  849., 1099.,  799.,  699.,
+  botmod  = 1099., 1099., 1099.,  899.,
+  lscadj  =.TRUE.,.TRUE.,.TRUE.,.FALSE.,
+  dtqc    =  720.,                       qcvf    = 5.0 , 1.0 ,10.0 , 0.0 ,
+  qcc     =    0.,  500.,    0.,    .7,
+  qccsu   =   12.,  500.,   12.,    .7,
+  lsynop  =.true.,
+  laircf  =.true.,
+  ldribu  =.true.,
+  ltemp   =.true.,
+  lpilot  =.true.,
+  lcd137  =.false.,
+  lcd132  =.true.,
+  maxmlo  = 600,  maxsgo = 10000, maxuso = 3000,  nolbc = 5,
+  altopsu =  100., 5000., 5000., 5000.,  thairh  = 20.,
+  exnlat  = 90.,  exslat =-90.,  exwlon = -180.,  exelon = 180.,
+  lsurfa  =.false.,
+  lt2m    =.true.,  ht2a = 0.,  ht2i = 1.,
+  lrh2m   =.true.,  hh2a = 0.,  hh2i = 1.,
+  lprecp  =.true.,  hprc = 0.,  raintp = 12.,
+  lpraof  =.false.,  lprodr =.false. ,  ldiasa =.false.,  noctrq = 9,
+  dinlat  = 50.,  dislat = 44.,  diwlon =  4.,  dielon = 12.,
+  ionl    = 235,  jonl = 151,   ionl2 = 221,  jonl2 = 131,
+  llhn=.true.         , llhnverif=.true.   ,
+  hlhn_start=0.       , hlhn_end=$LM_NL_HENDE_PREASSML        ,
+  hlhnverif_start=0.  , hlhnverif_end=$LM_NL_HENDE_PREASSML ,
+  ktop_lhn=1          , kbot_lhn=$LM_NL_KELM_F,
+  lhn_wweight=.true.  , rqrsgmax = 0.4,
+  radar_in='$LM_IDIR/RADAR/lhn/', 
+  lhn_black =.false.
+  lhn_height=.false.
+  lhn_bright=.false.
+ /END
+EONL
+
+cat >! $workingDir/INPUT_DIA << EONL
+ &DIACTL
+  n0meanval=0, nincmeanval=1,
+  itype_diag_t2m=1,
+  itype_diag_gusts=2,
+  lgplong =.TRUE.,   n0gp=0,      hincgp=1.,
+  stationlist_tot= 0, 0, 46.817,  6.935, 'Payerne'
+ /END
+EONL
+
+
+cat >! $workingDir/INPUT_DYN << EONL
+ &DYNCTL
+    lspubc=.true.,
+      rdheight=11000.0,
+      nrdtau=5,
+    lexpl_lbc=.true.,
+      rlwidth=50000.0,
+    ldyn_bbc=.true.,
+    itype_bbc_w=1,
+    betasw=0.4,
+    xkd=0.1,
+    epsass=0.15,
+    lcond=.true.,
+    lhordiff=.true.,
+      itype_hdiff=2,
+      hd_corr_u_bd=0.75,
+      hd_corr_t_bd=0.75,
+      hd_corr_q_bd=0.0,
+      hd_corr_p_bd=0.75,
+      hd_corr_u_in=0.0,
+      hd_corr_t_in=0.0,
+      hd_corr_q_in=0.0,
+      hd_corr_p_in=0.0,
+      hd_dhmax=250.,
+    l2tls=.true.,
+      irunge_kutta=1,
+        irk_order=3,
+        iadv_order=5,
+        itheta_adv=2,
+        ltadv_limiter=.true.,
+      lsl_adv_qx=.false.,
+        yef_adv_qx='Bott_2',
+        l3dstrang=.true.,
+      lva_impl_dyn=.true.,
+        ieva_order=3,
+    ldiabf_lh=.true.,
+    itype_outflow_qrsg=2,
+    itype_lbc_qrsg=1
+ /END
+EONL
+
+cat >! $workingDir/INPUT_INI << EONL
+ &INICTL
+  ndfi=2,
+  tspan= 1840.0, taus= 1840.0,
+  dtbak=40.0, dtfwd=40.0,
+ /END
+EONL
+
+cat >! $workingDir/INPUT_IO << EONL
+ &IOCTL
+  ldwd_grib_use=.false.,
+  l_ke_in_gds=.TRUE.,
+  lasync_io=.TRUE.,
+  ymode_read = 'r  ',
+  ymode_write = 'w b',
+  nincwait=90,
+  nmaxwait=300,
+  nvers=$LM_NL_TEXPN,
+  ncenter=215,
+ ngribout=2,
+ /END
+ &DATABASE
+ /END
+ &GRIBIN
+  lbdana=.FALSE.,
+  ydirini='$NQS_WDIR/$LM_TAG/$LM_LM_FINE_OUT/',
+  lchkini=.TRUE.,
+  hincbound=1.0,
+  ydirbd='$NQS_WDIR/$LM_TAG/$LM_LM2LM_PREASSML_OUT/',
+  lchkbd =.TRUE.,
+  lana_qi = .TRUE.,
+  llb_qi  = .TRUE.,
+  lana_qg = .FALSE.,
+  llb_qg  = .FALSE.,
+  lana_qr_qs = .TRUE.,
+  llb_qr_qs  = .TRUE.,
+  lana_rho_snow = .TRUE.,
+  lan_lai = .TRUE., lan_rootdp = .TRUE., lan_vio3 = .TRUE., lan_plcov = .TRUE.,
+  lan_t_cl = .TRUE.,  lan_w_cl = .TRUE., lan_hmo3 = .TRUE., lan_t_so0 = .TRUE.,
+  lan_t_snow = .TRUE., lan_w_snow = .TRUE., lan_w_i = .TRUE., lan_rho_snow = .TRUE.,
+  newbc=0,
+  hnewbcdt=3.0,
+ /END
+ &GRIBOUT
+  ysystem='file', lanalysis=.TRUE.,
+  hcomb=0,120 ,1
+  yvarml='HSURF   ','FR_LAND ','SOILTYP ','PLCOV   ','LAI     ','ROOTDP  ',
+         'RAIN_CON','SNOW_CON','VIO3    ','HMO3    ','PP      ','FOR_D   ',
+         'FOR_E   ',
+         'U       ','V       ','W       ','T       ','QV      ','QC      ',
+         'P       ','PS      ','T_SNOW  ','FRESHSNW','W_SNOW  ','GRAU_GSP',
+         'W_SO    ','T_SO    ','QV_S    ','W_I     ','RAIN_GSP','SNOW_GSP',
+         'U_10M   ','V_10M   ','T_2M    ','TD_2M   ',
+         'TMIN_2M ','TMAX_2M ','VMAX_10M','TCM     ','TCH     ','T_G     ',
+         'CLCT    ','CLCH    ','CLCM    ','CLCL    ','ALB_RAD ','ASOB_S  ',
+         'ATHB_S  ','ASOB_T  ','ATHB_T  ','APAB_S  ','TOT_PREC','Z0      ',
+         'AUMFL_S ','AVMFL_S ','ASHFL_S ','ALHFL_S ','BAS_CON ','TOP_CON ',
+         'HTOP_DC ','RUNOFF_S','RUNOFF_G','PMSL    ','HBAS_CON','HTOP_CON',
+         'QI      ','QR      ','QS      ','TWATER  ','TDIV_HUM',
+         'CLCT_MOD','CLC     ','HZEROCL ','DPSDT   ','SNOWLMT ','DBZ_CMAX',
+         'DBZ_850 ','QG      ','RHO_SNOW','DURSUN  ','DURSUN_M',
+         'QCVG_CON','MFLX_CON','CAPE_CON','ZTD     ','ZHD     ','ZWD     ',
+         'TQC     ','TQI     ','TQV     ','TKE     ','HPBL    ',
+         'VGUST_DYN','VGUST_CON',
+         'SWDIR_COR ','ASWDIR_S  ','ASWDIFD_S ','ASWDIFU_S ','ALWD_S    ',
+         'SKYVIEW ','SLO_ANG ','SLO_ASP ','HORIZON ',
+         'SSO_STDH  ','SSO_GAMMA','SSO_THETA ','SSO_SIGMA',
+         'AUSTRSSO','AVSTRSSO','AVDISSSO',
+  zlev=750.,1000.,2000.,3000.,4000.,5000.,8500.,10500.,
+  plev=100.,150.,200.,250.,300.,350.,400.,450.,500.,550.,600.,650.,
+       700.,750.,800.,850.,900.,925.,950.,1000.,
+  yvarpl= 'T         ', 'RELHUM    ', 'U         ', 'V         ',
+          'FI        ', 'OMEGA     ', 'QC        ',
+  yvarzl= 'T         ', 'RELHUM    ', 'U         ', 'V         ',
+          'P         ', 'W         ', 'QC        ',
+  yvarsl= 'SYNMSG',
+  lcheck = .TRUE.,
+  ydir='$NQS_WDIR/$LM_TAG/$LM_LM_FINE_OUT/',
+  l_z_filter=.TRUE., l_p_filter=.TRUE., luvmasspoint=.FALSE.,
+  l_fi_ps_smooth = .TRUE.,
+  nunit_of_time=1
+ /END
+ &GRIBOUT
+  ysystem='file', lanalysis=.FALSE.,
+  slon=-3.12
+  elon= 0.66
+  slat=-1.46
+  elat= 1.22
+  ncomb=0,540 ,30
+  yvarml='U       ','V       ','T       ','P       ',
+         'U_10M   ','V_10M   ','T_2M    ','QV_2M   ',
+      	 'TOT_PREC','ALB_RAD ','HSURF'   ,'PS      ',
+       	 'ASOB_S  ','ATHB_S  ','ASHFL_S ','ALHFL_S ',
+         'AUMFL_S ','AVMFL_S ','CLCT    ','QV      ',
+         'TD_2M   ','TKE     ','TKVH    ','TKVM    ',
+         'QC      ',
+  lcheck = .TRUE.,
+  ydir='$NQS_WDIR/$LM_TAG/lm_cnmet_ana/',
+  luvmasspoint=.FALSE.,
+  nunit_of_time=15
+/END 
+EONL
+
+cat >! $workingDir/INPUT_PHY << EONL
+ &PHYCTL
+    lgsp=.true.,
+      itype_gscp=4,
+      lprogprec=.true.,
+      ldiniprec=.FALSE.,
+    lrad=.true.,
+      hincrad=0.25,
+    lforest=.TRUE.,
+    ltur=.true.,
+      ninctura=1,
+      lexpcor=.false.,
+      ltmpcor=.false.,
+      lprfcor=.false.,
+      lnonloc=.false.,
+      lcpfluc=.false.,
+      itype_turb=3,
+      imode_turb=1,
+      itype_tran=2,
+      imode_tran=1,
+      limpltkediff=.true.,
+    itype_wcld=2,
+      icldm_rad=4,
+      icldm_turb=2,
+      icldm_tran=0,
+      itype_synd=2,
+    lsoil=.TRUE.,
+      lmelt=.TRUE.,
+      lmelt_var=.TRUE.,
+      lmulti_layer=.TRUE.,
+      itype_evsl=2,
+      itype_trvg=2,
+    lconv=.true.,
+      itype_conv=3,
+      lcape=.false.,
+      lconf_avg=.true.,
+    lsso=.TRUE.,
+    lradtopo=.TRUE.,
+!radtopo_file='/users/osm/opr/lib/topopara_520x350_0.02_lmExtPara_20090226/topopara.dat'
+ /END
+EONL
+
+cat >! $workingDir/INPUT_SAT << EONL
+ &SATCTL
+   num_sensors=1,
+   sat_input_01='MSG'     ,1,'SEVIRI',8, .TRUE., .TRUE.,.TRUE., .TRUE.,
+   nchan_input_01=1,2,3,4,5,6,7,8
+   lcon_clw=.TRUE.,
+ /END
+EONL
+#=====================================================================
+
+
+# 2) Name of diagnostic files
+#----------------------------
+#    Diagnostic files are produced by program 'lm' according to the 
+#    NAMELIST block defined above and to any modification you make
+#    to program 'lm' .
+#      All diagnostic files whose name does not begin with 'YU' will be
+#    disgarded; other diagnostic files will be concatenated into the 
+#    file  lm.???pri (this latter file is found in the subdirectory
+#    'output'). 
+#      To create a diagnostic file with whatever name, you have to 
+#    define in the block below the relation between the name of the
+#    file as produced by the program 'lm' and its new name. For
+#    ASCII files (resp. binary files) the extension '.pri' (resp.
+#    '.dat') will be appended to this new name, and the file will be
+#    moved in the subdirectory 'output'.
+#      In this way it is possible to write problem specific output
+#    to a new individually declared file.
+#
+#    E.g.:
+#             YUPRGK CHregion
+#             YUPRMIT lm_mit
+#    will produce the two files 'CHregion.pri' and 'lm_mit.pri'
+#    in the subdirectory 'output' (as long as YUPRGK and YUPRMIT
+#    are effectively produced by lm).
+#=====================================================================
+cat >! $workingDir/NAMES << EONL 
+
+YUPRGRPT lm_grdpts
+YUPRMEAN lm_mean
+YUPRDIAG lm_dia
+
+EONL
+#=====================================================================
+
+# 3) Thresholds for number of observations used by the assimilation
+#-------------------------------------------------------------------
+cat >! $workingDir/THRESHOLDS << EONL
+
+synop   0
+airep   0
+dribu   0
+temp    0
+pilot   0
+
+EONL
+#=====================================================================

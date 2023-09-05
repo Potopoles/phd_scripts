@@ -1,0 +1,700 @@
+
+#==============================================================================
+# Preprocessing extractions
+# This extractions are performed at the beginning of the task
+# (just after module lm_arget and before lm_preproc) 
+#==============================================================================
+cat << EOFPREPROC >! $permntDir/nl.PREPROC
+
+&RunSpecification
+ strict_nl_parsing  = .true.
+ verbosity          = "moderate"
+ diagnostic_length  = 110
+/
+
+&GlobalResource
+ dictionary         = "$LM_LDIR/dictionary_cosmo.txt",
+/
+
+&GlobalSettings
+ dictionary_default = "cosmo"
+ model_tag          = "cosmo-7" 
+/
+
+&ModelSpecification
+ spec_tag           = "cosmo-7" /
+
+&Process
+  in_file  = 'laf lm file' 
+  out_type = "INCORE" /
+&Process in_field = "HSURF", tag="HSURF" / 
+&Process in_field = "FR_LAND", tag="fr_land" /
+&Process in_field = "T_SO", levlist=0, tag="sst"   /
+
+# Here we define the fields that are merged from the interpolated IFS file
+# this are external parameters and the lower levels of W_SO
+&Process
+  in_file      = 'laf ifs file'
+  out_file     = 'laf output file'
+  out_type     = "GRIB1", in_grid = "HSURF", out_size_field = 950 /
+&Process in_field = "VIO3", levlist = -1, set_refdate  = 'laf output refdate' /
+&Process in_field = "HMO3",   set_refdate  = 'laf output refdate' / 
+&Process in_field = "PLCOV",  set_refdate  = 'laf output refdate' / 
+&Process in_field = "LAI",    set_refdate  = 'laf output refdate' / 
+&Process in_field = "ROOTDP", set_refdate  = 'laf output refdate' / 
+&Process in_field = "FOR_D",  set_refdate  = 'laf output refdate' / 
+&Process in_field = "FOR_E",  set_refdate  = 'laf output refdate' / 
+&Process in_field = "T_SO",   levlist=0, merge_with="sst", merge_mask="fr_land>0.5", 
+                 set_pds4=5, set_refdate  = 'laf output refdate' / 
+
+
+# Here we define that the snow temperature, snow amount, the interception
+# storage, fresh snow and snow density shall be taken from the snowanalysis from MCH
+&Process
+  in_file      = 'laf snowana file'
+  out_file     = 'laf output file'
+  out_type     = "GRIB1", in_grid = "HSURF", out_size_field = 950 /
+&Process in_field = "T_SNOW"   , levlist = -1, set_refdate  = 'laf output refdate' / 
+&Process in_field = "W_SNOW"   , levlist = -1, set_refdate  = 'laf output refdate' / 
+&Process in_field = "W_I"      , levlist = -1, set_refdate  = 'laf output refdate' / 
+&Process in_field = "FRESHSNW" , levlist = -1, set_refdate  = 'laf output refdate' / 
+&Process in_field = "RHO_SNOW" , levlist = -1, set_refdate  = 'laf output refdate' / 
+
+
+# Here we define the fields that are merged from the interpolated IFS file
+# this are external parameters, and the lower levels of W_SO
+
+&Process
+  in_file  = 'laf lm file' 
+  out_file = 'laf output file' 
+  out_type = "GRIB1", in_grid = "HSURF", out_size_field = 950
+  selection_mode = "EXCLUDE"/
+&Process in_field = "VIO3"  /
+&Process in_field = "HMO3"  /
+&Process in_field = "PLCOV" /
+&Process in_field = "LAI"   /
+&Process in_field = "ROOTDP"/
+&Process in_field = "T_SO"  , levlist = 0/
+&Process in_field = "T_SNOW"/
+&Process in_field = "W_SNOW"/
+&Process in_field = "W_I"   /
+&Process in_field = "FRESHSNW" /
+&Process in_field = "RHO_SNOW" /
+&Process in_field = "FOR_D" /
+&Process in_field = "FOR_E" /
+
+
+EOFPREPROC
+
+
+
+#==============================================================================
+# *** OPR only *** OPR only *** OPR only *** OPR only *** OPR only ***
+# Time critical extractions
+# This extractions are performed concurrently with lm_lm:
+# postprocessing is sliced in $LM_DPPT hours segments
+# *** OPR only *** OPR only *** OPR only *** OPR only *** OPR only ***
+#==============================================================================
+cat << EOFTC >! $permntDir/nl.TC
+
+# Run specification and global blocks (compulsory!)
+#--------------------------------------------------
+&RunSpecification
+ strict_nl_parsing   = .true.
+ verbosity           = "moderate"
+ diagnostic_length   = 110
+ wait_time           = 10
+ mx_wait_time        = 7200
+ out_noready_postfix = ".incomplete"
+ out_force_postfix   = ".snapshot_"
+ stop_wait_flag      = "${LM_F_PPSTOPF}_c"
+/
+
+&GlobalResource
+ dictionary         = "$LM_LDIR/dictionary_cosmo.txt",
+ location_list      = "$LM_LDIR/location_list.txt"
+ region_list        = "$LM_LDIR/region_list.txt"
+ adaboost_coefs     = "$LM_LDIR/adaboost_coef.txt"
+/
+
+&GlobalSettings
+ dictionary_default = "cosmo",
+ model_tag          = "cosmo-7",
+ loc_to_gp          = "sn",
+ experiment         = "$LM_NL_TEXPN",
+/
+
+&ModelSpecification
+ spec_tag           = "cosmo-7"
+ precip_all         = "RAIN_GSP", "RAIN_CON", "SNOW_GSP", "SNOW_CON"
+ precip_snow        = "SNOW_GSP", "SNOW_CON"
+ precip_rain        = "RAIN_GSP", "RAIN_CON"
+ precip_convective  = "RAIN_CON", "SNOW_CON"
+ precip_gridscale   = "RAIN_GSP", "SNOW_GSP"
+/
+
+# In core data
+#-------------
+&Process
+  in_file  = "lfff00000000c"
+  out_type = "INCORE" /
+&Process in_field    = "FR_LAND" /
+&Process in_field    = "SOILTYP" /
+&Process in_field    = "HSURF",tag='HSURF' /
+&Process in_field    = "HHL" /
+
+
+# Input data for vertical profile 
+#--------------------------------
+&Process
+  in_type="INCORE"
+  out_file="LMverUA.l2e", out_type="L2E", out_type_depreciated=.true.,
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",
+  loclist  = "03354", "03808", "03918", "03953", "06610", "06630",
+             "06672", "07110", "07145", "07292", "07481", "07510",
+             "07645", "07761", "08001", "08221", "08302", "10035",
+             "10393", "10410", "10618", "10738", "10739", "10771",
+             "10868", "10946", "11035", "11120", "11520", "14240",
+             "16044", "16080", "16144", "16245", "16560" /
+&Process in_field="HSURF" /
+&Process in_field="HFL" /
+
+&Process
+  in_file  = "lfff<DDHH>0000"
+  out_file = "LMverUA.l2e", out_type = "L2E", out_type_depreciated=.true.,
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",
+  tstart = 0, tstop = $LM_NL_HENDE_C, tincr = 6
+  loclist  = "03354", "03808", "03918", "03953", "06610", "06630",
+             "06672", "07110", "07145", "07292", "07481", "07510",
+             "07645", "07761", "08001", "08221", "08302", "10035",
+             "10393", "10410", "10618", "10738", "10739", "10771",
+             "10868", "10946", "11035", "11120", "11520", "14240",
+             "16044", "16080", "16144", "16245", "16560" /
+&Process in_field = "PS" /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M"  /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "P" /
+&Process in_field = "T" /
+&Process in_field = "U", regrid=.t./
+&Process in_field = "V", regrid=.t./
+&Process in_field = "QV" /
+&Process in_field = "QC" /
+&Process out_field = "HFL" /
+&Process out_field = "HSURF"/
+&Process out_field = "PS", scale=0.1 /
+&Process out_field = "T_2M", offset=-273.15, scale=10. /
+&Process out_field = "D_TD_2M", scale=10. /
+&Process out_field = "DD_10M" /
+&Process out_field = "FF_10M" /
+&Process out_field = "P", scale=0.1 /
+&Process out_field = "T", offset=-273.15, scale=10. /
+&Process out_field = "D_TD", scale=10. /
+&Process out_field = "DD"/
+&Process out_field = "FF"/
+&Process out_field = "QV"/
+&Process out_field = "QC"/
+&Process out_field = "RELHUM"/
+
+# Input data for vertical profile 
+#--------------------------------
+&Process
+  in_type  = "INCORE"
+  out_file = "LMverUA2.l2e", out_type = "L2E",out_type_mminfo='yes',
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",
+  loclist  = "03354", "03808", "03918", "03953", "06610", "06630",
+             "06672", "07110", "07145", "07292", "07481", "07510",
+             "07645", "07761", "08001", "08221", "08302", "10035",
+             "10393", "10410", "10618", "10738", "10739", "10771",
+             "10868", "10946", "11035", "11120", "11520", "14240",
+             "16044", "16080", "16144", "16245", "16560" /
+&Process in_field = "HFL" /
+&Process in_field = "HSURF"/
+
+&Process
+  in_file  = "lfff<DDHH>0000"
+  out_file = "LMverUA2.l2e", out_type = "L2E",out_type_mminfo='yes',
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",
+  tstart = 0, tstop = $LM_NL_HENDE_C, tincr = 3
+  loclist  = "03354", "03808", "03918", "03953", "06610", "06630",
+             "06672", "07110", "07145", "07292", "07481", "07510",
+             "07645", "07761", "08001", "08221", "08302", "10035",
+             "10393", "10410", "10618", "10738", "10739", "10771",
+             "10868", "10946", "11035", "11120", "11520", "14240",
+             "16044", "16080", "16144", "16245", "16560" /
+&Process in_field = "PS" /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M"  /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "P" /
+&Process in_field = "T" /
+&Process in_field = "U", regrid=.t./
+&Process in_field = "V", regrid=.t./
+&Process in_field = "QV" /
+&Process in_field = "QC" /
+&Process out_field = "HFL" /
+&Process out_field = "HSURF"/
+&Process out_field = "PS", scale=0.1 /
+&Process out_field = "T_2M", offset=-273.15, scale=10. /
+&Process out_field = "D_TD_2M", scale=10. /
+&Process out_field = "DD_10M" /
+&Process out_field = "FF_10M" /
+&Process out_field = "P", scale=0.1 /
+&Process out_field = "T", offset=-273.15, scale=10. /
+&Process out_field = "D_TD", scale=10. /
+&Process out_field = "DD"/
+&Process out_field = "FF"/
+&Process out_field = "QV"/
+&Process out_field = "QC"/
+&Process out_field = "RELHUM"/
+
+
+# Input data for vertical profile,
+# version with time unit minutes (for DWH)
+#-----------------------------------------
+&Process
+  in_type  = "INCORE"
+  out_file = "LMverUAmm.l2e", out_type = "L2E", 
+  out_type_depreciated=.true., out_type_mminfo='yes',
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",
+  loclist  = "03354", "03808", "03918", "03953", "06610", "06630",
+             "06672", "07110", "07145", "07292", "07481", "07510",
+             "07645", "07761", "08001", "08221", "08302", "10035",
+             "10393", "10410", "10618", "10738", "10739", "10771",
+             "10868", "10946", "11035", "11120", "11520", "14240",
+             "16044", "16080", "16144", "16245", "16560" /
+&Process in_field = "HFL" /
+&Process in_field = "HSURF"/
+
+&Process
+  in_file  = "lfff<DDHH>0000"
+  out_file = "LMverUAmm.l2e", out_type = "L2E",
+  out_type_depreciated=.true., out_type_mminfo='yes',
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0.",
+  tstart = 0, tstop = $LM_NL_HENDE_C, tincr = 6
+  loclist  = "03354", "03808", "03918", "03953", "06610", "06630",
+             "06672", "07110", "07145", "07292", "07481", "07510",
+             "07645", "07761", "08001", "08221", "08302", "10035",
+             "10393", "10410", "10618", "10738", "10739", "10771",
+             "10868", "10946", "11035", "11120", "11520", "14240",
+             "16044", "16080", "16144", "16245", "16560" /
+&Process in_field = "PS" /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M"  /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "P" /
+&Process in_field = "T" /
+&Process in_field = "U", regrid=.t./
+&Process in_field = "V", regrid=.t./
+&Process in_field = "QV" /
+&Process in_field = "QC" /
+&Process out_field = "HFL" /
+&Process out_field = "HSURF"/
+&Process out_field = "PS", scale=0.1 /
+&Process out_field = "T_2M", offset=-273.15, scale=10. /
+&Process out_field = "D_TD_2M", scale=10. /
+&Process out_field = "DD_10M" /
+&Process out_field = "FF_10M" /
+&Process out_field = "P", scale=0.1 /
+&Process out_field = "T", offset=-273.15, scale=10. /
+&Process out_field = "D_TD", scale=10. /
+&Process out_field = "DD"/
+&Process out_field = "FF"/
+&Process out_field = "QV"/
+&Process out_field = "QC"/
+&Process out_field = "RELHUM"/
+
+
+#==============================================================================
+# Old NTC part
+#==============================================================================
+
+# Input for verification of surface fields
+#------------------------------------------
+&Process
+  in_type  = "INCORE"
+  out_file = "CHverS.pri", out_type = "BLK_TABLE", out_type_depreciated=.true., 
+  out_type_dupcst=.false., out_type_epsminfo='yes'
+  out_type_fmt  = "15F8.2", 
+  imin = 224, imax = 281, jmin = 141, jmax = 181/
+&Process in_field = "HSURF" /
+
+&Process
+  in_file  = "lfff<DDHH>0000"
+  out_file = "CHverS.pri", out_type = "BLK_TABLE", out_type_depreciated=.true., 
+  out_type_dupcst=.false., out_type_epsminfo='yes'
+  out_type_fmt  = "15F8.2", 
+  tstart   = 0, tstop    = $LM_NL_HENDE_C, tincr    = 1
+  imin = 224, imax = 281, jmin = 141, jmax = 181/
+&Process in_field = "T_2M" , offset = -273.15 /
+&Process in_field = "TD_2M" , offset = -273.15 /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "VMAX_10M"/
+&Process in_field = "CLCT" , scale = 0.01 /
+&Process in_field = "RAIN_GSP"  /
+&Process in_field = "RAIN_CON"  /
+&Process in_field = "SNOW_GSP"  /
+&Process in_field = "SNOW_CON"  /
+&Process out_field = "HSURF" /
+&Process out_field = "T_2M"  /
+&Process out_field = "TD_2M" /
+&Process out_field = "U_10M"  /
+&Process out_field = "V_10M"  /
+&Process out_field = "VMAX_10M"/
+&Process out_field = "CLCT"  /
+&Process out_field = "RAIN_GSP"  /
+&Process out_field = "RAIN_CON"  /
+&Process out_field = "SNOW_GSP"  /
+&Process out_field = "SNOW_CON"  /
+
+
+
+# Extraction for ANETZ verification
+#-----------------------------------
+&Process
+  in_file    = "lfff<DDHH>0000"
+  out_file   = "_SINP_listLM.bias_c.txt" ,
+  out_type   = "FLD_TABLE" ,
+  out_type_fmt    = "12F9.1"
+  tstart     = 0 ,
+  tstop      = $LM_NL_HENDE_C ,
+  tincr      = 1,
+  out_tstart = 0 ,
+  out_tincr  = 1
+  loclist    = "GVE","DOL","FRE","NEU","CDF","CHA","CGI","PUY","PAY","MLS","AIG","PLF",
+               "FAH","BAS","RUE","SHA","BER","WYN","BUS","LAE","REH","KLO","SMA","TAE",
+               "GUT","HOE","ABO","INT","NAP","PIL","LUZ","ENG","ALT","WAE","GLA","STG",
+               "SAE","VAD","SIO","VIS","MVE","ULR","ZER","GSB","EVO","FEY","GRH","JUN",
+               "GUE","DIS","CHU","WFJ","DAV","SCU","SAM","COV","AND","SBE","ROB","COM",
+               "ROE","OTL","MAG","CIM","PIO","LUG","SBO","GOE","BEZ","MUB","LEI","PSI" /
+&Process in_field     = "T_2M" /
+&Process in_field     = "TD_2M"  /
+
+
+# Input for verification archive 
+#--------------------------------
+&Process
+  in_type  = "INCORE"
+  out_file = "verif_c00", out_type = "GRIB1", in_grid = "HSURF" /
+&Process in_field = "HSURF" /
+&Process in_field = "FR_LAND" /
+&Process in_field = "SOILTYP" /
+
+
+&Process
+  in_file  =  "lfff<DDHH>0000"
+  out_file = "verif_c<HH>", out_type = "GRIB1", in_grid = "HSURF" 
+  tstart   = 0, tstop    = $LM_NL_HENDE_C, tincr    = 1 /
+&Process in_field = "PS" /
+&Process in_field = "Z0" /
+&Process in_field = "PMSL"   /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "VMAX_10M" /
+&Process in_field = "U" , levlist = $LM_NL_KELM_C,$LM_NL_KEM1_C,$LM_NL_KEM2_C /
+&Process in_field = "V" , levlist = $LM_NL_KELM_C,$LM_NL_KEM1_C,$LM_NL_KEM2_C /
+&Process in_field = "T" , levlist = $LM_NL_KELM_C,$LM_NL_KEM1_C,$LM_NL_KEM2_C /
+&Process in_field = "QV" , levlist = $LM_NL_KELM_C,$LM_NL_KEM1_C,$LM_NL_KEM2_C /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M" /
+&Process in_field = "T_SNOW" /
+&Process in_field = "T_SO" , levlist = -1 /
+&Process in_field = "W_SO" , levlist = -1 /
+&Process in_field = "QV_S" /
+&Process in_field = "W_I" /
+&Process in_field = "W_SNOW" /
+&Process in_field = "CLCT" /
+&Process in_field = "CLCH" /
+&Process in_field = "CLCM" /
+&Process in_field = "CLCL" /
+&Process in_field = "RAIN_GSP" /
+&Process in_field = "SNOW_GSP" /
+&Process in_field = "RAIN_CON" /
+&Process in_field = "SNOW_CON" /
+&Process in_field = "TOT_PREC" /
+&Process in_field = "RUNOFF" , levlist = -1 /
+&Process in_field = "ALB_RAD" /
+&Process in_field = "ASOB_S", ignore_tri=.true. /
+&Process in_field = "ATHB_S", ignore_tri=.true. /
+&Process in_field = "AUMFL_S" /
+&Process in_field = "AVMFL_S" /
+&Process in_field = "ASHFL_S" /
+&Process in_field = "ALHFL_S" /
+&Process in_field = "TQV" /
+&Process in_field = "ZWD" /
+&Process in_field = "ZTD" /
+&Process in_field = "ZHD" /
+&Process in_field = "VGUST_DYN" /
+&Process in_field = "VGUST_CON" /
+&Process in_field = "SWDIR_COR",  ignore_tri=.true./
+&Process in_field = "ASWDIR_S",  ignore_tri=.true. /
+&Process in_field = "ASWDIFD_S",  ignore_tri=.true./
+&Process in_field = "ASWDIFU_S",  ignore_tri=.true./
+&Process in_field = "ALWD_S"   ,  ignore_tri=.true./
+&Process in_field = "SKYVIEW" ,  ignore_tri=.true. /
+&Process in_field = "HPBL" /
+&Process in_field = "AUSTRSSO", ignore_tri=.true. /
+&Process in_field = "AVSTRSSO", ignore_tri=.true. /
+&Process in_field = "AVDISSSO", ignore_tri=.true. /
+&Process in_field = "SNOWLMT" /
+&Process in_field = "HZEROCL" /
+
+&Process
+  in_file  =  "lfff<DDHH>0000p"
+  out_file = "verifp_c<HH>", out_type = "GRIB1", 
+  tstart   = 0, tstop = $LM_NL_HENDE_C, tincr = 6
+/
+&Process in_field = "FI",
+ levlist = 1000,950,925,900,850,800,750,700,650,600,
+           550,500,450,400,350,300,250,200,150,100
+/
+&Process in_field = "T",
+ levlist = 1000,950,925,900,850,800,750,700,650,600,
+           550,500,450,400,350,300,250,200,150,100
+/
+&Process in_field = "RELHUM",
+ levlist = 1000,950,925,900,850,800,750,700,650,600,
+           550,500,450,400,350,300,250,200,150,100
+/
+&Process in_field = "U",
+ levlist = 1000,950,925,900,850,800,750,700,650,600,
+           550,500,450,400,350,300,250,200,150,100
+/
+&Process in_field = "V",
+ levlist = 1000,950,925,900,850,800,750,700,650,600,
+           550,500,450,400,350,300,250,200,150,100
+/
+
+# Input for synop verif (online) 
+#-------------------------------
+&Process
+  in_type  = "INCORE"
+  out_file = "synop_c${LM_INI}_000", out_type = "GRIB1" /
+&Process in_field = "HSURF" /
+&Process in_field = "FR_LAND" /
+&Process in_field = "SOILTYP" /
+
+&Process
+  in_file  = "lfff<DDHH>0000"
+  out_file = "synop_c${LM_INI}_<HHH>", out_type = "GRIB1"
+  tstart   = 0, tstop = $LM_NL_HENDE_C, tincr = 1 /
+&Process in_field = "PS" /
+&Process in_field = "PMSL"   /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "VMAX_10M" /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M" /
+&Process in_field = "CLCT" /
+&Process in_field = "TOT_PREC" /
+&Process in_field = "VGUST_DYN" /
+&Process in_field = "VGUST_CON" /
+&Process in_field = "ALB_RAD" /
+&Process in_field = "ASOB_S", ignore_tri=.true. /
+
+&Process
+  in_file  = "laf<YYYYMMDDHH:$LM_INI_PREASSML>"
+  out_file = "synop_c<YYYYMMDDHH:$LM_INI_PREASSML>", out_type = "GRIB1"
+  tstart   = 0, tstop = $LM_NL_HENDE_PREASSML, tincr = 1 /
+&Process in_field = "HSURF" /
+&Process in_field = "FR_LAND" /
+&Process in_field = "SOILTYP" /
+&Process in_field = "PS" /
+&Process in_field = "PMSL"   /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "VMAX_10M" /
+&Process in_field = "T_2M" / 
+&Process in_field = "TD_2M" / 
+&Process in_field = "CLCT" /
+&Process in_field = "TOT_PREC" /
+&Process in_field = "ALB_RAD" /
+&Process in_field = "ASOB_S", ignore_tri=.true. /
+
+# Input for post-processing archive 
+#----------------------------------
+&Process
+  in_type  = "INCORE"
+  out_file = "postproc_c00", out_type = "GRIB1", in_grid = "HSURF"
+  imin     =  223, imax =  284, jmin = 140, jmax = 182 /
+&Process in_field = "HSURF" /
+&Process in_field = "FR_LAND" /
+&Process in_field = "SOILTYP" /
+
+&Process
+  in_file  = "lfff<DDHH>0000"
+  out_file = "postproc_c<HH>", out_type = "GRIB1", in_grid = "HSURF"
+  tstart   = 0, tstop = $LM_NL_HENDE_C, tincr = 1
+  imin     =  223, imax = 284, jmin = 140, jmax = 182 /
+&Process in_field = "U" ,  levmin = 1, levmax = $LM_NL_KELM_C /
+&Process in_field = "V" ,  levmin = 1, levmax = $LM_NL_KELM_C /
+&Process in_field = "W" ,  levmin = 1, levmax = $LM_NL_KELM_C /
+&Process in_field = "T" ,  levmin = 1, levmax = $LM_NL_KELM_C /
+&Process in_field = "QV" , levmin = 1, levmax = $LM_NL_KELM_C /
+&Process in_field = "QC" , levmin = 1, levmax = $LM_NL_KELM_C /
+&Process in_field = "P" ,  levmin = 1, levmax = $LM_NL_KELM_C /
+&Process in_field = "PS"   /
+&Process in_field = "T_SNOW"   /
+&Process in_field = "T_SO" /
+&Process in_field = "W_SNOW" /
+&Process in_field = "W_SO" /
+&Process in_field = "QV_S" /
+&Process in_field = "W_I" /
+&Process in_field = "RAIN_GSP" /
+&Process in_field = "SNOW_GSP" /
+&Process in_field = "RAIN_CON" /
+&Process in_field = "SNOW_CON" /
+&Process in_field = "U_10M"  /
+&Process in_field = "V_10M"  /
+&Process in_field = "T_2M" /
+&Process in_field = "TD_2M" /
+&Process in_field = "TMIN_2M" /
+&Process in_field = "TMAX_2M" /
+&Process in_field = "VMAX_10M" /
+&Process in_field = "TCM" /
+&Process in_field = "TCH" /
+&Process in_field = "T_G" /
+&Process in_field = "CLCT" /
+&Process in_field = "CLCH" /
+&Process in_field = "CLCM" /
+&Process in_field = "CLCL" /
+&Process in_field = "ALB_RAD" /
+&Process in_field = "ASOB_S", ignore_tri=.true. /
+&Process in_field = "ATHB_S", ignore_tri=.true. /
+&Process in_field = "ASOB_T", ignore_tri=.true. /
+&Process in_field = "ATHB_T", ignore_tri=.true. /
+&Process in_field = "APAB_S", ignore_tri=.true. /
+&Process in_field = "TOT_PREC" /
+&Process in_field = "Z0" /
+&Process in_field = "AUMFL_S" /
+&Process in_field = "AVMFL_S" /
+&Process in_field = "ASHFL_S" /
+&Process in_field = "ALHFL_S" /
+&Process in_field = "BAS_CON" /
+&Process in_field = "TOP_CON" /
+&Process in_field = "HTOP_DC" /
+&Process in_field = "RUNOFF" /
+&Process in_field = "PMSL"   /
+&Process in_field = "HBAS_CON"   /
+&Process in_field = "HTOP_CON"   /
+&Process in_field = "QI" , levmin = 1, levmax = $LM_NL_KELM_C  /
+&Process in_field = "CLC" , levmin = 1, levmax = $LM_NL_KELM_C /
+&Process in_field = "HZEROCL"   /
+&Process in_field = "DPSDT"   /
+&Process in_field = "SNOWLMT"   /
+&Process in_field = "QCVG_CON"   /
+&Process in_field = "MFLX_CON"   /
+&Process in_field = "ZTD" /
+&Process in_field = "ZHD" /
+&Process in_field = "ZWD" /
+&Process in_field = "TQC" /
+&Process in_field = "TQI" /
+&Process in_field = "TQV" /
+&Process in_field = "TKE" , levmin = 1, levmax = $LM_NL_KELM_C /
+&Process in_field = "DURSUN" /
+
+
+# Extraction for C_TSTORM learner
+#--------------------------------
+&Process
+  in_type  = "INCORE"
+  tstart   = 0
+  tstop    = $LM_NL_HENDE_PREASSML
+  tincr    = 1
+  out_tstart = 1
+  out_file = "analysis_<YYYYMMDDHH:$LM_INI_PREASSML>.atab"
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0."
+  out_type = "XLS_TABLE" ,
+  out_type_mminfo='yes',
+  loclist="06601","06603","06604","06607","06608","06610","06612","06613","06616",
+          "06620","06623","06624","06625","06627","06631","06633","06635","06637",
+          "06638","06640","06642","06643","06647","06650","06652","06658","06660",
+          "06666","06670","06672","06675","06679","06680","06681","06682","06684",
+          "06686","06693","06695","06700","06707","06710","06712","06717","06718",
+          "06720","06722","06725","06726","06728","06730","06731","06735","06736",
+          "06738","06744","06745","06753","06758","06760","06762","06765","06770",
+          "06779","06780","06781","06782","06783","06784","06785","06786","06789",
+          "06790","06792","06794","06796","06797","06798","06990"/
+&Process in_field = "HSURF" /
+&Process in_field = "HHL" /
+&Process in_field = "PREF" /
+
+&Process
+  in_file  = "laf<YYYYMMDDHH:$LM_INI_PREASSML>"
+  tstart   = 0
+  tstop    = $LM_NL_HENDE_PREASSML
+  tincr    = 1
+  tlag     = -1
+  out_tstart = 1
+  out_file = "analysis_<YYYYMMDDHH:$LM_INI_PREASSML>.atab"
+  in_grid="HSURF", in_grid_intpl="average,square,0.9,0."
+  out_type = "XLS_TABLE" ,
+  out_type_mminfo='yes',
+  loclist="06601","06603","06604","06607","06608","06610","06612","06613","06616",
+          "06620","06623","06624","06625","06627","06631","06633","06635","06637",
+          "06638","06640","06642","06643","06647","06650","06652","06658","06660",
+          "06666","06670","06672","06675","06679","06680","06681","06682","06684",
+          "06686","06693","06695","06700","06707","06710","06712","06717","06718",
+          "06720","06722","06725","06726","06728","06730","06731","06735","06736",
+          "06738","06744","06745","06753","06758","06760","06762","06765","06770",
+          "06779","06780","06781","06782","06783","06784","06785","06786","06789",
+          "06790","06792","06794","06796","06797","06798","06990"/
+&Process in_field = "BAS_CON"/
+&Process in_field = "TOP_CON"/
+&Process in_field = "PMSL"/
+&Process in_field = "RAIN_GSP" /
+&Process in_field = "SNOW_GSP" /
+&Process in_field = "RAIN_CON" /
+&Process in_field = "SNOW_CON" /
+&Process in_field = "P"/
+&Process in_field = "QV" /
+&Process in_field = "T" /
+&Process in_field = "U", regrid=.t. /
+&Process in_field = "V", regrid=.t. /
+&Process in_field = "W" /
+&Process in_field = "W_SNOW" /
+&Process out_field = "HSURF" /
+&Process out_field = "PMSL" /
+&Process out_field = "T", levlist = 34,41,47,53 /
+&Process out_field = "FF", levlist = 34,41,47,53 /
+&Process out_field = "DD", levlist = 34,41,47,53 /
+&Process out_field = "W", levlist = 34,41,47,53 /
+&Process out_field = "RELHUM", levlist = 34,41,47,53 /
+&Process out_field = "THETAE", levlist = 34,41,47,53 /
+&Process out_field = "TD", levlist = 47 /
+&Process out_field = "WSHEARU" /
+&Process out_field = "WSHEARM" /
+&Process out_field = "WSHEARL" /
+&Process out_field = "TOT_GSP", toper = "delta_g" /
+&Process out_field = "TOT_CON", toper = "delta_g" /
+&Process out_field = "PDIFF_CON" /
+&Process out_field = "TTOP_CON" /
+&Process out_field = "KOINDEX" /
+&Process out_field = "TTINDEX" /
+&Process out_field = "SWEAT" /
+&Process out_field = "SI" /
+&Process out_field = "SLI"  /
+&Process out_field = "DCI" /
+&Process out_field = "CAPE_ML" /
+&Process out_field = "CAPE_MU" /
+&Process out_field = "CIN_ML" /
+&Process out_field = "CIN_MU" /
+&Process out_field = "ADEDO2" /
+&Process out_field = "W_SNOW" /
+
+EOFTC
+
+#==============================================================================
+# Non time critical extractions:
+# This extractions are performed after the module lm_lm
+# from 0h to $LM_NL_HENDE_C (without slicing).
+#==============================================================================
+cat << EOFNTC >! $permntDir/nl.NTC
+
+
+
+EOFNTC

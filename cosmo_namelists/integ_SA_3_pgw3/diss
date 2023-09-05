@@ -1,0 +1,956 @@
+###############################################################################
+#
+#
+# File: diss
+# Category: LM package - namelist file for task "integ"
+#
+# Host: SUN
+# Location: $LM_NDIR/<set name>    (e.g.: <set name> = integ)
+# Permission: 440
+# Associated files: $LM_SDIR/lm_diss, $LM_SDIR/lm_put,
+#                   $LM_SDIR/lm_sendmail, $LM_SDIR/lm_ftpdiss, 
+#                   $LM_SDIR/lm_tlisubmit, $LM_SDIR/lm_scpput,
+#                   ~/.lm_keys
+#
+#
+# Description: in this file you define where and which model output should
+#              be disseminated.
+#              Any lines beginning with # are ignored.
+#
+#
+###############################################################################
+#
+#    Model results dissemination is based on rcp/rsh, scp/ssh, ftp ,tlisubmit 
+#    or email
+#    ========================================================================
+#
+#    rcp/scp based dissemination is more robust and can handle larger amount
+#    of data than email based dissemination.
+#    rcp/scp are the only modes which can run time critically.
+#
+#    On the other hand email,tlisubmit or ftp based dissemination are more 
+#    secure for the client.
+#     
+#    For each place where model output should be disseminated, one block
+#    of information must appear in this file.
+#    Each such block must begin with a heading defining the address where
+#    model output will be disseminated. 
+#    In this heading the coordinates of the target machine administrator,
+#    executable files to be run on the client machine and a set of flags
+#    modifying the behaviour of the dissemination can also be defined.
+#    This heading is followed by lines defining which model output to
+#    disseminate.
+#
+#    The block heading is a set of lines beginning with a specific keyword:
+#    For rcp/rsh based dissemination:
+#    --------------------------------
+#       dest=<host>:<path> or dest=<host.domain>:<path>
+#       adm=<administrator coordinates>        
+#       exe_in=<exe_file1>
+#       exe_out=<exe_file2>
+#       flag=<flag>
+#
+#    For scp/ssh based dissemination:
+#    --------------------------------
+#       dest=scp:<host>:<sshuser>:<path> or or dest=<host.domain>:<sshuser>:<path>
+#       adm=<administrator coordinates>
+#       exe_in=<exe_file1>
+#       exe_out=<exe_file2>
+#       flag=<flag>
+#
+#    For tlisubmit based dissemination:
+#    ----------------------------------
+#       dest=tli:<heading>[:no]
+#       adm=<administrator coordinates>
+#
+#    For ftp based dissemination:
+#    ----------------------------
+#       dest=ftp:<ftpaddress>:<ftpuser>:<ftpdir>
+#       adm=<administrator coordinates>        
+#
+#    For email based dissemination:
+#    ------------------------------
+#       dest=<username>@<domain>
+#
+#    The first line is always required; the other lines are optional.
+#
+#
+#    Destination
+#    ===========
+#    For rcp/rsh based dissemination:
+#    --------------------------------
+#    <host> is the nodename of the target machine (e.g. maz14), <host.domain>
+#    is the Internet name of the target machine (e.g. ertel.uibk.ac.at) and
+#    <path> is the full path name of the corresponding directory. 
+#    Disseminated data will be copied in a subdirectory of <path> whose
+#    name is built from the value of the analysis time and of the GLOBAL
+#    variable LM_NL_TEXPN (e.g.: if <path> is /sm, analysis time is
+#    06/06/94 00UTC and LM_NL_TEXPN is A2d, data will be disseminated in
+#    /sm/94060600_A2d).
+#
+#    IMPORTANT NOTE: For perfomance optimization it is strongly advised to
+#    ==============  set the value of <host> to the name of the machine
+#                    where <path> is physically mounted!
+#
+#    For scp/ssh based dissemination:
+#    --------------------------------
+#    <host> is the nodename of the target machine (e.g. maz14), <host.domain>
+#    is the Internet name of the target machine (e.g. ertel.uibk.ac.at) and
+#    <path> is the full path name of the corresponding directory.
+#    Disseminated data will be copied in a subdirectory of <path> whose
+#    name is built from the value of the analysis time and of the GLOBAL
+#    variable LM_NL_TEXPN (e.g.: if <path> is /sm, analysis time is
+#    06/06/94 00UTC and LM_NL_TEXPN is A2d, data will be disseminated in
+#    /sm/94060600_A2d).
+#
+#    For ftp based dissemination:
+#    ----------------------------
+#    <ftpaddress> is Internet name (e.g. ftp) or IP address (e.g. 141.249.7.33)
+#                    of the target machine 
+#    <ftpuser>    is the user in case there are many users on the same <ftphost>
+#    <ftpdir>     is the directory relative to the entry point
+#    <ftpuser> and <ftpdir> can be missing.
+#    If <ftpuser> is not supplied then the user and the password are taken
+#    from the ~/.lm_keys file by the lm_ftpdiss script.
+#
+#    !!! It is IMPORTANT that the ftp address contain the characters "ftp:"
+#        before the <ftpaddresst> as it will be used to differenciate
+#        a rcp/rsh address from a ftp address.                             !!!
+#
+#    For tlisubmit based dissemination:
+#    ----------------------------------
+#    <heading> Product name of the tar-file uploaded to wman on gts systems. The
+#              <heading> is distributed by the administration group of wman systems.
+#    <:no> Files are not compressed.
+#
+#    !!! It is IMPORTANT that the tlisubmit destination contain the characters "tli:"
+#        before the <heading> as it will be used to differenciate
+#        a rcp/rsh address from a tli address.                             !!!
+#
+#
+#
+#    For email based dissemination:
+#    ------------------------------
+#    <username> is the name of the user which will receive the data via
+#    email. <domain> is the domain where the user can be reached.
+#
+#    !!! It is IMPORTANT that the email address contain the "@" sign; it
+#        will be used to differenciate rcp/rsh address from email address. !!!
+#
+#
+#    Administrator coordinates
+#    =========================
+#    For rcp/rsh based dissemination:
+#    This information is only relevant for operational mode.
+#    <administrator coordinates> is a string containing the necessary information
+#    to contact the administrator of the target machine (e-mail, phone number).
+#    This information is passed to the SMI operating in case of problems with
+#    dissemination towards this machine.
+#
+#    For ftp and email based dissemination:
+#    Not used
+#
+#
+#    Remote commands
+#    ===============
+#    For rcp/rsh and scp/ssh based dissemination:
+#    <exe_file1> and <exe_file2> are the full path of executable files on the
+#    target machine. If defined, these commands are run in the background on the
+#    target machine: <exe_file1> is started at the beginning of the dissemination,
+#    just after the creation of the target directory, and <exe_file2> is started
+#    at the end of the dissemination.
+#    <exe_file1> is called with two arguments: the full path of the target
+#    directory and the full path of a file whose existence signals running
+#    dissemination.
+#    <exe_file2> is called with one argument: the full path of the target
+#    directory.
+#
+#    For ftp and email based dissemination:
+#    Not used
+#
+#
+#    Flags
+#    =====
+#    For rcp/rsh based dissemination:
+#    --------------------------------
+#    Flags control two aspects of the dissemination: 
+#    -> is the dissemination of the corresponding block time critical (T)
+#    -> should files be compressed before being disseminated (C)
+#    Default behaviour is non time critical dissemination and uncompressed
+#    files; however, by setting the value of <flag> to C, T or CT one modifies
+#    this behaviour.
+#    If required files will be compressed with "gzip" and compressed files 
+#    get a .gz extension; this algorithm gives a compression factor between 
+#    1.5-2 for CDF files and between 3-4 for ASCII files. The utility gunzip 
+#    should be used to uncompress the files.
+#
+#    For scp/ssh based dissemination:
+#    --------------------------------
+#    Flag controls one aspect of the dissemination:
+#    -> is the dissemination of the corresponding block time critical (T)
+#    Default behaviour is non time critical dissemination. Setting the
+#    value of <flag> to T one modifies this behaviour.
+#
+#    For ftp based dissemination:
+#    ----------------------------
+#    Dissemination via ftp is NEVER time critical and the data is always
+#    tared in a single file and compressed with "gzip".
+#    For more details see lm_ftpdiss.
+#
+#    For tlisubmit based dissemination:
+#    ----------------------------------
+#    Not used
+#
+#    For email based dissemination:
+#    ------------------------------
+#    Dissemination via email is NEVER time critical and the data is by default
+#    compressed (i.e. tared, compressed and uuencoded).
+#    It is possible to send one mail per file (NO compression NOR uuencode)
+#    if the flag F is specified.
+#    For more details see lm_sendmail.
+#
+#
+#    Set of files to be disseminated
+#    ===============================
+#    Line(s) defining which model output to disseminate are formed by a
+#    list of strings separated by blanks. Each string defines directory(ies)
+#    containing data to be disseminated. Possible values are:
+#       PLOTHH        directories whose name matches one of {plot00,plot01,...}
+#       PLOT00,...    directory plot00,...
+#       PSANETZ       directory psANETZ
+#       LOOPS         directory loops
+#       VPROF         directory vProf
+#       GRIB          directory grib
+#       OUTPUT        directory output
+#       RESOURCE      directory resource
+#       DEBUG         directory debug
+#       TRAJEK        directory trajek
+#    It is possible to refine this choice by adding a list of files after
+#    a string defining a directory; in this case only the listed files
+#    will be disseminated. The format of the list is  (file1,file2,...,filen);
+#    wildcards are allowed.
+#
+#
+#    Remarks
+#    =======
+#    I) Dissemination outside the SMI WAN is only possible if the following 
+#       conditions are fulfilled:
+#        1. The target machine must be attached to the Internet
+#        2. A user LM_USERNAME (as defined in your environment file) must
+#           exist on this machine
+#        3. A directory <path> belonging to user LM_USERNAME must also
+#           exist on this machine
+#        4. Authorization for rcp/rsh from LM_HOST on the target machine
+#           must be given by the administrator of the target machine.
+#        5. The file ~/.rhosts on the target machine must contain a line
+#               LM_HOST LM_USERNAME
+#           (LM_HOST, LM_USERNAME have to be replaced by their values)
+#        6. Authorization for scp/ssh from LM_HOST on the target machine
+#           must be given by the administrator of the target machine.
+#           ssh environment must be configured (see ssh man page for details).
+#    II) The amount of data to disseminate through email can't be too big
+#        because the mail system doesn't support it. For now the limit is
+#        set to 1.5 Mbytes.
+#
+#
+#    Example1:
+#    ---------
+#    The block
+#         dest=i10:/sm
+#         flag=T
+#         PLOTHH PSANETZ LOOPS VPROF OUTPUT
+#    will produce the dissemination of all files in directories
+#    plot00, ..., psANETZ, loops  to the directory /sm of the
+#    machine i10. The files will not be compressed and the
+#    dissemination will begin as soon as data is available.
+#
+#    Example2:
+#    ---------
+#    The block
+#         dest=ertel.uibk.ac.at:/sm 
+#         adm=e-mail: georgm@ertel.uibk.ac.at , tel: 0043 512 507 2190
+#         flag=C
+#         PLOTHH(hm_PSr.ps,hm_RRRS06h.ps,hm_uv10m.ps,hm_uv850.ps,hm_T+FI850.ps)
+#         PLOTHH(hm_OM700.ps,hm_RH700.ps)
+#    will produce the dissemination of all listed files in the
+#    directories plot00,... to the machine ertel.uibk.ac.at. 
+#    The files will be compressed before being disseminated and the 
+#    dissemination will take place at the end of the task.
+#
+#    Example3:
+#    ---------
+#    The block
+#         dest=osm@meteoswiss.ch
+#         PSANETZ
+#    will produce dissemination of all the files contained in the
+#    directory psANETZ to the email address osm@meteoswiss.ch
+#
+#    Example4:
+#    ---------
+#    The block
+#         dest=ftp:141.249.7.33:lhgsma
+#         PLOTHH(al_RRRS*.ps,al_uv10m.ps)
+#    will produce dissemination of all the listed files contained in the
+#    directores plot00,... to the home directory of the user lhgsma
+#    on the ftp address 141.249.7.33
+#
+#    Example4:
+#    ---------
+#    dest=tli:n2308x
+#    adm=e-mail: ueli.guenther@swisscontrol.com
+#    GRIB(SwiCon*.1s)
+#    will produce dissemination of all files called SwiCon*.1s to
+#    wman on gts systems. The file will be tared, gzipped and then
+#    uploaded with help of the command tlisubmit on gts systems.
+#=====================================================================
+
+# Dissemination to zueux101.cscs.ch for Model-Browser (only COSMO-2)
+dest=scp:zueux101.cscs.ch:osm:/global/almo/data/opr_f/wd
+adm=e-mail: osm@meteoswiss.ch
+flag=T
+PLOTHH(*_f_*.png) PSANETZ(*_f) TRAJ_F(*.gif)
+
+# Dissemination of COSMO-2 for e-shop (MeteOnline)
+dest=scp:zueux101.cscs.ch:osm:/global/almo/data/opr_f/tmp/meteonline
+exe_out=/global/almo/bin/meteonline_cosmo2
+PLOT00(*_f_*.png_eshop)
+PLOT03(*_f_*.png_eshop)
+PLOT06(*_f_*.png_eshop)
+PLOT09(*_f_*.png_eshop)
+PLOT12(*_f_*.png_eshop)
+PLOT15(*_f_*.png_eshop)
+PLOT18(*_f_*.png_eshop)
+PLOT21(*_f_*.png_eshop)
+PLOT24(*_f_*.png_eshop)
+
+# New dissemination for BAFU, COSMO-2 grib
+dest=tli:n2402z
+adm=e-mail: abflussvorhersage@bafu.admin.ch
+flag=T
+GRIB(bafu_cosmo2)
+
+# New dissemination for BAFU, COSMO-2 plots
+dest=tli:n2403z
+adm=e-mail: abflussvorhersage@bafu.admin.ch
+PLOT00(ch_f_RRRS*.png,al_f_RRRS*.png,ch_f_uv10m*.png,al_f_HZeroC*.png)
+PLOT03(ch_f_RRRS*.png,al_f_RRRS*.png,ch_f_uv10m*.png,al_f_HZeroC*.png)
+PLOT06(ch_f_RRRS*.png,al_f_RRRS*.png,ch_f_uv10m*.png,al_f_HZeroC*.png)
+PLOT09(ch_f_RRRS*.png,al_f_RRRS*.png,ch_f_uv10m*.png,al_f_HZeroC*.png)
+PLOT12(ch_f_RRRS*.png,al_f_RRRS*.png,ch_f_uv10m*.png,al_f_HZeroC*.png)
+PLOT15(ch_f_RRRS*.png,al_f_RRRS*.png,ch_f_uv10m*.png,al_f_HZeroC*.png)
+PLOT18(ch_f_RRRS*.png,al_f_RRRS*.png,ch_f_uv10m*.png,al_f_HZeroC*.png)
+PLOT21(ch_f_RRRS*.png,al_f_RRRS*.png,ch_f_uv10m*.png,al_f_HZeroC*.png)
+PLOT24(ch_f_RRRS*.png,al_f_RRRS*.png,ch_f_uv10m*.png,al_f_HZeroC*.png)
+
+# Dissemination for BAFU, COSMO-2 HPBL
+# Rudolf Weber, BAFU, Abteilung Luftreinhaltung und NIS, Sektion Luftqualitaet
+# Direct: +41 (0)31 322 25 60
+dest=tli:n2349a:no
+adm=e-mail: Rudolf.Weber@bafu.admin.ch
+flag=T
+OUTPUT(cosmo2_bafu_hpbl.csv)
+
+# Dissemination to IACETH, D-PHASE
+dest=ftp:ezdods.ethz.ch:mch:almo2
+adm=e-mail: Daniel.Luethi@env.ethz.ch
+GRIB(iaceth2*)
+
+# Dissemination to zueux100, profiles for application
+# 'sounding' by Philippe Overney 
+dest=zueux100:/lm/cosmo2
+merge=scp:zueux101.cscs.ch:osm:/global/almo/data/opr/wd
+exe_in=/global/almo/bin/lm_diss
+flag=T
+VPROF(ASTA_f.l2e, LMverUA_f.l2e)
+
+# Dissemination to kloux01, profiles for application
+# 'sounding' by Philippe Overney
+# deactivated 7.6.2010, request by H. Zaugg
+#dest=kloux01:/lm/cosmo2
+#merge=scp:zueux101.cscs.ch:osm:/global/almo/data/opr/wd
+#exe_in=/global/almo/bin/lm_diss
+#flag=T
+#VPROF(ASTA_f.l2e, LMverUA_f.l2e)
+
+# Dissemination to kloux240, profiles for application
+# 'sounding' by Philippe Overney 
+dest=kloux240:/lm/cosmo2
+merge=scp:zueux101.cscs.ch:osm:/global/almo/data/opr/wd
+exe_in=/global/almo/bin/lm_diss
+flag=T
+VPROF(ASTA_f.l2e, LMverUA_f.l2e)
+
+# Dissemination to payux01, profiles for application
+# 'sounding' by Philippe Overney; 
+# Profiles for Grenchen, Schaffhausen, Payerne for Pierre Huguenin
+# until end of March 2010
+dest=payux01:/lm/cosmo2
+merge=scp:zueux101.cscs.ch:osm:/global/almo/data/opr/wd
+exe_in=/global/almo/bin/lm_diss
+flag=T
+VPROF(ASTA_f.l2e, LMverUA_f.l2e)
+VPROF(Grenchen_f.l2e, Schaffhausen_f.l2e, Payerne_f.l2e)
+VPROF(Grenchen_ana_f.l2e, Schaffhausen_ana_f.l2e, Payerne_ana_f.l2e)
+
+# Dissemination to gveux01, profiles for application
+# 'sounding' by Philippe Overney 
+dest=gveux01:/lm/cosmo2
+merge=scp:zueux101.cscs.ch:osm:/global/almo/data/opr/wd
+exe_in=/global/almo/bin/lm_diss
+flag=T
+VPROF(ASTA_f.l2e, LMverUA_f.l2e) PSANETZ(*_f)
+
+## Dissemination to lomux01, profiles for application
+## 'sounding' by Philippe Overney, and precipitation
+## data for Luca Panziera 
+#dest=lomux01:/lm/cosmo2
+#merge=scp:zueux101.cscs.ch:osm:/global/almo/data/opr/wd
+#exe_in=/global/almo/bin/lm_diss
+#flag=T
+#OUTPUT(hzero_*)
+#VPROF(ASTA_f.l2e, LMverUA_f.l2e)
+#GRIB(*_TOT_PREC)
+
+# Dissemination to lomux240, profiles for application 
+# 'sounding' by Philippe Overney, and precipitation 
+# data for Luca Panziera
+dest=lomux240:/lm/cosmo2
+merge=scp:zueux101.cscs.ch:osm:/global/almo/data/opr/wd
+exe_in=/global/almo/bin/lm_diss
+flag=T
+OUTPUT(hzero_*)
+VPROF(ASTA_f.l2e, LMverUA_f.l2e)
+GRIB(*_TOT_PREC)
+
+# Dissemination to zueux410, New annex test server
+# ..profiles for application 'sounding' by Philippe Overney
+#dest=zueux410:/lm/cosmo2
+#merge=scp:zueux101.cscs.ch:osm:/global/almo/data/opr/wd
+#exe_in=/global/almo/bin/lm_diss
+#flag=T
+#VPROF(ASTA_f.l2e, LMverUA_f.l2e)
+
+# Dissemination for Ninjo (data for datadispatcher)
+dest=scp:zueux101.cscs.ch:osm:/global/almo/data/opr/wd
+adm=e-mail: osm@meteoswiss.ch
+flag=T
+GRIB(new-ninjo*_al*)
+
+# Test dissemination for Ninjo release 1.3.6 (data for datadispatcher)
+dest=scp:zueux101.cscs.ch:osm:/global/almo/data/opr/wd
+adm=e-mail: osm@meteoswiss.ch
+flag=T
+GRIB(ninjo_cosmo2_*)
+
+# Dissemination for datadisp tests
+#dest=zueux20:/lm/dispatch/opr/wd
+#merge=scp:zueux101.cscs.ch:osm:/global/almo/data/opr/wd
+#exe_in=/global/almo/bin/lm_diss
+#flag=T
+#GRIB(new-ninjo*_al*)
+
+# Dissemination to zueux101, Ninjo on cluster
+#dest=scp:zueux101.cscs.ch:osm:/nj/import/grid/COSMO_S2.2_Alps/tmp
+#exe_in=/global/almo/bin/lm_diss
+#flag=T
+#GRIB(new-ninjo*_al*)
+
+# Dissemination to gveux02, Ninjo KLO
+#dest=gveux02:/nj/import/grid/COSMO_S2.2_Alps/tmp
+#merge=scp:zueux101.cscs.ch:osm:/global/almo/data/opr/wd
+#exe_in=/global/almo/bin/lm_diss
+#flag=T
+#GRIB(new-ninjo*_al*)
+
+
+# Dissemination to ENSI 
+# Hauptabteilung fuer die Sicherheit der Kernanlagen
+# CH-5200 Brugg
+dest=tli:n2423a:no
+adm=e-mail:hanspeter.isaak@hsk.ch
+flag=T
+OUTPUT(ENSI.pri)
+
+dest=tli:n2423r:no
+flag=T
+GRIB(hsk00000000c,hsk00000000)
+
+dest=tli:n2424r:no
+flag=T
+GRIB(hsk00001000,hsk00002000,hsk00003000,hsk00004000,hsk00005000,hsk00010000)
+
+dest=tli:n2425r:no
+flag=T
+GRIB(hsk00011000,hsk00012000,hsk00013000,hsk00014000,hsk00015000,hsk00020000)
+
+dest=tli:n2426r:no
+flag=T
+GRIB(hsk00021000,hsk00022000,hsk00023000,hsk00024000,hsk00025000,hsk00030000)
+
+dest=tli:n2427r:no
+flag=T
+GRIB(hsk00031000,hsk00032000,hsk00033000,hsk00034000,hsk00035000,hsk00040000)
+
+dest=tli:n2428r:no
+flag=T
+GRIB(hsk00041000,hsk00042000,hsk00043000,hsk00044000,hsk00045000,hsk00050000)
+
+dest=tli:n2429r:no
+flag=T
+GRIB(hsk00051000,hsk00052000,hsk00053000,hsk00054000,hsk00055000,hsk00060000)
+
+dest=tli:n2430r:no
+flag=T
+GRIB(hsk00061000,hsk00062000,hsk00063000,hsk00064000,hsk00065000,hsk00070000)
+
+dest=tli:n2431r:no
+flag=T
+GRIB(hsk00071000,hsk00072000,hsk00073000,hsk00074000,hsk00075000,hsk00080000)
+
+dest=tli:n2432r:no
+flag=T
+GRIB(hsk00081000,hsk00082000,hsk00083000,hsk00084000,hsk00085000,hsk00090000)
+
+dest=tli:n2433r:no
+flag=T
+GRIB(hsk00091000,hsk00092000,hsk00093000,hsk00094000,hsk00095000,hsk00100000)
+
+dest=tli:n2434r:no
+flag=T
+GRIB(hsk00101000,hsk00102000,hsk00103000,hsk00104000,hsk00105000,hsk00110000)
+
+dest=tli:n2435r:no
+flag=T
+GRIB(hsk00111000,hsk00112000,hsk00113000,hsk00114000,hsk00115000,hsk00120000)
+
+dest=tli:n2436r:no
+flag=T
+GRIB(hsk00121000,hsk00122000,hsk00123000,hsk00124000,hsk00125000,hsk00130000)
+
+dest=tli:n2437r:no
+flag=T
+GRIB(hsk00131000,hsk00132000,hsk00133000,hsk00134000,hsk00135000,hsk00140000)
+
+dest=tli:n2438r:no
+flag=T
+GRIB(hsk00141000,hsk00142000,hsk00143000,hsk00144000,hsk00145000,hsk00150000)
+
+dest=tli:n2439r:no
+flag=T
+GRIB(hsk00151000,hsk00152000,hsk00153000,hsk00154000,hsk00155000,hsk00160000)
+
+dest=tli:n2440r:no
+flag=T
+GRIB(hsk00161000,hsk00162000,hsk00163000,hsk00164000,hsk00165000,hsk00170000)
+
+dest=tli:n2441r:no
+flag=T
+GRIB(hsk00171000,hsk00172000,hsk00173000,hsk00174000,hsk00175000,hsk00180000)
+
+dest=tli:n2442r:no
+flag=T
+GRIB(hsk00181000,hsk00182000,hsk00183000,hsk00184000,hsk00185000,hsk00190000)
+
+dest=tli:n2443r:no
+flag=T
+GRIB(hsk00191000,hsk00192000,hsk00193000,hsk00194000,hsk00195000,hsk00200000)
+
+dest=tli:n2444r:no
+flag=T
+GRIB(hsk00201000,hsk00202000,hsk00203000,hsk00204000,hsk00205000,hsk00210000)
+
+dest=tli:n2445r:no
+flag=T
+GRIB(hsk00211000,hsk00212000,hsk00213000,hsk00214000,hsk00215000,hsk00220000)
+
+dest=tli:n2446r:no
+flag=T
+GRIB(hsk00221000,hsk00222000,hsk00223000,hsk00224000,hsk00225000,hsk00230000)
+
+dest=tli:n2447r:no
+flag=T
+GRIB(hsk00231000,hsk00232000,hsk00233000,hsk00234000,hsk00235000,hsk01000000)
+
+
+# Dissemination for INCA nowcasting project
+# Dr. Thomas Haiden
+# Division Head, Numerical Weather Prediction
+# Central Institute for Meteorology and Geodynamics Hohe Warte
+# 38 A-1190 Vienna, Austria
+# Phone: +43-1-36026-2322 Fax: +43-1-36026-2320
+dest=ftp:www.zamg.ac.at:smza:Modelldaten/COSMO2
+adm=e-mail:thomas.haiden@zamg.ac.at
+flag=R
+GRIB(inca2_verif*,cosmo2_inca??)
+
+# Dissemination for INCA nowcasting project at MeteoSwiss 
+# Matteo Buzzi
+# deactivated 11.01.2011 according to Matteo (waa)
+#dest=lomux01:/lm/INCA
+#merge=scp:zueux101.cscs.ch:osm:/global/almo/data/opr/wd
+#exe_in=/global/almo/bin/lm_diss
+#flag=T
+#GRIB(cosmo2_inca_mch_??????????_??)
+
+# Dissemination for INCA nowcasting project at MeteoSwiss
+# Matteo Buzzi
+dest=lomux240:/lm/INCA
+merge=scp:zueux101.cscs.ch:osm:/global/almo/data/opr/wd
+exe_in=/global/almo/bin/lm_diss
+flag=T
+GRIB(cosmo2_inca_mch_??????????_??)
+
+
+dest=zueux413:/data/mch/INCA/cosmo2
+merge=scp:zueux101.cscs.ch:osm:/global/almo/data/opr/wd
+exe_in=/global/almo/bin/lm_diss
+flag=T
+GRIB(cosmo2_inca_mch_??????????_??)
+
+
+# Dissemination for the "minerve" project
+# Resp.: Javier Garcia Hernandez
+# Phone: +41 21 693 23 66 
+dest=ftp:ftp.meteoswiss.ch:epfl:cosmo2
+adm=e-mail: javier.garciahernandez@epfl.ch
+# client requests on 090203 that files should not be removed
+#flag=R
+OUTPUT(minerve2.pri,minerve2_STA.pri)
+
+# Dissemination to REGA 
+# Resp: Markus Ritter, Webmaster
+dest=tli:n2360n:no
+adm=markus.ritter@rega.ch
+flag=T
+PLOT03(ch_f_RRRS03h.png)
+
+dest=tli:n2361n:no
+flag=T
+PLOT06(ch_f_RRRS03h.png)
+
+dest=tli:n2362n:no
+flag=T
+PLOT09(ch_f_RRRS03h.png)
+
+dest=tli:n2363n:no
+flag=T
+PLOT12(ch_f_RRRS03h.png)
+
+# Dissemination to ETHZ
+# Institute of Cartography 
+# Resp: Christoph Lienert 
+dest=tli:n1207z
+adm=lienert@karto.baug.ethz.ch
+OUTPUT(lienert_cosmo2.pri)
+
+# Dissemination to WSL/AWEL (Bahnhof Loewenstrasse)
+dest=tli:n2364z
+adm=e-mail: massimiliano.zappa@wsl.ch
+flag=T
+GRIB(cosmo2_sihl)
+
+# Dissemination to DWH
+dest=tli:n1206a:no
+adm=e-mail:dwhadm@meteoswiss.ch
+flag=T
+VPROF(LMverUAmm_f.l2e)
+
+# Dissemination to AET/SUPSI
+# Maurizio Pozzoni
+# Via Trevano
+# CP 72
+# 6952 Canobbio
+# Tel.: +41 58 666 62 25
+# Fax : +41 58 666 62 09
+dest=tli:n2391a:no
+flag=T
+adm=e-mail:maurizio.pozzoni@supsi.ch
+OUTPUT(AET_cosmo2.txt)
+
+# Dissemination to cosmonitor directory (Christophe Hug)
+dest=ACTIVE_HOST:/opr/osm/cosmonitor/data_in
+adm=e-mail:osm@meteoswiss.ch,christophe.hug@meteoswiss.ch
+flag=CT
+OUTPUT(PROG_lm_c*pri, PROG_lm_f*pri)
+VPROF(*.l2e)
+
+# Dissemination to ETHZ
+# IDSC(former IMRT)
+# Resp: Pascal Kiwitz
+# Phone: +41 44 632 24 43
+dest=tli:n2397h:no
+flag=T
+adm=pascal.kiwitz@idsc.mavt.ethz.ch
+OUTPUT(IDSC_cosmo2.xml)
+
+# Dissemation to Boschung
+# will be ready soon
+#dest=ftp:vpad1.ch.boschung.info:ch_FHbern:forecast
+#adm=e-mail: ....
+#OUTPUT(*-U0-*30_1.csv)
+
+# New, Non-time-critical Dissemination of COSMO-2 to Matthias Gerber at SLF
+# Swiss Federal Institut for Snow and Avalanche Research
+# Flueelastr. 11  7260 Davos-Dorf Tel.: ++ 41 81 417 01 58 Fax : ++ 41 81 417 01 10
+dest=tli:n2395z
+adm=e-mail:gerber@slf.ch,lwp@slf.ch
+PLOT03(ch_f_RRRS03h.ps)
+PLOT06(ch_f_RRRS03h.ps,ch_f_RRRS06h.ps)
+PLOT09(ch_f_RRRS03h.ps)
+PLOT12(ch_f_RRRS03h.ps,ch_f_RRRS06h.ps,ch_f_RRRS12h.ps)
+PLOT15(ch_f_RRRS03h.ps)
+PLOT18(ch_f_RRRS03h.ps,ch_f_RRRS06h.ps,ch_f_RRRS12h.ps)
+PLOT21(ch_f_RRRS03h.ps)
+PLOT24(ch_f_RRRS03h.ps,ch_f_RRRS06h.ps,ch_f_RRRS12h.ps,ch_f_RRRS24h.ps)
+PLOT06(al_f_RS06h.ps)
+PLOT12(al_f_RS06h.ps)
+PLOT18(al_f_RS06h.ps)
+PLOT24(al_f_RS06h.ps,al_f_RS24h.ps)
+VPROF(LMverUA_f.l2e)
+OUTPUT(cosmo2_SLF.txt)
+
+# Dissemination for verification on buin (upper air)
+dest=ACTIVE_HOST:/opr/osm/verify/cosmo2/model
+adm=e-mail: osm@meteoswiss.ch
+VPROF(LMverUA_f.l2e,LMverUA2_f.l2e )
+
+# Dissemination for verification on buin (upper air)
+dest=ACTIVE_HOST:/opr/osm/verify/cosmo7/model
+adm=e-mail: osm@meteoswiss.ch
+VPROF(LMverUA.l2e,LMverUA2.l2e)
+
+
+# Dissemination for search.ch
+# Konrad Weber
+# koni@search.ch
+# Raeber Information
+# 6405 Immensee
+dest=tli:n2373z:zip
+adm=e-mail: koni@search.ch
+flag=T
+OUTPUT(search_cosmo2_T2m.txt)
+
+dest=tli:n2374z:zip
+flag=T
+OUTPUT(search_cosmo2_CLCT.txt)
+
+dest=tli:n2392z:zip
+flag=T
+OUTPUT(search_cosmo2_PREC.txt)
+
+# Dissemination to DWH (Projects Methodes and GIN) 
+dest=tli:n1201a:no
+adm=e-mail:dwhadm@meteoswiss.ch
+flag=T
+OUTPUT(cosmo2_METHODES.pri)
+
+# Test delivery for GIN COSMO-2 
+# Resp.: Ingo Petzold
+dest=gin:ftp.gin-info.ch:meteoch
+adm=e-mail: petzold@slf.ch
+GIN(COSMO2_*)
+
+# Dissemination to Skyguide Kloten and Geneve
+# Peter Fluekiger, TDP
+# Postfach 796 
+# 1215 Genf 
+# Resp.: Ueli Vogt
+# Tel: 043 931 6523
+dest=tli:n2300a:no 
+adm=ulrich.vogt@skyguide.ch 
+flag=T
+OUTPUT(cosmo2_skyguide.csv)
+
+# Dissemination for Landi 
+# Activated 12.11.09
+dest=tli:n2314z:zip-VTlocal
+adm=e-mail:thomas.hasenfratz@fenaco.com
+flag=T
+PLOT01(landi_cosmo2_RRRS01h.gif) 
+PLOT02(landi_cosmo2_RRRS01h.gif) 
+PLOT03(landi_cosmo2_RRRS01h.gif)
+PLOT04(landi_cosmo2_RRRS01h.gif)
+PLOT05(landi_cosmo2_RRRS01h.gif)
+PLOT06(landi_cosmo2_RRRS01h.gif)
+PLOT07(landi_cosmo2_RRRS01h.gif) 
+PLOT08(landi_cosmo2_RRRS01h.gif) 
+PLOT09(landi_cosmo2_RRRS01h.gif)
+PLOT10(landi_cosmo2_RRRS01h.gif)
+PLOT11(landi_cosmo2_RRRS01h.gif) 
+PLOT12(landi_cosmo2_RRRS01h.gif) 
+PLOT13(landi_cosmo2_RRRS01h.gif)
+PLOT14(landi_cosmo2_RRRS01h.gif)
+PLOT15(landi_cosmo2_RRRS01h.gif)
+PLOT16(landi_cosmo2_RRRS01h.gif)
+PLOT17(landi_cosmo2_RRRS01h.gif)
+PLOT18(landi_cosmo2_RRRS01h.gif)
+PLOT19(landi_cosmo2_RRRS01h.gif)
+PLOT20(landi_cosmo2_RRRS01h.gif)
+PLOT21(landi_cosmo2_RRRS01h.gif)
+PLOT22(landi_cosmo2_RRRS01h.gif)
+PLOT23(landi_cosmo2_RRRS01h.gif)
+PLOT24(landi_cosmo2_RRRS01h.gif)
+
+# Dissemination for Landi 
+# Activated 30.09.10
+dest=tli:n2313z:zip-VTlocal
+adm=e-mail:thomas.hasenfratz@fenaco.com
+flag=T
+PLOT01(landi_cosmo2_RRRS01h_mobile.gif) 
+PLOT02(landi_cosmo2_RRRS01h_mobile.gif) 
+PLOT03(landi_cosmo2_RRRS01h_mobile.gif)
+PLOT04(landi_cosmo2_RRRS01h_mobile.gif)
+PLOT05(landi_cosmo2_RRRS01h_mobile.gif)
+PLOT06(landi_cosmo2_RRRS01h_mobile.gif)
+PLOT07(landi_cosmo2_RRRS01h_mobile.gif) 
+PLOT08(landi_cosmo2_RRRS01h_mobile.gif) 
+PLOT09(landi_cosmo2_RRRS01h_mobile.gif)
+PLOT10(landi_cosmo2_RRRS01h_mobile.gif)
+PLOT11(landi_cosmo2_RRRS01h_mobile.gif) 
+PLOT12(landi_cosmo2_RRRS01h_mobile.gif) 
+PLOT13(landi_cosmo2_RRRS01h_mobile.gif)
+PLOT14(landi_cosmo2_RRRS01h_mobile.gif)
+PLOT15(landi_cosmo2_RRRS01h_mobile.gif)
+PLOT16(landi_cosmo2_RRRS01h_mobile.gif)
+PLOT17(landi_cosmo2_RRRS01h_mobile.gif)
+PLOT18(landi_cosmo2_RRRS01h_mobile.gif)
+PLOT19(landi_cosmo2_RRRS01h_mobile.gif)
+PLOT20(landi_cosmo2_RRRS01h_mobile.gif)
+PLOT21(landi_cosmo2_RRRS01h_mobile.gif)
+PLOT22(landi_cosmo2_RRRS01h_mobile.gif)
+PLOT23(landi_cosmo2_RRRS01h_mobile.gif)
+PLOT24(landi_cosmo2_RRRS01h_mobile.gif)
+
+
+# Dissemination for SAFNWC
+# Resp.: Marco Sassi (ML)
+# To be activated on 1.3.2010, 9 UTC
+#dest=zuelx300:/data/cinesat/in/cosmo2
+#merge=scp:zueux101.cscs.ch:osm:/global/almo/data/opr/wd
+#exe_in=/global/almo/bin/lm_diss
+#flag=T
+#GRIB(NWP_*_00_cosmo2, NWP_*_01_cosmo2)
+#GRIB(NWP_*_02_cosmo2, NWP_*_03_cosmo2)
+#GRIB(NWP_*_04_cosmo2, NWP_*_05_cosmo2)
+#GRIB(NWP_*_06_cosmo2, NWP_*_07_cosmo2)
+#GRIB(NWP_*_08_cosmo2)
+
+# COSMO-2 dissemination for SAFNWC
+# Resp.: Marco Sassi (ML)
+dest=tli:n2448r:no
+flag=T
+GRIB(NWP_*_00_cosmo2)
+
+dest=tli:n2449r:no
+flag=T
+GRIB(NWP_*_01_cosmo2)
+
+dest=tli:n2450r:no
+flag=T
+GRIB(NWP_*_02_cosmo2)
+
+dest=tli:n2451r:no
+flag=T
+GRIB(NWP_*_03_cosmo2)
+
+dest=tli:n2452r:no
+flag=T
+GRIB(NWP_*_04_cosmo2)
+
+dest=tli:n2453r:no
+flag=T
+GRIB(NWP_*_05_cosmo2)
+
+dest=tli:n2454r:no
+flag=T
+GRIB(NWP_*_06_cosmo2)
+
+dest=tli:n2462r:no
+flag=T
+GRIB(NWP_*_07_cosmo2)
+
+dest=tli:n2463r:no
+flag=T
+GRIB(NWP_*_08_cosmo2)
+
+
+# Dissemination to gveux01, data for verification of warnings
+# for the lakes of Suisse Romande (P. Eckert)
+dest=gveux01:/lm/cosmo2
+merge=scp:zueux101.cscs.ch:osm:/global/almo/data/opr/wd
+exe_in=/global/almo/bin/lm_diss
+OUTPUT(MG_cosmo2_indices.csv, MG_cosmo2_wind_leman.txt)
+
+# Dissemination to Stefan Wunderle - University of Bern
+# Remote Sensing Research Group   WWW   http://saturn.unibe.ch
+dest=tli:n2306x
+adm=e-mail:swun@giub.unibe.ch
+run=03,06,09,12,15
+GRIB(giub_cosmo*.grb1)
+
+## Dissemination for Solar Impulse and Bruno Neininger (ZHAW)
+## reactivated 1.9.2010
+#dest=ftp:ftp.solarimpulse.com:dassault:data/Meteo_Data
+#adm=e-mail: nuno@zhaw.ch
+#PLOTHH(ch_f_W*k.png)
+
+## Dissemination for Solar Impulse and Bruno Neininger (ZHAW)
+## reactivated 1.9.2010
+#dest=scp:srv-lab-t-871.zhaw.ch:solar:/home/solar/cosmo
+#adm=e-mail: mach@zhaw.ch
+#PLOTHH(ch_f_W*k.png)
+
+# Dissemination to infodisplay 
+dest=tli:n2343g:anim
+adm=e-mail: markus.aebischer@meteoswiss.ch
+PLOTHH(ch_f_RRRS03h.png)
+
+# Dissemination for Rad4Alp
+# Test delivery to zueux307 and zueux407
+# Marco Boscacci, Alessandro Hering, ML
+dest=tli:n1901a:no
+flag=T
+adm=e-mail: marco.boscacci@meteoswiss.ch
+OUTPUT(cosmo2_rasa_hzerocl_*_00.txt)
+
+dest=tli:n1902a:no
+flag=T
+adm=e-mail: marco.boscacci@meteoswiss.ch
+OUTPUT(cosmo2_rasa_hzerocl_*_01.txt)
+
+dest=tli:n1903a:no
+flag=T
+adm=e-mail: marco.boscacci@meteoswiss.ch
+OUTPUT(cosmo2_rasa_hzerocl_*_02.txt)
+
+dest=tli:n1904a:no
+flag=T
+adm=e-mail: marco.boscacci@meteoswiss.ch
+OUTPUT(cosmo2_rasa_hzerocl_*_03.txt)
+
+dest=tli:n1905a:no
+flag=T
+adm=e-mail: marco.boscacci@meteoswiss.ch
+OUTPUT(cosmo2_rasa_hzerocl_*_04.txt)
+
+dest=tli:n1906a:no
+flag=T
+adm=e-mail: marco.boscacci@meteoswiss.ch
+OUTPUT(cosmo2_rasa_hzerocl_*_05.txt)
+
+dest=tli:n1907a:no
+flag=T
+adm=e-mail: marco.boscacci@meteoswiss.ch
+OUTPUT(cosmo2_rasa_hzerocl_*_06.txt)
+
+# Dissemination for Transitgas AG
+# Contact: Paolo Beretta, Transitgas AG
+dest=tli:n2393a:no
+adm=e-mail:beretta@transitgas.ch
+OUTPUT(transitgas_cosmo2.csv)
+
+# Dissemination to meteoradar (Willi Schmid)
+dest=tli:n2354z
+adm=e-mail: schmid@meteoradar.ch
+OUTPUT(cosmo2_meteoradar_*.txt)
+

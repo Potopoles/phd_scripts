@@ -1,0 +1,744 @@
+###############################################################################
+#
+# File: loops
+# Category: LM package - namelist file for task "integ"
+#
+# Host: SUN
+# Location: $HMS_NDIR/<set name>    (e.g.: <set name> = integ)
+# Permission: 440
+# Associated files: $LM_SDIR/lm_loops
+#
+#
+# Description: in this file you define the sets of hourly loops you want
+#              to produce. This file is read by the script lm_loops.
+#              Any lines beginning with # are ignored.
+#              For each loop to produce one block must be defined below;
+#              the format of such an entry is:
+#
+#              @ n++ ; cat >! $workingDir/input$n << EONL
+#              Field:                    <Field>
+#              Domain_I0:                <Domain>
+#              Domain_I1:                   " 
+#              Domain_J0:                   " 
+#              Domain_J1:                   " 
+#              Level:                    <Level> 
+#              Format:                   <format>
+#              Copyright:                <copyright>
+#              Coast_color:              <Coast color>     
+#              Country_color:            <Country color> 
+#              Grid_color:               <Grid color> 
+#              River_color:              <River color> 
+#              Hires:                    <High resolution> 
+#              Mlinethick:               <Map linethick>
+#              Scale minimum:            <min>
+#              Scale maximum:            <max>
+#              Domain_prefix:            <Prefix>
+#              Color table number:       <ctbl> 
+#              Filter:                   <flt>
+#              Ticks:                    <Ticks>
+#              Language:                 <Language>
+#              Localtime:                <Localtime>
+#              Xsize:                    <Xsize>
+#              Ysize:                    <Ysize>
+#              MinMax:                   <MinMax>
+#              Charsize:                 <Charsize>
+#              Merge:                    <Merge>
+#              Incr_merge:               <Merge Incremental>
+#              Inputfile:                <Inputfile> 
+#              EONL
+#
+#              where:
+#
+#              <Field>
+#              =======
+#              <Field> can be chosen out of:
+#
+#              'CLCT': total cloud cover
+#              'CLCH': high altitude cloud cover
+#              'CLCM': mid altitude cloud cover
+#              'CLCL': low altitude cloud cover
+#              'TOT_PREC': hourly precipitation
+#              'RTOT': hourly precipitation # Sum of 4 components RAIN_CON RAIN_GSP
+#                      SNOW_CON SNOW_GSP
+#              'RCONV': hourly convective precipitation # Sum of 2 components RAIN_CON
+#                       SNOW_CON
+#              'RSCAL': hourly grid scale precipitation # Sum of 2 components RAIN_GSP
+#                       SNOW_GSP
+#              'SNOW': hourly snowfall # Sum of 2 components SNOW_CON SNOW_GSP
+#              'RAIN': hourly rainfall # Sum of 2 components RAIN_CON RAIN_GSP
+#              'VMAX_10M': Max wind at 10 meter above ground
+#              'FIS': orography
+#              'HSURF': orography
+#              'FR_LAND': land fraction
+#              'SOILTYP': soil type
+#              'T_2M' : temperature 2 meters above ground
+#
+#              <Domain>
+#              ========
+#              The domain is defined by the points Domain_I0/Domain_J0 and
+#              Domain_I1/Domain_J1.
+#
+#              <Level>
+#              =======
+#              Level of field (equivalent to levels in fieldextra namelist) 
+#
+#              <min>
+#              =====
+#              Minimum value of the scale.
+#
+#              <max>
+#              =====
+#              Maximum value of the scale.
+#
+#              <Prefix>
+#              ========
+#              Prefix of output file.
+#
+#              <ctbl>
+#              ======
+#              Number of the color table (default = -1).
+#              For the major part of the fields a color table has been 
+#              predefined. 
+#              Other color tables are defined in the file 
+#              $LM_LDIR/idl_loops/colors1.tbl 
+#
+#              <flt>
+#              =====
+#              A simple 3x3 filter can be applied on the field
+#              1 = filtered
+#              0 = unfiltered
+#
+#              <Ticks>
+#              =======
+#              Set tickmarks and labels for x, y  axis.
+#
+#              <Language>
+#              =======
+#              Language for default annotations, string (E, D, F, I or combination thereof)
+#
+#              <Localtime>
+#              =======
+#              Use local time instead of UTC (0 UTC/ 1 LT)
+#              
+#              <Xsize>
+#              =======
+#              X dimension of loop (in points, default 640) 
+#
+#              <Ysize>
+#              =======
+#              Y dimension of loop (in points, default 480)
+#
+#              <MinMax>
+#              =======
+#              Display minimum and maximum value of <field> in the legend.
+#
+#              <Charsize>
+#              =======
+#              Size of font used for annotations.
+#
+#              <Merge>
+#              =======
+#              If <Merge> is set (flag 1) then the single images are merged
+#              into one animation file with the help of the program gifsicle.
+#
+#              <Merge Incremental>
+#              =======
+#              Increment (in hours) between images. 
+#
+#              <Inputfile>
+#              ===========
+#              Name of the input file. In order to reduce the amount
+#              of io, instead of reading directly from the lm output 
+#              fields (lfff...), the needed files/subdomains are ex-
+#              tracted in a first step by fieldextra. The name of the
+#              input file has to start with "._SINP". This prefix tells
+#              the LMpackage to put the file into <LM_RESOURCE> direc-
+#              tory. So when you add a new block don't forget to 
+#              update the corresponding fieldextra namelist!
+#
+#              <Format>
+#              =========
+#              Data format of output file. Currently only png
+#              is supported.
+#
+#              <Copyright>
+#              ===========
+#              Copyright label 
+#
+#              <Coast_color>
+#              =============
+#              Coast lines color number.
+#
+#              <Country_color>
+#              ===============
+#              Country boundaries color number.
+#
+#              <Grid_color> 
+#              ============
+#              Grid color number.
+#              
+#              <River_color> 
+#              =============
+#              River color number.
+#
+#              <Hires>
+#              =======
+#              High resolution coastlines and boundaries.
+#
+#              <Mlinethick>
+#              ============
+#              Thickness of map lines
+#
+#
+#              Example
+#              -------
+#              @ n++ ; cat >! $workingDir/input$n << EONL
+#              Field:             TOT_PREC
+#              Domain_I0:              185
+#              Domain_I1:              297
+#              Domain_J0:              105
+#              Domain_J1:              189
+#              Level:                   -1
+#              Format:                 png
+#              Copyright:                1
+#              Coast_color:             -1
+#              Country_color:           -1
+#              Grid_color:              -1
+#              River_color:             -1
+#              Hires:                    0
+#              Mlinethick:               1
+#              Scale minimum:            0
+#              Scale maximum:           10
+#              Domain_prefix:           hd
+#              Color table number:      -1
+#              Filter:                   0
+#              Ticks:                    0
+#              Language:                DF
+#              Localtime:                1
+#              Xsize:                  380
+#              Ysize:                  295
+#              MinMax:                   0
+#              Charsize:              0.75
+#              Merge:                    1
+#              Incr_merge:               3
+#              Inputfile:   _SINP_lpsinput 
+#              EONL
+#
+#
+#=====================================================================
+#=====================================================================
+
+@ n++ ; cat >! $workingDir/input$n << EONL
+Field:             TOT_PREC
+Domain_I0:               -1
+Domain_I1:               -1 
+Domain_J0:               -1 
+Domain_J1:               -1 
+Level:                   -1
+Format:                 png
+Copyright:                1
+Coast_color:             -1
+Country_color:           -1
+Grid_color:              -1
+River_color:             -1
+Hires:                    0 
+Scale minimum:            0
+Scale maximum:           10
+Domain_prefix:           lm
+Color table number:      -1
+Filter:                   0
+Ticks:                    0
+Language:                 E
+Localtime:                0
+Xsize:                    0
+Ysize:                    0
+MinMax:                   1
+Charsize:               1.2
+Mlinethick:               1
+Merge:                    0
+Incr_merge:               0
+Inputfile: _SINP_lpsinputlm
+EONL
+
+@ n++ ; cat >! $workingDir/input$n << EONL
+Field:                 CLCT
+Domain_I0:               -1
+Domain_I1:               -1 
+Domain_J0:               -1
+Domain_J1:               -1 
+Level:                   -1
+Format:                 png
+Copyright:                1
+Coast_color:             -1
+Country_color:           -1
+Grid_color:              -1
+River_color:             -1
+Hires:                    0 
+Scale minimum:            0       
+Scale maximum:            0
+Domain_prefix:           lm
+Color table number:      -1    
+Filter:                   0
+Ticks:                    0
+Language:                 E
+Localtime:                0
+Xsize:                    0
+Ysize:                    0
+MinMax:                   1
+Charsize:               1.2
+Mlinethick:               1
+Merge:                    0
+Incr_merge:               1
+Inputfile: _SINP_lpsinputlm
+EONL
+ 
+@ n++ ; cat >! $workingDir/input$n << EONL
+Field:                 CLCL
+Domain_I0:               -1
+Domain_I1:               -1 
+Domain_J0:               -1
+Domain_J1:               -1 
+Level:                   -1
+Format:                 png
+Copyright:                1
+Coast_color:             -1
+Country_color:           -1
+Grid_color:              -1
+River_color:             -1
+Hires:                    0
+Scale minimum:            0       
+Scale maximum:            0
+Domain_prefix:           lm
+Color table number:      -1    
+Filter:                   0
+Ticks:                    0
+Language:                 E
+Localtime:                0
+Xsize:                    0
+Ysize:                    0
+MinMax:                   1
+Charsize:               1.2
+Mlinethick:               1
+Merge:                    0
+Incr_merge:               1
+Inputfile: _SINP_lpsinputlm
+EONL
+
+@ n++ ; cat >! $workingDir/input$n << EONL
+Field:                 CLCM
+Domain_I0:               -1
+Domain_I1:               -1 
+Domain_J0:               -1
+Domain_J1:               -1 
+Level:                   -1
+Format:                 png
+Copyright:                1
+Coast_color:             -1
+Country_color:           -1
+Grid_color:              -1
+River_color:             -1
+Hires:                    0
+Scale minimum:            0
+Scale maximum:            0
+Domain_prefix:           lm
+Color table number:      -1
+Filter:                   0
+Ticks:                    0
+Language:                 E
+Localtime:                0
+Xsize:                    0
+Ysize:                    0
+MinMax:                   1
+Charsize:               1.2
+Mlinethick:               1
+Merge:                    0
+Incr_merge:               1
+Inputfile: _SINP_lpsinputlm
+EONL
+
+@ n++ ; cat >! $workingDir/input$n << EONL
+Field:                 CLCH
+Domain_I0:               -1
+Domain_I1:               -1 
+Domain_J0:               -1
+Domain_J1:               -1 
+Level:                   -1
+Format:                 png
+Copyright:                1
+Coast_color:             -1
+Country_color:           -1
+Grid_color:              -1
+River_color:             -1
+Hires:                    0
+Scale minimum:            0
+Scale maximum:            0
+Domain_prefix:           lm
+Color table number:      -1
+Filter:                   0
+Ticks:                    0
+Language:                 E
+Localtime:                0
+Xsize:                    0
+Ysize:                    0
+MinMax:                   1
+Charsize:               1.2
+Mlinethick:               1
+Merge:                    0
+Incr_merge:               1
+Inputfile: _SINP_lpsinputlm
+EONL
+
+@ n++ ; cat >! $workingDir/input$n << EONL
+Field:             VMAX_10M
+Domain_I0:               -1
+Domain_I1:               -1 
+Domain_J0:               -1
+Domain_J1:               -1 
+Level:                   -1
+Format:                 png
+Copyright:                1
+Coast_color:             -1
+Country_color:           -1
+Grid_color:              -1
+River_color:             -1
+Hires:                    0
+Scale minimum:            0
+Scale maximum:           42
+Domain_prefix:           lm
+Color table number:      -1
+Filter:                   0
+Ticks:                    0
+Language:                 E
+Localtime:                0
+Xsize:                    0
+Ysize:                    0
+MinMax:                   1
+Charsize:               1.2
+Mlinethick:               1
+Merge:                    0
+Incr_merge:               1
+Inputfile: _SINP_lpsinputlm
+EONL
+
+@ n++ ; cat >! $workingDir/input$n << EONL
+Field:                 T_2M
+Domain_I0:               -1
+Domain_I1:               -1 
+Domain_J0:               -1
+Domain_J1:               -1 
+Level:                   -1
+Format:                 png
+Copyright:                1
+Coast_color:             -1
+Country_color:           -1
+Grid_color:              -1
+River_color:             -1
+Hires:                    0
+Scale minimum:          -15
+Scale maximum:           25
+Domain_prefix:           lm
+Color table number:      -1
+Filter:                   0
+Ticks:                    0
+Language:                 E
+Localtime:                0
+Xsize:                    0
+Ysize:                    0
+MinMax:                   1
+Charsize:               1.2
+Mlinethick:               1
+Merge:                    0
+Incr_merge:               1
+Inputfile: _SINP_lpsinputlm
+EONL
+
+
+@ n++ ; cat >! $workingDir/input$n << EONL
+Field:               RELHUM
+Domain_I0:               -1
+Domain_I1:               -1
+Domain_J0:               -1
+Domain_J1:               -1
+Level:                  850
+Format:                 png
+Copyright:                1
+Coast_color:             -1
+Country_color:           -1
+Grid_color:              -1
+River_color:             -1
+Hires:                    0
+Scale minimum:            0
+Scale maximum:          100
+Domain_prefix:           lm
+Color table number:      -1
+Filter:                   0
+Ticks:                    0
+Language:                 E
+Localtime:                0
+Xsize:                    0
+Ysize:                    0
+MinMax:                   0
+Charsize:               1.2
+Mlinethick:               1
+Merge:                    0
+Incr_merge:               0
+Inputfile: _SINP_lpsinputlm
+EONL
+
+
+@ n++ ; cat >! $workingDir/input$n << EONL
+Field:               RELHUM
+Domain_I0:               -1
+Domain_I1:               -1
+Domain_J0:               -1
+Domain_J1:               -1
+Level:                  700
+Format:                 png
+Copyright:                1
+Coast_color:             -1
+Country_color:           -1
+Grid_color:              -1
+River_color:             -1
+Hires:                    0
+Scale minimum:            0
+Scale maximum:          100
+Domain_prefix:           lm
+Color table number:      -1
+Filter:                   0
+Ticks:                    0
+Language:                 E
+Localtime:                0
+Xsize:                    0
+Ysize:                    0
+MinMax:                   0
+Charsize:               1.2
+Mlinethick:               1
+Merge:                    0
+Incr_merge:               0
+Inputfile: _SINP_lpsinputlm
+EONL
+
+
+@ n++ ; cat >! $workingDir/input$n << EONL
+Field:               RELHUM
+Domain_I0:               -1
+Domain_I1:               -1
+Domain_J0:               -1
+Domain_J1:               -1
+Level:                  500
+Format:                 png
+Copyright:                1
+Coast_color:             -1
+Country_color:           -1
+Grid_color:              -1
+River_color:             -1
+Hires:                    0
+Scale minimum:            0
+Scale maximum:          100
+Domain_prefix:           lm
+Color table number:      -1
+Filter:                   0
+Ticks:                    0
+Language:                 E
+Localtime:                0
+Xsize:                    0
+Ysize:                    0
+MinMax:                   0
+Charsize:               1.2
+Mlinethick:               1
+Merge:                    0
+Incr_merge:               0
+Inputfile: _SINP_lpsinputlm
+EONL
+
+@ n++ ; cat >! $workingDir/input$n << EONL
+Field:                 CLCM
+Domain_I0:                0
+Domain_I1:                0
+Domain_J0:                0
+Domain_J1:                0
+Level:                   -1
+Format:                 png
+Copyright:                0
+Coast_color:             -2
+Country_color:           -2
+Grid_color:              -2
+River_color:             -2
+Hires:                    0
+Scale minimum:            0
+Scale maximum:            0
+Domain_prefix:          nzz
+Color table number:      42
+Filter:                   0
+Ticks:                    0
+Language:                 E
+Localtime:                0
+Xsize:                    0
+Ysize:                    0
+MinMax:                   0
+Charsize:               1.2
+Mlinethick:               1
+Merge:                    0
+Incr_merge:               0
+Inputfile: _SINP_lpsinputlm
+EONL
+
+@ n++ ; cat >! $workingDir/input$n << EONL
+Field:                 CLCT
+Domain_I0:                0
+Domain_I1:                0
+Domain_J0:                0
+Domain_J1:                0
+Level:                   -1
+Format:                 png
+Copyright:                0
+Coast_color:             -2
+Country_color:           -2
+Grid_color:              -2
+River_color:             -2
+Hires:                    0
+Scale minimum:            0
+Scale maximum:            0
+Domain_prefix:          nzz
+Color table number:      42
+Filter:                   0
+Ticks:                    0
+Language:                 E
+Localtime:                0
+Xsize:                    0
+Ysize:                    0
+MinMax:                   0
+Charsize:               1.2
+Mlinethick:               1
+Merge:                    0
+Incr_merge:               0
+Inputfile: _SINP_lpsinputlm
+EONL
+
+@ n++ ; cat >! $workingDir/input$n << EONL
+Field:             TOT_PREC
+Domain_I0:              185
+Domain_I1:              297 
+Domain_J0:              105 
+Domain_J1:              189 
+Level:                   -1
+Format:                 png
+Copyright:                1
+Coast_color:             -1
+Country_color:           -1
+Grid_color:              -1
+River_color:             -1
+Hires:                    1
+Scale minimum:            0
+Scale maximum:           10
+Domain_prefix:           hd
+Color table number:      -1 
+Filter:                   0
+Ticks:                    0
+Language:                 E
+Localtime:                0
+Xsize:                    0
+Ysize:                    0
+MinMax:                   1
+Charsize:               1.2
+Mlinethick:               1
+Merge:                    0
+Incr_merge:               1
+Inputfile: _SINP_lpsinputlm
+EONL
+
+@ n++ ; cat >! $workingDir/input$n << EONL
+Field:             TOT_PREC
+Domain_I0:              185
+Domain_I1:              297 
+Domain_J0:              105 
+Domain_J1:              189 
+Level:                   -1
+Format:                 png
+Copyright:                1
+Coast_color:             -1
+Country_color:           -1
+Grid_color:              -1
+River_color:             -1
+Hires:                    1
+Scale minimum:            0
+Scale maximum:           10
+Domain_prefix:           hd
+Color table number:      -1
+Filter:                   0
+Ticks:                    0
+Language:                DF
+Localtime:                1
+Xsize:                  380 
+Ysize:                  295
+MinMax:                   0
+Charsize:              0.75 
+Mlinethick:               1
+Merge:                    1
+Incr_merge:               3
+Inputfile: _SINP_lpsinputlm
+EONL
+
+@ n++ ; cat >! $workingDir/input$n << EONL
+Field:             TOT_PREC
+Domain_I0:              185
+Domain_I1:              297 
+Domain_J0:              105 
+Domain_J1:              189 
+Level:                   -1
+Format:                 png
+Copyright:                0
+Coast_color:             -1
+Country_color:           -1
+Grid_color:              -1
+River_color:             -1
+Hires:                    0
+Scale minimum:            0
+Scale maximum:           10
+Domain_prefix:          mms
+Color table number:      -1
+Filter:                   0
+Ticks:                    0
+Language:                 E
+Localtime:                0
+Xsize:                  380 
+Ysize:                  295
+MinMax:                   0
+Charsize:              0.75 
+Mlinethick:               4
+Merge:                    0
+Incr_merge:               0
+Inputfile: _SINP_lpsinputlm
+EONL
+
+@ n++ ; cat >! $workingDir/input$n << EONL
+Field:                 W_SO
+Domain_I0:              185
+Domain_I1:              297 
+Domain_J0:              105 
+Domain_J1:              189 
+Level:                    0
+Format:                 png
+Copyright:                1
+Coast_color:             -1
+Country_color:           -1
+Grid_color:              -1
+River_color:             -2
+Hires:                    1
+Scale minimum:            5
+Scale maximum:           45
+Domain_prefix:           hd
+Color table number:      -1
+Filter:                   0
+Ticks:                    0
+Language:                 D
+Localtime:                1
+Xsize:                    0 
+Ysize:                    0
+MinMax:                   0
+Charsize:               1.5 
+Mlinethick:             1.5
+Merge:                    1
+Incr_merge:               3
+Inputfile: _SINP_lpsinputlm
+EONL
